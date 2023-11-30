@@ -1,0 +1,13 @@
+﻿using toiec_web.ViewModels.Quiz;
+
+namespace toiec_web.Services.IService
+{
+    public interface IQuizService
+    {
+        Task<IEnumerable<QuizViewModel>> GetAllQuizzes();
+        Task<QuizViewModel> GetQuizById(Guid quizId);
+        Task<bool> AddQuiz(QuizAddModel model);
+        Task<bool> UpdateQuiz(QuizUpdateModel model, Guid quizId);
+        Task<bool> DeleteQuiz(Guid quizId);
+    }
+}
