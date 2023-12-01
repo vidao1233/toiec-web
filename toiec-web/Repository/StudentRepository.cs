@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using toiec_web.Infrastructure;
 using toiec_web.Models;
 using toiec_web.Repository.IRepository;
@@ -28,6 +29,12 @@ namespace toiec_web.Repository
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<StudentModel> GetStudentByUserId(string userId)
+        {
+            var student = await Entities.FirstOrDefaultAsync(stu => stu.idUser == userId);
+            return _mapper.Map<StudentModel>(student);
         }
     }
 }

@@ -37,6 +37,18 @@ namespace toiec_web.Controllers
             return Ok(lesson);
         }
 
+        [HttpGet]
+        [Route("GetAllLessonByCourse/{id:guid}")]
+        public async Task<IActionResult> GetAllLessonByCourse(Guid id)
+        {
+            var lesson = await _lessonService.GetAllLessonByCourse(id);
+            if (lesson == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            return Ok(lesson);
+        }
+
         [HttpPost]
         [Route("AddLesson")]
         public async Task<IActionResult> AddLesson(LessonAddModel model)

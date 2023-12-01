@@ -44,6 +44,21 @@ namespace toiec_web.Repository
             return await Task.FromResult(true);
         }
 
+        public async Task<IEnumerable<LessonModel>> GetAllLessonByCourse(Guid courseId)
+        {
+            var listData = new List<LessonModel>();
+            var data = await Entities.ToListAsync();
+            foreach (var item in data)
+            {
+                if(item.idCourse == courseId)
+                {
+                    var obj = _mapper.Map<LessonModel>(item);
+                    listData.Add(obj);
+                }
+            }
+            return listData;
+        }
+
         public async Task<IEnumerable<LessonModel>> GetAllLessons()
         {
             var listData = new List<LessonModel>();

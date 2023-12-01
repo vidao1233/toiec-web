@@ -27,6 +27,7 @@ namespace toiec_web.Models
         public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Test> Tests { get; set; }
+        public virtual DbSet<TestPart> TestParts { get; set; }
         public virtual DbSet<TestQuestionUnit> TestQuestionUnits { get; set; }
         public virtual DbSet<TestRecord> TestRecords { get; set; }
         public virtual DbSet<TestType> TestTypes { get; set; }
@@ -125,10 +126,10 @@ namespace toiec_web.Models
                     .HasForeignKey(s => s.idQuiz)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_QuestionsOfQuiz");
-                entity.HasOne(s => s.Test).WithMany(s => s.Questions)
-                    .HasForeignKey(s => s.idTest)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_QuestionsOfTest");
+                entity.HasOne(s => s.TestQuestionUnit).WithMany(s => s.Questions)
+                    .HasForeignKey(s => s.idUnit)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_QuestionsOfUnit");
                 entity.HasOne(s => s.Professor).WithMany(s => s.Questions)
                     .HasForeignKey(s => s.idProfessor)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -180,13 +181,21 @@ namespace toiec_web.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("TestOfProfessor");
             });
+            modelBuilder.Entity<TestPart>(entity =>
+            {
+                entity.HasKey(s => s.partId);
+                entity.HasOne(s => s.Test).WithMany(s => s.TestParts)
+                    .HasForeignKey(s => s.testId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_PartOfTest");
+            });
             modelBuilder.Entity<TestQuestionUnit>(entity =>
             {
                 entity.HasKey(s => s.idQuestionUnit);
-                entity.HasOne(s => s.Tests).WithMany(s => s.TestQuestionUnits)
-                    .HasForeignKey(s => s.idTest)
+                entity.HasOne(s => s.TestPart).WithMany(s => s.TestQuestionUnits)
+                    .HasForeignKey(s => s.idTestPart)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UnitOfTest");
+                    .HasConstraintName("FK_UnitOfTestPart");
             });
             modelBuilder.Entity<TestRecord>(entity =>
             {

@@ -27,6 +27,22 @@ namespace toiec_web.Services
             return await _lessonRepository.DeleteLesson(lessonId);
         }
 
+        public async Task<IEnumerable<LessonViewModel>> GetAllLessonByCourse(Guid courseId)
+        {
+            var data = await _lessonRepository.GetAllLessonByCourse(courseId);
+            List<LessonViewModel> listData = new List<LessonViewModel>();
+            if(data != null)
+            {
+                foreach(var dataItem in data)
+                {
+                    var obj = _mapper.Map<LessonViewModel>(dataItem);
+                    listData.Add(obj);
+                }
+                return listData;
+            }
+            return null;
+        }
+
         public async Task<IEnumerable<LessonViewModel>> GetAllLessons()
         {
             var data = await _lessonRepository.GetAllLessons();

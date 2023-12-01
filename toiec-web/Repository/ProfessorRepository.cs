@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using toiec_web.Infrastructure;
 using toiec_web.Models;
 using toiec_web.Repository.IRepository;
@@ -30,6 +31,12 @@ namespace toiec_web.Repository
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<ProfessorModel> GetProfessorByUserId(string userId)
+        {
+            var professor = await Entities.FirstOrDefaultAsync(pro => pro.idUser == userId);
+            return _mapper.Map<ProfessorModel>(professor);            
         }
     }
 }

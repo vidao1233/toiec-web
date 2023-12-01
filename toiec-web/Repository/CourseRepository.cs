@@ -10,11 +10,15 @@ namespace toiec_web.Repository
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
+        private readonly IProfessorRepository _professorRepository;
 
-        public CourseRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper) : base(dbContext)
+        public CourseRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper,
+            IProfessorRepository professorRepository) 
+            : base(dbContext)
         {
             _uow = uow;
             _mapper = mapper;
+            _professorRepository = professorRepository;
         }
 
         public async Task<bool> DeleteCourse(Guid courseId)
@@ -55,15 +59,19 @@ namespace toiec_web.Repository
             return null;
         }
 
-        public Task<bool> AddCourse(CourseModel model)
+        public async Task<bool> AddCourse(CourseModel model)
         {
             try
             {
+                //get professor by userId
+                var professor = await _professorRepository.GetProfessorByUserId(model.idUser);
+
                 var course = _mapper.Map<Course>(model);
                 course.idCourse = Guid.NewGuid();
+                course.idProfessor = professor.idProfessor;
                 Entities.Add(course);
                 _uow.SaveChanges();
-                return Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {
@@ -71,15 +79,19 @@ namespace toiec_web.Repository
             }
         }
 
-        public Task<bool> UpdateCourse(CourseModel model, Guid courseId)
+        public async Task<bool> UpdateCourse(CourseModel model, Guid courseId)
         {
             try
             {
+                //get professor by userId
+                var professor = await _professorRepository.GetProfessorByUserId(model.idUser);
+
                 var course = _mapper.Map<Course>(model);
                 course.idCourse = courseId;
+                course.idProfessor = professor.idProfessor;
                 Entities.Update(course);
                 _uow.SaveChanges();
-                return Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {

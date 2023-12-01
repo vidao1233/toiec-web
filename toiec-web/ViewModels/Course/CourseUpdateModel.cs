@@ -2,7 +2,7 @@
 {
     public class CourseUpdateModel
     {
-        public Guid idProfessor { get; set; }
+        public string idUser { get; set; }
         public string name { get; set; }
         public string description { get; set; }
     }

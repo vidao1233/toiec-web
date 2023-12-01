@@ -28,6 +28,22 @@ namespace toiec_web.Services
             return await _quizRepository.DeleteQuiz(quizId);
         }
 
+        public async Task<IEnumerable<QuizViewModel>> GetAllQuizByLesson(Guid lesonId)
+        {
+            var data = await _quizRepository.GetAllQuizByLesson(lesonId);
+            List<QuizViewModel> listData = new List<QuizViewModel>();
+            if(data != null)
+            {
+                foreach (var dataItem in data)
+                {
+                    var obj = _mapper.Map<QuizViewModel>(dataItem);
+                    listData.Add(obj);  
+                }
+                return listData;
+            }
+            return null;
+        }
+
         public async Task<IEnumerable<QuizViewModel>> GetAllQuizzes()
         {
             var data = await _quizRepository.GetAllQuizzes();

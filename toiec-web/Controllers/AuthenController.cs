@@ -150,6 +150,7 @@ namespace toiec_web.Controllers
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
                 //Add role to the list
@@ -175,7 +176,7 @@ namespace toiec_web.Controllers
                 var jwtToken = GetToken(authClaims);
                 return Ok(new
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
+                    token = new JwtSecurityTokenHandler().WriteToken(jwtToken),                    
                     expiration = jwtToken.ValidTo,
 
                 });
@@ -201,6 +202,7 @@ namespace toiec_web.Controllers
                     var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
                     var userRoles = await _userManager.GetRolesAsync(user);
@@ -314,15 +316,9 @@ namespace toiec_web.Controllers
 
             if (user != null)
             {
-                return Ok(new
-                {
-                    userId = user.Id,
-                    userName = user.UserName,
-                    phone = user.PhoneNumber
-
-                });
+                return Ok(user);
             }
-            return NotFound();
+            return StatusCode(StatusCodes.Status404NotFound);
         }
 
         [Authorize]
@@ -336,7 +332,7 @@ namespace toiec_web.Controllers
             {
                 return Ok(new { role = userRole });
             }
-            return NotFound();
+            return StatusCode(StatusCodes.Status404NotFound);
         }
 
         [HttpPost]

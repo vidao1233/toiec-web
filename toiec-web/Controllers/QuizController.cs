@@ -37,6 +37,18 @@ namespace toiec_web.Controllers
             return Ok(quiz);
         }
 
+        [HttpGet]
+        [Route("GetAllQuizByLesson/{id:guid}")]
+        public async Task<IActionResult> GetAllQuizByLesson(Guid id)
+        {
+            var quiz = await _quizService.GetAllQuizByLesson(id);
+            if (quiz == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            return Ok(quiz);
+        }
+
         [HttpPost]
         [Route("AddQuiz")]
         public async Task<IActionResult> AddQuiz(QuizAddModel model)
