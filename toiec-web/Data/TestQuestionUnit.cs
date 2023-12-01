@@ -5,7 +5,7 @@ namespace toiec_web.Models
     public class TestQuestionUnit
     {
         public Guid idQuestionUnit { get; set; }
-        public Guid idTestPart { get; set; }
+        public int idTestPart { get; set; }
         public int numBegin { get; set; }
         public int numEnd { get; set; }
         public string paragraph { get; set; }

@@ -178,6 +178,7 @@ namespace toiec_web.Controllers
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(jwtToken),                    
                     expiration = jwtToken.ValidTo,
+                    user.EmailConfirmed,
 
                 });
                 //returning the token...
