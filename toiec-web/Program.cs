@@ -69,6 +69,8 @@ namespace toiec_web
                     )
                 };
             });
+            // Add Momo Payment Option
+            builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
 
             // Add auto mapper
             builder.Services.AddAutoMapper(typeof(Program));

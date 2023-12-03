@@ -20,6 +20,8 @@ namespace toiec_web.Infrastructure
             services.AddTransient(typeof(IVocTopicRepository), typeof(VocTopicRepository));
             services.AddTransient(typeof(IVocabularyRepository), typeof(VocabularyRepository));
             services.AddTransient(typeof(ITestTypeRepository), typeof(TestTypeRepository));
+            services.AddTransient(typeof(IPaymentMethodRepository), typeof(PaymentMethodRepository));
+            services.AddTransient(typeof(IPaymentRepository), typeof(PaymentRepository));
             return services;
         }
         
@@ -36,6 +38,9 @@ namespace toiec_web.Infrastructure
             services.AddTransient<IVocTopicService, VocTopicService>();
             services.AddTransient<IVocabularyService, VocabularyService>();
             services.AddTransient<ITestTypeService, TestTypeService>();
+            services.AddTransient<IPaymentMethodService, PaymentMethodService>();
+            services.AddTransient<IPaymentService, PaymentService>();
+            services.AddScoped<IMomoService, MomoService>();
             return services;
         }
     }

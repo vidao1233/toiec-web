@@ -70,6 +70,13 @@ namespace toiec_web.Helper
             CreateMap<TestTypeModel, TestTypeUpdateModel>().ReverseMap();
             #endregion
 
+            #region PaymentMethod
+            CreateMap<PaymentMethod, PaymentMethodModel>().ReverseMap();
+            #endregion
+
+            #region Payment
+            CreateMap<Payment, PaymentModel>().ReverseMap();
+            #endregion
         }
     }
 }
