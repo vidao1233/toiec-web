@@ -20,6 +20,7 @@ namespace toiec_web
                 builder.Services
                     .AddRepository()
                     .AddService();
+                builder.Services.Configure<CloudinaryModel>(builder.Configuration.GetSection("CloudinarySettings"));
             }
 
             // Add services to the container.

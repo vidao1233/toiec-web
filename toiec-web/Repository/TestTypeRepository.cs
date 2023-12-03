@@ -70,6 +70,20 @@ namespace toiec_web.Repository
             return null;
         }
 
+        public async Task<TestTypeModel> GetTestTypeByTypeName(string typeName)
+        {
+            IAsyncEnumerable<TestType> types = Entities.AsAsyncEnumerable();
+            await foreach (var type in types)
+            {
+                if (type.typeName == typeName)
+                {
+                    TestTypeModel data = _mapper.Map<TestTypeModel>(type);
+                    return data;
+                }
+            }
+            return null;
+        }
+
         public Task<bool> UpdateTestType(TestTypeModel model, Guid typeId)
         {
             try

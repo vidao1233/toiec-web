@@ -20,6 +20,9 @@ namespace toiec_web.Infrastructure
             services.AddTransient(typeof(IVocTopicRepository), typeof(VocTopicRepository));
             services.AddTransient(typeof(IVocabularyRepository), typeof(VocabularyRepository));
             services.AddTransient(typeof(ITestTypeRepository), typeof(TestTypeRepository));
+            services.AddTransient(typeof(ITestRepository), typeof(TestRepository));
+            services.AddTransient(typeof(ITestQuestionUnitRepository), typeof(TestQuestionUnitRepository));
+            services.AddTransient(typeof(IUploadFileRepository), typeof(UploadFileRepository));
             return services;
         }
         
@@ -36,6 +39,9 @@ namespace toiec_web.Infrastructure
             services.AddTransient<IVocTopicService, VocTopicService>();
             services.AddTransient<IVocabularyService, VocabularyService>();
             services.AddTransient<ITestTypeService, TestTypeService>();
+            services.AddTransient<ITestService, TestService>(); 
+            services.AddTransient<ITestQuestionUnitService, TestQuestionUnitService>();
+            services.AddTransient<IUploadFileService, UploadFileService>();
             return services;
         }
     }

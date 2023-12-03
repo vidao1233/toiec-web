@@ -11,7 +11,7 @@ namespace toiec_web.Models
         public DateTime createDate { get; set; }
         public DateTime useDate { get; set; }
         public virtual TestType TestType { get; set; }
-        public virtual ICollection<TestPart> TestParts { get; set; }
+        public virtual ICollection<TestQuestionUnit> TestQuestionUnits { get; set; }
         public virtual ICollection<TestRecord> TestRecords { get; set; }    
         public virtual Professor Professor { get; set; }
         

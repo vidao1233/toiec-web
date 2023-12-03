@@ -10,21 +10,30 @@ namespace toiec_web.Repository
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        public VocabularyRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper) : base(dbContext)
+        private readonly IProfessorRepository _professorRepository;
+
+        public VocabularyRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper,
+            IProfessorRepository professorRepository) 
+            : base(dbContext)
         {
             _uow = uow;
             _mapper = mapper;
+            _professorRepository = professorRepository;
         }
 
-        public Task<bool> AddVocabulary(VocabularyModel model)
+        public async Task<bool> AddVocabulary(VocabularyModel model, string userId)
         {
             try
             {
+                //get professor by userId
+                var professor = await _professorRepository.GetProfessorByUserId(userId);
+
                 var voc = _mapper.Map<Vocabulary>(model);
                 voc.idVoc = Guid.NewGuid();
+                voc.idProfessor = professor.idProfessor;
                 Entities.Add(voc);
                 _uow.SaveChanges();
-                return Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {
@@ -56,6 +65,21 @@ namespace toiec_web.Repository
             return listData;
         }
 
+        public async Task<IEnumerable<VocabularyModel>> GetAllVocabularyByTopic(Guid topicId)
+        {
+            var listData = new List<VocabularyModel>();
+            var data = await Entities.ToListAsync();
+            foreach(var item in data)
+            {
+                if(item.idTopic == topicId)
+                {
+                    var obj = _mapper.Map<VocabularyModel>(item);
+                    listData.Add(obj);
+                }
+            }
+            return listData;
+        }
+
         public async Task<VocabularyModel> GetVocabularyById(Guid vocId)
         {
             IAsyncEnumerable<Vocabulary> vocs = Entities.AsAsyncEnumerable();
@@ -70,16 +94,19 @@ namespace toiec_web.Repository
             return null;
         }
 
-        public Task<bool> UpdateVocabulary(VocabularyModel model, Guid vocId, Guid professorId)
+        public async Task<bool> UpdateVocabulary(VocabularyModel model, Guid vocId, string userId)
         {
             try
             {
+                //get professor by userId
+                var professor = await _professorRepository.GetProfessorByUserId(userId);
+
                 var voc = _mapper.Map<Vocabulary>(model);
                 voc.idVoc = vocId;
-                voc.idProfessor = professorId;
+                voc.idProfessor = professor.idProfessor;
                 Entities.Update(voc);
                 _uow.SaveChanges();
-                return Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {

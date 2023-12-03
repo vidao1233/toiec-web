@@ -3,6 +3,8 @@ using toiec_web.Models;
 using toiec_web.ViewModels.Course;
 using toiec_web.ViewModels.Lesson;
 using toiec_web.ViewModels.Quiz;
+using toiec_web.ViewModels.Test;
+using toiec_web.ViewModels.TestQuestionUnit;
 using toiec_web.ViewModels.TestType;
 using toiec_web.ViewModels.User;
 using toiec_web.ViewModels.Vocabulary;
@@ -68,6 +70,20 @@ namespace toiec_web.Helper
             CreateMap<TestTypeModel, TestTypeViewModel>().ReverseMap();
             CreateMap<TestTypeModel, TestTypeAddModel>().ReverseMap();
             CreateMap<TestTypeModel, TestTypeUpdateModel>().ReverseMap();
+            #endregion
+
+            #region Test
+            CreateMap<Test, TestModel>().ReverseMap();
+            CreateMap<TestModel, TestViewModel>().ReverseMap();
+            CreateMap<TestModel, TestAddModel>().ReverseMap();
+            CreateMap<TestModel, TestUpdateModel>().ReverseMap();
+            #endregion
+
+            #region TestQuestionUnit
+            CreateMap<TestQuestionUnit, TestQuestionUnitModel>().ReverseMap();
+            CreateMap<TestQuestionUnitModel, TestQuestionUnitViewModel>().ReverseMap();
+            CreateMap<TestQuestionUnitModel, TestQuestionUnitAddModel>().ReverseMap();
+            CreateMap<TestQuestionUnitModel, TestQuestionUnitUpdateModel>().ReverseMap();
             #endregion
 
         }

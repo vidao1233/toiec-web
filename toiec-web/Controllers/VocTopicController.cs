@@ -39,9 +39,9 @@ namespace toiec_web.Controllers
 
         [HttpPost]
         [Route("AddVocTopic")]
-        public async Task<IActionResult> AddVocTopic(VocTopicAddModel model)
+        public async Task<IActionResult> AddVocTopic(VocTopicAddModel model, string userId)
         {
-            var response = await _vocTopicService.AddVocTopic(model);
+            var response = await _vocTopicService.AddVocTopic(model, userId);
             if (response == true)
             {
                 return StatusCode(StatusCodes.Status200OK);
@@ -51,10 +51,10 @@ namespace toiec_web.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateVocTopic/{idTopic:guid}&&{idProfessor:guid}")]
-        public async Task<IActionResult> UpdateVocTopic(VocTopicUpdateModel model, Guid idTopic, Guid idProfessor)
+        [Route("UpdateVocTopic/{idTopic:guid}&&{userId}")]
+        public async Task<IActionResult> UpdateVocTopic(VocTopicUpdateModel model, Guid idTopic, string userId)
         {
-            var response = await _vocTopicService.UpdateVocTopic(model, idTopic, idProfessor);
+            var response = await _vocTopicService.UpdateVocTopic(model, idTopic, userId);
             if (response == true)
             {
                 return StatusCode(StatusCodes.Status200OK);

@@ -44,7 +44,7 @@ namespace toiec_web.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            SeedRoles(modelBuilder);
+            SeedDatas(modelBuilder);
 
             //config table
             #region relationship
@@ -184,10 +184,6 @@ namespace toiec_web.Models
             modelBuilder.Entity<TestPart>(entity =>
             {
                 entity.HasKey(s => s.partId);
-                entity.HasOne(s => s.Test).WithMany(s => s.TestParts)
-                    .HasForeignKey(s => s.testId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK_PartOfTest");
             });
             modelBuilder.Entity<TestQuestionUnit>(entity =>
             {
@@ -196,6 +192,10 @@ namespace toiec_web.Models
                     .HasForeignKey(s => s.idTestPart)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UnitOfTestPart");
+                entity.HasOne(s => s.Test).WithMany(s => s.TestQuestionUnits)
+                    .HasForeignKey(s => s.idTest)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UnitsOfTest");
             });
             modelBuilder.Entity<TestRecord>(entity =>
             {
@@ -288,7 +288,7 @@ namespace toiec_web.Models
 
         }
 
-        private static void SeedRoles(ModelBuilder builder)
+        private static void SeedDatas(ModelBuilder builder)
         {
             builder.Entity<IdentityRole>().HasData
                 (
@@ -296,6 +296,16 @@ namespace toiec_web.Models
                 new IdentityRole() { Name = "Student", ConcurrencyStamp = "2", NormalizedName = "Student" },
                 new IdentityRole() { Name = "VipStudent", ConcurrencyStamp = "3", NormalizedName = "VipStudent" },
                 new IdentityRole() { Name = "Professor", ConcurrencyStamp = "4", NormalizedName = "Professor" }
+                );
+            builder.Entity<TestPart>().HasData
+                (
+                new TestPart() { partId = 1, partName = "Part 1" },
+                new TestPart() { partId = 2, partName = "Part 2" },
+                new TestPart() { partId = 3, partName = "Part 3" },
+                new TestPart() { partId = 4, partName = "Part 4" },
+                new TestPart() { partId = 5, partName = "Part 5" },
+                new TestPart() { partId = 6, partName = "Part 6" },
+                new TestPart() { partId = 7, partName = "Part 7" }
                 );
         }
     }

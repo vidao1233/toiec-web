@@ -1,21 +1,13 @@
-﻿using toiec_web.Data;
-
-namespace toiec_web.Models
+﻿namespace toiec_web.ViewModels.TestQuestionUnit
 {
-    public class TestQuestionUnit
+    public class TestQuestionUnitViewModel
     {
         public Guid idQuestionUnit { get; set; }
-        public Guid idTest { get; set; }
         public int idTestPart { get; set; }
         public string paragraph { get; set; }
         public string audio { get; set; }
         public string image { get; set; }
         public string script { get; set; }
         public string translation { get; set; }
-        public virtual Test Test { get; set; }
-        public virtual TestPart TestPart { get; set; }
-        public virtual ICollection<Question> Questions { get; set; }
-
-
     }
 }

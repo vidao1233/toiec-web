@@ -16,10 +16,10 @@ namespace toiec_web.Services
             _vocTopicRepository = vocTopicRepository;
             _mapper = mapper;
         }
-        public async Task<bool> AddVocTopic(VocTopicAddModel model)
+        public async Task<bool> AddVocTopic(VocTopicAddModel model, string userId)
         {
             var data = _mapper.Map<VocTopicModel>(model);
-            return await _vocTopicRepository.AddVocTopic(data);
+            return await _vocTopicRepository.AddVocTopic(data, userId);
         }
 
         public async Task<bool> DeleteVocTopic(Guid topicId)
@@ -54,10 +54,10 @@ namespace toiec_web.Services
             return null;
         }
 
-        public async Task<bool> UpdateVocTopic(VocTopicUpdateModel model, Guid topicId, Guid professorId)
+        public async Task<bool> UpdateVocTopic(VocTopicUpdateModel model, Guid topicId, string userId)
         {
             var data = _mapper.Map<VocTopicModel>(model);
-            return await _vocTopicRepository.UpdateVocTopic(data, topicId, professorId);
+            return await _vocTopicRepository.UpdateVocTopic(data, topicId, userId);
 
         }
     }

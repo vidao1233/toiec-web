@@ -16,10 +16,10 @@ namespace toiec_web.Services
             _vocabularyRepository = vocabularyRepository;
             _mapper = mapper;
         }
-        public async Task<bool> AddVocabulary(VocabularyAddModel model)
+        public async Task<bool> AddVocabulary(VocabularyAddModel model, string userId)
         {
             var data = _mapper.Map<VocabularyModel>(model);
-            return await _vocabularyRepository.AddVocabulary(data);
+            return await _vocabularyRepository.AddVocabulary(data, userId);
         }
 
         public async Task<bool> DeleteVocabulary(Guid vocId)
@@ -43,6 +43,22 @@ namespace toiec_web.Services
             return null;
         }
 
+        public async Task<IEnumerable<VocabularyViewModel>> GetAllVocabularyByTopic(Guid topicId)
+        {
+            var data = await _vocabularyRepository.GetAllVocabularyByTopic(topicId);
+            List<VocabularyViewModel> listData = new List<VocabularyViewModel>();
+            if(data != null)
+            {
+                foreach (var item in data)
+                {
+                    var obj = _mapper.Map<VocabularyViewModel>(item);
+                    listData.Add(obj);
+                }
+                return listData;
+            }
+            return null;
+        }
+
         public async Task<VocabularyViewModel> GetVocabularyById(Guid vocId)
         {
             var data = await _vocabularyRepository.GetVocabularyById(vocId);
@@ -54,10 +70,10 @@ namespace toiec_web.Services
             return null;
         }
 
-        public async Task<bool> UpdateVocabulary(VocabularyUpdateModel model, Guid vocId, Guid professorId)
+        public async Task<bool> UpdateVocabulary(VocabularyUpdateModel model, Guid vocId, string userId)
         {
             var data = _mapper.Map<VocabularyModel>(model);
-            return await _vocabularyRepository.UpdateVocabulary(data, vocId, professorId);
+            return await _vocabularyRepository.UpdateVocabulary(data, vocId, userId);
         }
     }
 }
