@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using toiec_web.Models;
 
@@ -11,9 +12,10 @@ using toiec_web.Models;
 namespace toiec_web.Migrations
 {
     [DbContext(typeof(ToiecDbContext))]
-    partial class ToiecDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231202035342_seed testPart")]
+    partial class seedtestPart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,28 +53,28 @@ namespace toiec_web.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2b87b86c-7372-4829-b66d-1f9a92f33606",
+                            Id = "8e97bf67-6a0f-448e-bd48-ba577ec2172e",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "1d1715a8-8d54-41df-9e90-8202c57b0526",
+                            Id = "41781a68-9755-46aa-9da5-ca503d7f9995",
                             ConcurrencyStamp = "2",
                             Name = "Student",
                             NormalizedName = "Student"
                         },
                         new
                         {
-                            Id = "2b0ac2c4-a567-4bdc-b861-ca9c8d6fd295",
+                            Id = "8057d908-aaa3-456a-b35f-a921447f5332",
                             ConcurrencyStamp = "3",
                             Name = "VipStudent",
                             NormalizedName = "VipStudent"
                         },
                         new
                         {
-                            Id = "9a156c66-22c8-419d-8ce5-6e6bf5393e6d",
+                            Id = "0a4dac25-cb46-4f59-9d0c-0040f0fe561e",
                             ConcurrencyStamp = "4",
                             Name = "Professor",
                             NormalizedName = "Professor"
@@ -697,15 +699,18 @@ namespace toiec_web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("idTest")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("idTestPart")
                         .HasColumnType("int");
 
                     b.Property<string>("image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("numBegin")
+                        .HasColumnType("int");
+
+                    b.Property<int>("numEnd")
+                        .HasColumnType("int");
 
                     b.Property<string>("paragraph")
                         .IsRequired()
@@ -720,8 +725,6 @@ namespace toiec_web.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("idQuestionUnit");
-
-                    b.HasIndex("idTest");
 
                     b.HasIndex("idTestPart");
 
@@ -1190,19 +1193,11 @@ namespace toiec_web.Migrations
 
             modelBuilder.Entity("toiec_web.Models.TestQuestionUnit", b =>
                 {
-                    b.HasOne("toiec_web.Models.Test", "Test")
-                        .WithMany("TestQuestionUnits")
-                        .HasForeignKey("idTest")
-                        .IsRequired()
-                        .HasConstraintName("FK_UnitsOfTest");
-
                     b.HasOne("toiec_web.Data.TestPart", "TestPart")
                         .WithMany("TestQuestionUnits")
                         .HasForeignKey("idTestPart")
                         .IsRequired()
                         .HasConstraintName("FK_UnitOfTestPart");
-
-                    b.Navigation("Test");
 
                     b.Navigation("TestPart");
                 });
@@ -1396,8 +1391,6 @@ namespace toiec_web.Migrations
 
             modelBuilder.Entity("toiec_web.Models.Test", b =>
                 {
-                    b.Navigation("TestQuestionUnits");
-
                     b.Navigation("TestRecords");
                 });
 

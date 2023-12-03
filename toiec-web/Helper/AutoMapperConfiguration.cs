@@ -3,6 +3,8 @@ using toiec_web.Models;
 using toiec_web.ViewModels.Course;
 using toiec_web.ViewModels.Lesson;
 using toiec_web.ViewModels.Quiz;
+using toiec_web.ViewModels.Test;
+using toiec_web.ViewModels.TestQuestionUnit;
 using toiec_web.ViewModels.TestType;
 using toiec_web.ViewModels.User;
 using toiec_web.ViewModels.Vocabulary;

@@ -6,8 +6,8 @@ namespace toiec_web.Services.IService
     {
         Task<IEnumerable<VocTopicViewModel>> GetAllVocTopics();
         Task<VocTopicViewModel> GetVocTopicById(Guid topicId);
-        Task<bool> AddVocTopic(VocTopicAddModel model);
-        Task<bool> UpdateVocTopic(VocTopicUpdateModel model, Guid topicId, Guid professorId);
+        Task<bool> AddVocTopic(VocTopicAddModel model, string userId);
+        Task<bool> UpdateVocTopic(VocTopicUpdateModel model, Guid topicId, string userId);
         Task<bool> DeleteVocTopic(Guid topicId);
     }
 }

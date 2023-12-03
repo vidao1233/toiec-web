@@ -11,15 +11,18 @@ namespace toiec_web.Services
 {
     public class PaymentService : IPaymentService
     {
-        private readonly IPaymentRepository _paymentRepository;
         private readonly IMapper _mapper;
         private readonly IOptions<MomoOptionModel> _options;
+        private readonly IPaymentRepository _paymentRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public PaymentService(IPaymentRepository paymentRepository, IMapper mapper, IOptions<MomoOptionModel> options)
+        public PaymentService(IPaymentRepository paymentRepository, IStudentRepository studentRepository,
+            IMapper mapper, IOptions<MomoOptionModel> options)
         {
             _paymentRepository = paymentRepository;
             _mapper = mapper;
             _options = options;
+            _studentRepository = studentRepository;
         }
         public async Task<bool> AddPayment(PaymentModel model)
         {
@@ -44,6 +47,7 @@ namespace toiec_web.Services
         public async Task<MomoCreatePaymentResponseModel> CreatePaymentAsync(PaymentInfoModel model)
         {
             string orderId = DateTime.UtcNow.Ticks.ToString();
+            var student = await _studentRepository.GetStudentByUserId(model.UserId.ToString());
             var rawData =
                 $"partnerCode={_options.Value.PartnerCode}" +
                 $"&accessKey={_options.Value.AccessKey}" +
@@ -52,7 +56,7 @@ namespace toiec_web.Services
                 $"&orderInfo={model.PaymentInfo}" +
                 $"&returnUrl={_options.Value.ReturnUrl}" +
                 $"&notifyUrl={_options.Value.NotifyUrl}" +
-                $"&extraData={model.studentId}";
+                $"&extraData={student.idStudent}";
 
             var signature = HashHelper.ComputeHmacSha256(rawData, _options.Value.SecretKey);
 
@@ -73,7 +77,7 @@ namespace toiec_web.Services
                 amount = model.Amount.ToString(),
                 orderInfo = model.PaymentInfo,
                 requestId = orderId,
-                extraData = model.studentId,
+                extraData = student.idStudent,
                 signature = signature
             };
             Console.WriteLine(_options.Value.MomoApiUrl);
@@ -113,9 +117,9 @@ namespace toiec_web.Services
                     Message = "Thanh toán không thành công, giao dịch bị hủy!",
                     PaymentInfo = orderInfo,
                 };
-            } 
-            else
-                if(await _paymentRepository.AddPayment(payment) == true)
+            }
+            if (errorCode == "0")
+                if (await _paymentRepository.AddPayment(payment) == true)
                     {
                         return new MomoExecuteResponseModel()
                         {
@@ -124,7 +128,7 @@ namespace toiec_web.Services
                             Message = "Thanh toán thành công!",
                             PaymentInfo = orderInfo,
                         };
-                    }    
+                    }
             return null;
         }
     }

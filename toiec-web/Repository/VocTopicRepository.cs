@@ -10,21 +10,30 @@ namespace toiec_web.Repository
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        public VocTopicRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper) : base(dbContext)
+        private readonly IProfessorRepository _professorRepository;
+
+        public VocTopicRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper,
+            IProfessorRepository professorRepository) 
+            : base(dbContext)
         {
             _uow = uow;
             _mapper = mapper;
+            _professorRepository = professorRepository;
         }
 
-        public Task<bool> AddVocTopic(VocTopicModel model)
+        public async Task<bool> AddVocTopic(VocTopicModel model, string userId)
         {
             try
             {
+                //get professor by userId
+                var professor = await _professorRepository.GetProfessorByUserId(userId);
+
                 var topic = _mapper.Map<VocTopic>(model);
                 topic.idVocTopic = Guid.NewGuid();
+                topic.idProfessor = professor.idProfessor;
                 Entities.Add(topic);
                 _uow.SaveChanges();
-                return Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {
@@ -70,16 +79,19 @@ namespace toiec_web.Repository
             return null;
         }
 
-        public Task<bool> UpdateVocTopic(VocTopicModel model, Guid topicId, Guid professorId)
+        public async Task<bool> UpdateVocTopic(VocTopicModel model, Guid topicId, string userId)
         {
             try
             {
+                //get professor by userId
+                var professor = await _professorRepository.GetProfessorByUserId(userId);
+
                 var topic = _mapper.Map<VocTopic>(model);
                 topic.idVocTopic = topicId;
-                topic.idProfessor = professorId;
+                topic.idProfessor = professor.idProfessor;
                 Entities.Update(topic);
                 _uow.SaveChanges();
-                return Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {

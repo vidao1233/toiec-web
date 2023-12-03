@@ -21,7 +21,7 @@ namespace toiec_web.Controllers
         public async Task<IActionResult> CreateMoMoPayment(PaymentInfoModel model)
         {
             var response = await _paymentService.CreatePaymentAsync(model);
-            return Ok(response.PayUrl);
+            return Ok(new { PayUrl = response.PayUrl });
         }
 
         [HttpGet]

@@ -37,11 +37,23 @@ namespace toiec_web.Controllers
             return Ok(voc);
         }
 
+        [HttpGet]
+        [Route("GetVocabularyByTopic/{id:guid}")]
+        public async Task<IActionResult> GetAllVocabularyByTopic(Guid id)
+        {
+            var voc = await _vocabularyService.GetAllVocabularyByTopic(id);
+            if (voc == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            return Ok(voc);
+        }
+
         [HttpPost]
         [Route("AddVocabulary")]
-        public async Task<IActionResult> AddVocabulary(VocabularyAddModel model)
+        public async Task<IActionResult> AddVocabulary(VocabularyAddModel model, string userId)
         {
-            var response = await _vocabularyService.AddVocabulary(model);
+            var response = await _vocabularyService.AddVocabulary(model, userId);
             if (response == true)
             {
                 return StatusCode(StatusCodes.Status200OK);
@@ -52,9 +64,9 @@ namespace toiec_web.Controllers
 
         [HttpPut]
         [Route("UpdateVocabulary/{idTopic:guid}&&{idProfessor:guid}")]
-        public async Task<IActionResult> UpdateVocabulary(VocabularyUpdateModel model, Guid idTopic, Guid idProfessor)
+        public async Task<IActionResult> UpdateVocabulary(VocabularyUpdateModel model, Guid idTopic, string userId)
         {
-            var response = await _vocabularyService.UpdateVocabulary(model, idTopic, idProfessor);
+            var response = await _vocabularyService.UpdateVocabulary(model, idTopic, userId);
             if (response == true)
             {
                 return StatusCode(StatusCodes.Status200OK);

@@ -6,8 +6,9 @@ namespace toiec_web.Repository.IRepository
     {
         Task<IEnumerable<VocabularyModel>> GetAllVocabularies();
         Task<VocabularyModel> GetVocabularyById(Guid vocId);
-        Task<bool> AddVocabulary(VocabularyModel model);
-        Task<bool> UpdateVocabulary(VocabularyModel model, Guid vocId, Guid professorId);
+        Task<IEnumerable<VocabularyModel>> GetAllVocabularyByTopic(Guid topicId);
+        Task<bool> AddVocabulary(VocabularyModel model, string userId);
+        Task<bool> UpdateVocabulary(VocabularyModel model, Guid vocId, string userId);
         Task<bool> DeleteVocabulary(Guid vocId);
     }
 }

@@ -9,19 +9,24 @@ namespace toiec_web.Repository
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
+        private readonly IStudentRepository _studentRepository;
 
-        public PaymentRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper) : base(dbContext)
+        public PaymentRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper
+            , IStudentRepository studentRepository) : base(dbContext)
         {
             _uow = uow;
             _mapper = mapper;
+            _studentRepository = studentRepository;
         }
 
         public Task<bool> AddPayment(PaymentModel model)
         {
             try
             {
+                //var student = await _studentRepository.GetStudentByUserId(userId);
                 var payment = _mapper.Map<Payment>(model);
-                payment.idMethod = Guid.NewGuid();
+
+                payment.idPayment = Guid.NewGuid();
                 Entities.Add(payment);
                 _uow.SaveChanges();
                 return Task.FromResult(true);
