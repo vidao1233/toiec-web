@@ -99,6 +99,10 @@ namespace toiec_web.Models
                     .HasForeignKey(s => s.idStudent)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("PaymentOfStudent");
+                entity.HasOne(s => s.VipPackage).WithMany(s => s.Payments)
+                    .HasForeignKey(s => s.idPackage)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("PaymentOfVipPackage");
             });
             modelBuilder.Entity<PaymentMethod>(entity =>
             {
@@ -249,10 +253,6 @@ namespace toiec_web.Models
             modelBuilder.Entity<VipPackage>(entity =>
             {
                 entity.HasKey(s => s.idPackage);
-                entity.HasOne(s => s.Payment).WithMany(s => s.VipPackages)
-                    .HasForeignKey(s => s.idPayment)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PayVipPackage");
                 entity.HasOne(s => s.Admin).WithMany(s => s.VipPackages)
                     .HasForeignKey(s => s.idAdmin)
                     .OnDelete(DeleteBehavior.ClientSetNull)

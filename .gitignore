@@ -231,3 +231,6 @@ _Pvt_Extensions
 .paket/paket.exe
 
 # FAKE - F# Make
+
+#Folder
+/Migrations/
