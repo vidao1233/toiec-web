@@ -299,13 +299,18 @@ namespace toiec_web.Models
                 );
             builder.Entity<TestPart>().HasData
                 (
-                new TestPart() { partId = 1, partName = "Part 1" },
-                new TestPart() { partId = 2, partName = "Part 2" },
-                new TestPart() { partId = 3, partName = "Part 3" },
-                new TestPart() { partId = 4, partName = "Part 4" },
-                new TestPart() { partId = 5, partName = "Part 5" },
-                new TestPart() { partId = 6, partName = "Part 6" },
-                new TestPart() { partId = 7, partName = "Part 7" }
+                new TestPart() { partId = Guid.NewGuid(), partName = "Part 1" },
+                new TestPart() { partId = Guid.NewGuid(), partName = "Part 2" },
+                new TestPart() { partId = Guid.NewGuid(), partName = "Part 3" },
+                new TestPart() { partId = Guid.NewGuid(), partName = "Part 4" },
+                new TestPart() { partId = Guid.NewGuid(), partName = "Part 5" },
+                new TestPart() { partId = Guid.NewGuid(), partName = "Part 6" },
+                new TestPart() { partId = Guid.NewGuid(), partName = "Part 7" }
+                );
+            builder.Entity<TestType>().HasData
+                (
+                    new TestType() { idTestType = Guid.NewGuid(), typeName = "Mini Test"},
+                    new TestType() { idTestType = Guid.NewGuid(), typeName = "Full Test" }
                 );
         }
     }

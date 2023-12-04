@@ -12,8 +12,8 @@ using toiec_web.Models;
 namespace toiec_web.Migrations
 {
     [DbContext(typeof(ToiecDbContext))]
-    [Migration("20231201020016_update TestPart")]
-    partial class updateTestPart
+    [Migration("20231204030516_update")]
+    partial class update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,28 +53,28 @@ namespace toiec_web.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f423aa16-90a3-4bde-824d-1b74cb714839",
+                            Id = "5b3496d4-1bbf-47e7-8681-828cf793e293",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "c55ac6d1-8b1a-44be-b527-93f1b788010d",
+                            Id = "c8a9135d-a2c8-4467-8a51-ad73e97de8c6",
                             ConcurrencyStamp = "2",
                             Name = "Student",
                             NormalizedName = "Student"
                         },
                         new
                         {
-                            Id = "df55f3b9-870c-4d2d-bc36-9ab8d1c723b8",
+                            Id = "aa5f7353-b0d1-4d62-9e50-840975d64f4b",
                             ConcurrencyStamp = "3",
                             Name = "VipStudent",
                             NormalizedName = "VipStudent"
                         },
                         new
                         {
-                            Id = "184c7ab1-87ef-4333-95f6-fedbac47c6dc",
+                            Id = "ba5f7d62-a7f2-401f-89bf-c15af105a7f6",
                             ConcurrencyStamp = "4",
                             Name = "Professor",
                             NormalizedName = "Professor"
@@ -284,24 +284,54 @@ namespace toiec_web.Migrations
 
             modelBuilder.Entity("toiec_web.Data.TestPart", b =>
                 {
-                    b.Property<int>("partId")
+                    b.Property<Guid>("partId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("partId"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("partName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("testId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("partId");
 
-                    b.HasIndex("testId");
-
                     b.ToTable("TestParts");
+
+                    b.HasData(
+                        new
+                        {
+                            partId = new Guid("db6a976c-276a-47ac-a013-52ce7bcf9c14"),
+                            partName = "Part 1"
+                        },
+                        new
+                        {
+                            partId = new Guid("582fd57f-bc05-42e8-8671-decf487bb623"),
+                            partName = "Part 2"
+                        },
+                        new
+                        {
+                            partId = new Guid("da35c817-8474-42da-9a7d-d3fb607e1e57"),
+                            partName = "Part 3"
+                        },
+                        new
+                        {
+                            partId = new Guid("5e84d0ce-ee2e-4e62-8bd0-3cafa1b48979"),
+                            partName = "Part 4"
+                        },
+                        new
+                        {
+                            partId = new Guid("7fd64f89-fb10-46e3-b2fc-95447bc7752e"),
+                            partName = "Part 5"
+                        },
+                        new
+                        {
+                            partId = new Guid("54e3578d-dc58-4cb1-9fc8-b63d4c46799a"),
+                            partName = "Part 6"
+                        },
+                        new
+                        {
+                            partId = new Guid("1bb1f780-4ebb-4bd2-b77d-a8bd08a6b814"),
+                            partName = "Part 7"
+                        });
                 });
 
             modelBuilder.Entity("toiec_web.Models.Admin", b =>
@@ -667,18 +697,15 @@ namespace toiec_web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("idTestPart")
-                        .HasColumnType("int");
+                    b.Property<Guid>("idTest")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("idTestPart")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("numBegin")
-                        .HasColumnType("int");
-
-                    b.Property<int>("numEnd")
-                        .HasColumnType("int");
 
                     b.Property<string>("paragraph")
                         .IsRequired()
@@ -693,6 +720,8 @@ namespace toiec_web.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("idQuestionUnit");
+
+                    b.HasIndex("idTest");
 
                     b.HasIndex("idTestPart");
 
@@ -949,18 +978,6 @@ namespace toiec_web.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("toiec_web.Data.TestPart", b =>
-                {
-                    b.HasOne("toiec_web.Models.Test", "Test")
-                        .WithMany("TestParts")
-                        .HasForeignKey("testId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_PartOfTest");
-
-                    b.Navigation("Test");
-                });
-
             modelBuilder.Entity("toiec_web.Models.Admin", b =>
                 {
                     b.HasOne("toiec_web.Models.Users", "Users")
@@ -1173,11 +1190,19 @@ namespace toiec_web.Migrations
 
             modelBuilder.Entity("toiec_web.Models.TestQuestionUnit", b =>
                 {
+                    b.HasOne("toiec_web.Models.Test", "Test")
+                        .WithMany("TestQuestionUnits")
+                        .HasForeignKey("idTest")
+                        .IsRequired()
+                        .HasConstraintName("FK_UnitsOfTest");
+
                     b.HasOne("toiec_web.Data.TestPart", "TestPart")
                         .WithMany("TestQuestionUnits")
                         .HasForeignKey("idTestPart")
                         .IsRequired()
                         .HasConstraintName("FK_UnitOfTestPart");
+
+                    b.Navigation("Test");
 
                     b.Navigation("TestPart");
                 });
@@ -1371,7 +1396,7 @@ namespace toiec_web.Migrations
 
             modelBuilder.Entity("toiec_web.Models.Test", b =>
                 {
-                    b.Navigation("TestParts");
+                    b.Navigation("TestQuestionUnits");
 
                     b.Navigation("TestRecords");
                 });

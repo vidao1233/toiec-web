@@ -58,13 +58,13 @@ namespace toiec_web.Repository
             return uploadResult;
         }
 
-        public async Task<ImageUploadResult> AddAudioAsync(IFormFile file)
+        public async Task<VideoUploadResult> AddAudioAsync(IFormFile file)
         {
-            var uploadResult = new ImageUploadResult();
+            var uploadResult = new VideoUploadResult();
             if (file.Length > 0)
             {
                 using var stream = file.OpenReadStream();
-                var uploadParams = new ImageUploadParams
+                var uploadParams = new VideoUploadParams
                 {
                     File = new FileDescription(file.FileName, stream),
                     Transformation = new Transformation().BitRate("128k").AudioCodec("mp3")

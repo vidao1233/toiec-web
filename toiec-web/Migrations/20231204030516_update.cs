@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace toiec_web.Migrations
 {
-    public partial class Create : Migration
+    public partial class update : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,10 +29,10 @@ namespace toiec_web.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    fullname = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    dateOfBirth = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    gender = table.Column<bool>(type: "bit", nullable: true),
-                    mobile = table.Column<bool>(type: "bit", nullable: true),
+                    Fullname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gender = table.Column<bool>(type: "bit", nullable: true),
+                    Mobile = table.Column<bool>(type: "bit", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -63,6 +63,33 @@ namespace toiec_web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentMethods", x => x.idMethod);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ResetPasswords",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OTP = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InsertDateTimeUTC = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ResetPasswords", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TestParts",
+                columns: table => new
+                {
+                    partId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    partName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestParts", x => x.partId);
                 });
 
             migrationBuilder.CreateTable(
@@ -112,7 +139,8 @@ namespace toiec_web.Migrations
                         name: "FK_AdminOfUser",
                         column: x => x.idUser,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,7 +262,8 @@ namespace toiec_web.Migrations
                         name: "FK_ProfessorOfUser",
                         column: x => x.idUser,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -252,7 +281,8 @@ namespace toiec_web.Migrations
                         name: "FK_StudentOfUser",
                         column: x => x.idUser,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -341,6 +371,7 @@ namespace toiec_web.Migrations
                     idTest = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     idType = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     idProfessor = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     createDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     useDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -450,8 +481,7 @@ namespace toiec_web.Migrations
                 {
                     idQuestionUnit = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     idTest = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    numBegin = table.Column<int>(type: "int", nullable: false),
-                    numEnd = table.Column<int>(type: "int", nullable: false),
+                    idTestPart = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     paragraph = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     audio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     image = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -462,7 +492,12 @@ namespace toiec_web.Migrations
                 {
                     table.PrimaryKey("PK_TestQuestionUnits", x => x.idQuestionUnit);
                     table.ForeignKey(
-                        name: "FK_UnitOfTest",
+                        name: "FK_UnitOfTestPart",
+                        column: x => x.idTestPart,
+                        principalTable: "TestParts",
+                        principalColumn: "partId");
+                    table.ForeignKey(
+                        name: "FK_UnitsOfTest",
                         column: x => x.idTest,
                         principalTable: "Tests",
                         principalColumn: "idTest");
@@ -571,7 +606,7 @@ namespace toiec_web.Migrations
                 {
                     idQuestion = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     idQuiz = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    idTest = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    idUnit = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     idProfessor = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     answer = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -591,10 +626,11 @@ namespace toiec_web.Migrations
                         principalTable: "Quizs",
                         principalColumn: "idQuiz");
                     table.ForeignKey(
-                        name: "FK_QuestionsOfTest",
-                        column: x => x.idTest,
-                        principalTable: "Tests",
-                        principalColumn: "idTest");
+                        name: "FK_QuestionsOfUnit",
+                        column: x => x.idUnit,
+                        principalTable: "TestQuestionUnits",
+                        principalColumn: "idQuestionUnit",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -602,6 +638,7 @@ namespace toiec_web.Migrations
                 columns: table => new
                 {
                     idAnswer = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    idQuestion = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QuestionidQuestion = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -647,6 +684,31 @@ namespace toiec_web.Migrations
                         principalTable: "TestRecords",
                         principalColumn: "idRecord",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "5b3496d4-1bbf-47e7-8681-828cf793e293", "1", "Admin", "Admin" },
+                    { "aa5f7353-b0d1-4d62-9e50-840975d64f4b", "3", "VipStudent", "VipStudent" },
+                    { "ba5f7d62-a7f2-401f-89bf-c15af105a7f6", "4", "Professor", "Professor" },
+                    { "c8a9135d-a2c8-4467-8a51-ad73e97de8c6", "2", "Student", "Student" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "TestParts",
+                columns: new[] { "partId", "partName" },
+                values: new object[,]
+                {
+                    { new Guid("1bb1f780-4ebb-4bd2-b77d-a8bd08a6b814"), "Part 7" },
+                    { new Guid("54e3578d-dc58-4cb1-9fc8-b63d4c46799a"), "Part 6" },
+                    { new Guid("582fd57f-bc05-42e8-8671-decf487bb623"), "Part 2" },
+                    { new Guid("5e84d0ce-ee2e-4e62-8bd0-3cafa1b48979"), "Part 4" },
+                    { new Guid("7fd64f89-fb10-46e3-b2fc-95447bc7752e"), "Part 5" },
+                    { new Guid("da35c817-8474-42da-9a7d-d3fb607e1e57"), "Part 3" },
+                    { new Guid("db6a976c-276a-47ac-a013-52ce7bcf9c14"), "Part 1" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -751,9 +813,9 @@ namespace toiec_web.Migrations
                 column: "idQuiz");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Questions_idTest",
+                name: "IX_Questions_idUnit",
                 table: "Questions",
-                column: "idTest");
+                column: "idUnit");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Quizs_idLesson",
@@ -785,6 +847,11 @@ namespace toiec_web.Migrations
                 name: "IX_TestQuestionUnits_idTest",
                 table: "TestQuestionUnits",
                 column: "idTest");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestQuestionUnits_idTestPart",
+                table: "TestQuestionUnits",
+                column: "idTestPart");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TestRecords_idStudent",
@@ -880,7 +947,7 @@ namespace toiec_web.Migrations
                 name: "Reports");
 
             migrationBuilder.DropTable(
-                name: "TestQuestionUnits");
+                name: "ResetPasswords");
 
             migrationBuilder.DropTable(
                 name: "UserAnswers");
@@ -919,7 +986,7 @@ namespace toiec_web.Migrations
                 name: "Quizs");
 
             migrationBuilder.DropTable(
-                name: "Tests");
+                name: "TestQuestionUnits");
 
             migrationBuilder.DropTable(
                 name: "PaymentMethods");
@@ -931,10 +998,16 @@ namespace toiec_web.Migrations
                 name: "Lessons");
 
             migrationBuilder.DropTable(
-                name: "TestTypes");
+                name: "TestParts");
+
+            migrationBuilder.DropTable(
+                name: "Tests");
 
             migrationBuilder.DropTable(
                 name: "Courses");
+
+            migrationBuilder.DropTable(
+                name: "TestTypes");
 
             migrationBuilder.DropTable(
                 name: "Professors");

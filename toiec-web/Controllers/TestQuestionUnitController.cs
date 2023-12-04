@@ -55,7 +55,7 @@ namespace toiec_web.Controllers
 
         [HttpGet]
         [Route("GetAllTestQuestionUnitByPart/{id:guid}")]
-        public async Task<IActionResult> GetAllTestQuestionUnitByPart(int id)
+        public async Task<IActionResult> GetAllTestQuestionUnitByPart(Guid id)
         {
             var unit = await _testQuestionUnitService.GetAllTestQuestionUnitByPart(id);
             if (unit == null)
@@ -70,15 +70,25 @@ namespace toiec_web.Controllers
         public async Task<IActionResult> AddTestQuestionUnit([FromForm]TestQuestionUnitMapModel model)
         {            
             var mapModel = new TestQuestionUnitAddModel();
-            
+
             //map data
             //mapModel.idQuestionUnit = model.idQuestionUnit;
+            mapModel.idTest = model.idTest;
             mapModel.idTestPart = model.idTestPart;
             mapModel.paragraph = model.paragraph;
-            var audio = await _uploadFileService.AddAudioAsync(model.audio);
-            mapModel.audio = audio.Url.ToString();
-            var image = await _uploadFileService.AddFileAsync(model.image);
-            mapModel.image = image.Url.ToString();
+
+            if(model.audio != null)
+            {
+                var audio = await _uploadFileService.AddAudioAsync(model.audio);
+                mapModel.audio = audio.Url.ToString();
+            }           
+            
+            if(model.image != null)
+            {
+                var image = await _uploadFileService.AddFileAsync(model.image);
+                mapModel.image = image.Url.ToString();
+            }
+            
             mapModel.script = model.script;
             mapModel.translation = model.translation;
 
@@ -96,15 +106,22 @@ namespace toiec_web.Controllers
         public async Task<IActionResult> UpdateTestQuestionUnit([FromForm] TestQuestionUnitMapModel model, Guid id)
         {
             var mapModel = new TestQuestionUnitUpdateModel();
-            //chang file to string
-            var audio = await _uploadFileService.AddAudioAsync(model.audio);
-            var image = await _uploadFileService.AddFileAsync(model.image);
             //map data
             //mapModel.idQuestionUnit = model.idQuestionUnit;
+            mapModel.idTest = model.idTest;
             mapModel.idTestPart = model.idTestPart;
             mapModel.paragraph = model.paragraph;
-            mapModel.audio = audio.Url.ToString();
-            mapModel.image = image.Url.ToString();
+            if (model.audio != null)
+            {
+                var audio = await _uploadFileService.AddAudioAsync(model.audio);
+                mapModel.audio = audio.Url.ToString();
+            }
+
+            if (model.image != null)
+            {
+                var image = await _uploadFileService.AddFileAsync(model.image);
+                mapModel.image = image.Url.ToString();
+            }
             mapModel.script = model.script;
             mapModel.translation = model.translation;
 

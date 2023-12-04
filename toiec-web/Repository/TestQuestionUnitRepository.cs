@@ -17,12 +17,12 @@ namespace toiec_web.Repository
             _mapper = mapper;
         }
 
-        public Task<bool> AddTestQuestionUnit(TestQuestionUnitModel model)
+        public  Task<bool> AddTestQuestionUnit(TestQuestionUnitModel model)
         {
             try
             {
                 var unit = _mapper.Map<TestQuestionUnit>(model);
-                unit.idTest = Guid.NewGuid();
+                unit.idQuestionUnit = Guid.NewGuid();
                 Entities.Add(unit);
                 _uow.SaveChanges();
                 return Task.FromResult(true);
@@ -45,7 +45,7 @@ namespace toiec_web.Repository
             return await Task.FromResult(true);
         }
 
-        public async Task<IEnumerable<TestQuestionUnitModel>> GetAllTestQuestionUnitByPart(int partId)
+        public async Task<IEnumerable<TestQuestionUnitModel>> GetAllTestQuestionUnitByPart(Guid partId)
         {
             var listData = new List<TestQuestionUnitModel>();
             var data = await Entities.ToListAsync();

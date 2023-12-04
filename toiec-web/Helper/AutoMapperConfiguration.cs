@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using toiec_web.Data;
 using toiec_web.Models;
 using toiec_web.ViewModels.Course;
 using toiec_web.ViewModels.Lesson;
 using toiec_web.ViewModels.Quiz;
 using toiec_web.ViewModels.Test;
+using toiec_web.ViewModels.TestPart;
 using toiec_web.ViewModels.TestQuestionUnit;
 using toiec_web.ViewModels.TestType;
 using toiec_web.ViewModels.User;
@@ -78,6 +80,26 @@ namespace toiec_web.Helper
 
             #region Payment
             CreateMap<Payment, PaymentModel>().ReverseMap();
+            #endregion
+
+            #region Test
+            CreateMap<Test, TestModel>().ReverseMap();
+            CreateMap<TestModel, TestViewModel>().ReverseMap();
+            CreateMap<TestModel, TestAddModel>().ReverseMap();
+            CreateMap<TestModel, TestUpdateModel>().ReverseMap();
+            #endregion
+
+            #region TestQuestionUnit
+            CreateMap<TestQuestionUnit, TestQuestionUnitModel>().ReverseMap();
+            CreateMap<TestQuestionUnitModel, TestQuestionUnitViewModel>().ReverseMap();
+            CreateMap<TestQuestionUnitModel, TestQuestionUnitAddModel>().ReverseMap();
+            CreateMap<TestQuestionUnitModel, TestQuestionUnitUpdateModel>().ReverseMap();
+            CreateMap<TestQuestionUnitModel, TestQuestionUnitViewModel>().ReverseMap();
+            #endregion
+
+            #region TestPart
+            CreateMap<TestPart, TestPartModel>().ReverseMap();
+            CreateMap<TestPartModel, TestPartViewModel>().ReverseMap();
             #endregion
         }
     }

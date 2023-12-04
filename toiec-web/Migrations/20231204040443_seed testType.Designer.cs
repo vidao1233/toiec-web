@@ -12,8 +12,8 @@ using toiec_web.Models;
 namespace toiec_web.Migrations
 {
     [DbContext(typeof(ToiecDbContext))]
-    [Migration("20231202183626_update-part")]
-    partial class updatepart
+    [Migration("20231204040443_seed testType")]
+    partial class seedtestType
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,28 +53,28 @@ namespace toiec_web.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2b87b86c-7372-4829-b66d-1f9a92f33606",
+                            Id = "03d370ff-a4f1-4dc1-8943-1e7e5f550986",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "1d1715a8-8d54-41df-9e90-8202c57b0526",
+                            Id = "5a4199fb-2238-42a7-b713-bc96be5b05aa",
                             ConcurrencyStamp = "2",
                             Name = "Student",
                             NormalizedName = "Student"
                         },
                         new
                         {
-                            Id = "2b0ac2c4-a567-4bdc-b861-ca9c8d6fd295",
+                            Id = "eb0d5c9f-e0e6-44d5-b4b0-09e14379c8d5",
                             ConcurrencyStamp = "3",
                             Name = "VipStudent",
                             NormalizedName = "VipStudent"
                         },
                         new
                         {
-                            Id = "9a156c66-22c8-419d-8ce5-6e6bf5393e6d",
+                            Id = "bc8b3d09-e5d8-4bbb-8d68-d624db8f91c8",
                             ConcurrencyStamp = "4",
                             Name = "Professor",
                             NormalizedName = "Professor"
@@ -284,11 +284,9 @@ namespace toiec_web.Migrations
 
             modelBuilder.Entity("toiec_web.Data.TestPart", b =>
                 {
-                    b.Property<int>("partId")
+                    b.Property<Guid>("partId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("partId"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("partName")
                         .IsRequired()
@@ -301,37 +299,37 @@ namespace toiec_web.Migrations
                     b.HasData(
                         new
                         {
-                            partId = 1,
+                            partId = new Guid("c15ff8d6-3a57-40de-a196-c697d62fd490"),
                             partName = "Part 1"
                         },
                         new
                         {
-                            partId = 2,
+                            partId = new Guid("ca835428-6ebc-4f65-82f7-d6d17f1954e3"),
                             partName = "Part 2"
                         },
                         new
                         {
-                            partId = 3,
+                            partId = new Guid("c2e10783-0588-4c0a-99b0-d698bde0a070"),
                             partName = "Part 3"
                         },
                         new
                         {
-                            partId = 4,
+                            partId = new Guid("b5450201-44a4-48b7-9773-49c86ded2335"),
                             partName = "Part 4"
                         },
                         new
                         {
-                            partId = 5,
+                            partId = new Guid("b0817960-09d4-445d-a9bf-62a5327c584a"),
                             partName = "Part 5"
                         },
                         new
                         {
-                            partId = 6,
+                            partId = new Guid("dad8b106-b3ff-4b11-8086-c1f05ae5e58d"),
                             partName = "Part 6"
                         },
                         new
                         {
-                            partId = 7,
+                            partId = new Guid("ab205728-050d-4c22-93b6-4171d0dbefe5"),
                             partName = "Part 7"
                         });
                 });
@@ -702,8 +700,8 @@ namespace toiec_web.Migrations
                     b.Property<Guid>("idTest")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("idTestPart")
-                        .HasColumnType("int");
+                    b.Property<Guid>("idTestPart")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("image")
                         .IsRequired()
@@ -770,6 +768,18 @@ namespace toiec_web.Migrations
                     b.HasKey("idTestType");
 
                     b.ToTable("TestTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            idTestType = new Guid("a78210d6-5920-49fe-84d1-467111e86507"),
+                            typeName = "Mini Test"
+                        },
+                        new
+                        {
+                            idTestType = new Guid("6816bbf3-5fc2-436c-a66d-38b0527f300e"),
+                            typeName = "Full Test"
+                        });
                 });
 
             modelBuilder.Entity("toiec_web.Models.UserAnswer", b =>

@@ -33,7 +33,7 @@ namespace toiec_web.Services
             return await _uploadFileRepository.DeleteFileAsync(publicId);
         }
 
-        public async Task<ImageUploadResult> AddAudioAsync(IFormFile file)
+        public async Task<VideoUploadResult> AddAudioAsync(IFormFile file)
         {
             return await _uploadFileRepository.AddAudioAsync(file);
         }
