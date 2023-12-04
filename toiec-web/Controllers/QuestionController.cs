@@ -51,7 +51,7 @@ namespace toiec_web.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllQuestionByUnit/{quizId}")]
+        [Route("GetAllQuestionByUnit/{unitId}")]
         public async Task<IActionResult> GetAllQuestionByUnit(Guid unitId)
         {
             var questionList = await _questionService.GetAllQuestionByUnit(unitId);

@@ -40,6 +40,10 @@ namespace toiec_web.Helper
             CreateMap<Professor, ProfessorModel>().ReverseMap();
             #endregion
 
+            #region Admin
+            CreateMap<Admin, AdminModel>().ReverseMap();    
+            #endregion
+
             #region Lesson
             CreateMap<Lesson, LessonModel>().ReverseMap();
             CreateMap<LessonModel, LessonAddModel>().ReverseMap();

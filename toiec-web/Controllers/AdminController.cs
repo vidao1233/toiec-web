@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using toiec_web.Models;
+using toiec_web.Services;
 using toiec_web.Services.IService;
 using toiec_web.ViewModels.User;
 
@@ -16,10 +17,11 @@ namespace toiec_web.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailService _emailService;
         private readonly IProfessorService _professorService;
+        private readonly IAdminService _adminService;
 
         public AdminController(ToiecDbContext dbContext, UserManager<IdentityUser> userManager,
             IMapper mapper, RoleManager<IdentityRole> roleManager, IEmailService emailService,
-            IProfessorService professorService)
+            IProfessorService professorService, IAdminService adminService)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -27,6 +29,7 @@ namespace toiec_web.Controllers
             _roleManager = roleManager;
             _emailService = emailService;
             _professorService = professorService;
+            _adminService = adminService;
         }
 
         [HttpGet]
@@ -133,7 +136,14 @@ namespace toiec_web.Controllers
                 _emailService.SendEmail(message);
 
                 //create Professor into database
-                _professorService.AddProfessor(user.Id);
+                if (role == "Professor")
+                {
+                    _professorService.AddProfessor(user.Id);
+                }
+                if(role == "Admin")
+                {
+                    _adminService.AddAdmin(user.Id);
+                }
                 await _dbContext.SaveChangesAsync();
 
                 //when success
