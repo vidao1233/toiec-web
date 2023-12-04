@@ -189,13 +189,13 @@ namespace toiec_web.Controllers
 
         [HttpPost]
         [Route("Login-2FA")]
-        public async Task<IActionResult> LoginWithOTP(string code, string username)
+        public async Task<IActionResult> LoginWithOTP(Login2FAModel model)
         {
             //get uset
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userManager.FindByNameAsync(model.Username);
             //enable twofacter
             user.TwoFactorEnabled = true;
-            var signIn = await _signManager.TwoFactorSignInAsync("Email", code, false, false);
+            var signIn = await _signManager.TwoFactorSignInAsync("Email", model.Code, false, false);
             if (signIn.Succeeded)
             {
                 if (user != null)
@@ -263,7 +263,7 @@ namespace toiec_web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword([FromForm] ResetPasswordModel model)
+        public async Task<IActionResult> ForgotPassword(ResetPasswordModel model)
         {
             if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.OTP) || string.IsNullOrEmpty(model.NewPassword))
             {
