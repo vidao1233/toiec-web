@@ -26,6 +26,7 @@ namespace toiec_web.Infrastructure
             services.AddTransient(typeof(ITestQuestionUnitRepository), typeof(TestQuestionUnitRepository));
             services.AddTransient(typeof(IUploadFileRepository), typeof(UploadFileRepository));
             services.AddTransient(typeof(ITestPartRepository), typeof(TestPartRepository));
+            services.AddTransient(typeof(IQuestionRepository), typeof(QuestionRepository));
             return services;
         }
         
@@ -48,6 +49,7 @@ namespace toiec_web.Infrastructure
             services.AddTransient<ITestQuestionUnitService, TestQuestionUnitService>();
             services.AddTransient<IUploadFileService, UploadFileService>();
             services.AddTransient<ITestPartService, TestPartService>();
+            services.AddTransient<IQuestionService, QuestionService>();
             return services;
         }
     }
