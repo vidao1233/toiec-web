@@ -3,6 +3,7 @@ using toiec_web.Data;
 using toiec_web.Models;
 using toiec_web.ViewModels.Course;
 using toiec_web.ViewModels.Lesson;
+using toiec_web.ViewModels.Question;
 using toiec_web.ViewModels.Quiz;
 using toiec_web.ViewModels.Test;
 using toiec_web.ViewModels.TestPart;
@@ -100,6 +101,13 @@ namespace toiec_web.Helper
             #region TestPart
             CreateMap<TestPart, TestPartModel>().ReverseMap();
             CreateMap<TestPartModel, TestPartViewModel>().ReverseMap();
+            #endregion
+
+            #region Question
+            CreateMap<Question, QuestionModel>().ReverseMap();
+            CreateMap<QuestionModel, QuestionViewModel>().ReverseMap();
+            CreateMap<QuestionModel, QuestionAddModel>().ReverseMap();
+            CreateMap<QuestionModel, QuestionUpdateModel>().ReverseMap();
             #endregion
         }
     }
