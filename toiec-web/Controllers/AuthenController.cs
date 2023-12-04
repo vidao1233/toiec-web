@@ -223,7 +223,7 @@ namespace toiec_web.Controllers
                 }
             }
             return StatusCode(StatusCodes.Status404NotFound,
-                new Response { Status = "Success", Message = $"Invalid Code" });
+                new Response { Status = "Error", Message = $"Invalid Code" });
         }
 
         [HttpPost]

@@ -70,11 +70,9 @@ namespace toiec_web.Controllers
         }
 
         [HttpPost]
-        [Route("Register-Professor")]
-        public async Task<IActionResult> Register([FromBody] SignUp signUp)
+        [Route("Register-Professor-Admin")]
+        public async Task<IActionResult> Register([FromBody] SignUp signUp, string role)
         {
-            //default role = Professor
-            string role = "Professor";
 
             //check user if exist
             var userExist = await _userManager.FindByEmailAsync(signUp.Email);
