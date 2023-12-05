@@ -26,7 +26,7 @@ namespace toiec_web.Repository
                 //var student = await _studentRepository.GetStudentByUserId(userId);
                 var payment = _mapper.Map<Payment>(model);
 
-                payment.idPayment = Guid.NewGuid();
+                //payment.idPayment = Guid.NewGuid();
                 Entities.Add(payment);
                 _uow.SaveChanges();
                 return Task.FromResult(true);
@@ -39,12 +39,12 @@ namespace toiec_web.Repository
 
         public async Task<bool> DeletePayment(Guid paymentId)
         {
-            var paymentMethod = GetById(paymentId);
-            if (paymentMethod == null)
+            var payment = GetById(paymentId);
+            if (payment == null)
             {
-                throw new ArgumentNullException(nameof(paymentMethod));
+                throw new ArgumentNullException(nameof(payment));
             }
-            Entities.Remove(paymentMethod);
+            Entities.Remove(payment);
             _uow.SaveChanges();
             return await Task.FromResult(true);
         }
@@ -64,9 +64,16 @@ namespace toiec_web.Repository
             return data;
         }
 
-        public Task<IEnumerable<PaymentModel>> GetAllPayments()
+        public async Task<IEnumerable<PaymentModel>> GetAllPayments()
         {
-            throw new NotImplementedException();
+            IAsyncEnumerable<Payment> payments = Entities.AsAsyncEnumerable();
+            IEnumerable<PaymentModel> data = null;
+            await foreach (var payment in payments)
+            {
+                PaymentModel paymentModel = _mapper.Map<PaymentModel>(payment);
+                data.Append(paymentModel);
+            }
+            return data;
         }
 
         public async Task<PaymentModel> GetPaymentById(Guid paymentId)

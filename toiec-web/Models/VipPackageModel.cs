@@ -1,6 +1,6 @@
 ﻿namespace toiec_web.Models
 {
-    public class VipPackage
+    public class VipPackageModel
     {
         public Guid idPackage { get; set; }
         public Guid idAdmin { get; set; }
@@ -8,7 +8,5 @@
         public string description { get; set; }
         public double price { get; set; }
         public int duration { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; } 
-        public virtual Admin Admin { get; set; }
     }
 }

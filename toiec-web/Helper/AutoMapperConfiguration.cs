@@ -13,6 +13,7 @@ using toiec_web.ViewModels.User;
 using toiec_web.ViewModels.UserAnswer;
 using toiec_web.ViewModels.Vocabulary;
 using toiec_web.ViewModels.VocTopic;
+using toiec_web.ViewModels.VipPackage;
 
 namespace toiec_web.Helper
 {
@@ -113,6 +114,13 @@ namespace toiec_web.Helper
             CreateMap<QuestionModel, QuestionViewModel>().ReverseMap();
             CreateMap<QuestionModel, QuestionAddModel>().ReverseMap();
             CreateMap<QuestionModel, QuestionUpdateModel>().ReverseMap();
+            #endregion
+
+            #region VipPackage
+            CreateMap<VipPackage, VipPackageModel>().ReverseMap();
+            CreateMap<VipPackageModel, VipPackageViewModel>().ReverseMap();
+            CreateMap<VipPackageModel, VipPackageAddModel>().ReverseMap();
+            CreateMap<VipPackageModel, VipPackageUpdateModel>().ReverseMap();
             #endregion
             #region UserAnswer
             CreateMap<UserAnswer, UserAnswerModel>().ReverseMap();
