@@ -39,5 +39,17 @@ namespace toiec_web.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<Guid> GetPartByUnit(Guid partId)
+        {
+            var part = await Entities.FirstOrDefaultAsync(u => u.partId == partId);
+            if (part != null)
+            {
+                var data = _mapper.Map<TestPartModel>(part);
+                return data.partId;
+            }
+
+            return Guid.Empty;
+        }
     }
 }

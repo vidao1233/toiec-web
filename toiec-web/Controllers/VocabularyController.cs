@@ -63,10 +63,10 @@ namespace toiec_web.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateVocabulary/{idTopic:guid}&&{idProfessor:guid}")]
-        public async Task<IActionResult> UpdateVocabulary(VocabularyUpdateModel model, Guid idTopic, string userId)
+        [Route("UpdateVocabulary/{idVoc:guid}&&{userId}")]
+        public async Task<IActionResult> UpdateVocabulary(VocabularyUpdateModel model, Guid idVoc, string userId)
         {
-            var response = await _vocabularyService.UpdateVocabulary(model, idTopic, userId);
+            var response = await _vocabularyService.UpdateVocabulary(model, idVoc, userId);
             if (response == true)
             {
                 return StatusCode(StatusCodes.Status200OK);

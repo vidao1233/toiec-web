@@ -4,6 +4,7 @@ using toiec_web.Repository;
 using toiec_web.Repository.IRepository;
 using toiec_web.Services.IService;
 using toiec_web.ViewModels.Course;
+using toiec_web.ViewModels.DoTest;
 using toiec_web.ViewModels.Question;
 
 namespace toiec_web.Services
@@ -89,6 +90,11 @@ namespace toiec_web.Services
                 }
             }
             return listData;
+        }
+
+        public async Task<IEnumerable<DoTestViewModel>> GetDoTest(Guid testId)
+        {
+            return await _questionRepository.GetDoTest(testId);
         }
 
         public async Task<QuestionViewModel> GetQuestionById(Guid questionId)

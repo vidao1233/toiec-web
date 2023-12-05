@@ -9,6 +9,10 @@
         public string content { get; set; }
         public string answer { get; set; }
         public string explaination { get; set; }
+        public string choice_1 {get; set; }
+        public string choice_2 { get; set; }
+        public string choice_3 { get; set; }
+        public string choice_4 { get; set; }
         public virtual Quiz Quiz { get; set; }
         public virtual TestQuestionUnit TestQuestionUnit { get; set; }
         public virtual ICollection<UserAnswer> UserAnswers { get; set; }

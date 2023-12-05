@@ -38,6 +38,7 @@ namespace toiec_web.Models
         public virtual DbSet<Vocabulary> Vocabularies { get; set;}
         public virtual DbSet<VocTopic> VocabularyTopics { get; set; }
         public virtual DbSet<ResetPassword> ResetPasswords { get; set; }
+        public virtual DbSet<ScoreParam> ScoreParams { get; set; }
 
         #endregion
 
@@ -283,6 +284,10 @@ namespace toiec_web.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TopicOfProfessor");
             });
+            modelBuilder.Entity<ScoreParam>(entity =>
+            {
+                entity.HasKey(s => s.correctAnswers);
+            });
 
             #endregion
 
@@ -292,10 +297,10 @@ namespace toiec_web.Models
         {
             builder.Entity<IdentityRole>().HasData
                 (
-                new IdentityRole() { Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
-                new IdentityRole() { Name = "Student", ConcurrencyStamp = "2", NormalizedName = "Student" },
-                new IdentityRole() { Name = "VipStudent", ConcurrencyStamp = "3", NormalizedName = "VipStudent" },
-                new IdentityRole() { Name = "Professor", ConcurrencyStamp = "4", NormalizedName = "Professor" }
+                new IdentityRole() { Id = "8111cfd6-214a-4694-a13c-c6ec3d7f56b2", Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
+                new IdentityRole() { Id = "1257b8ad-564a-456f-81a1-d38f180ddd63", Name = "Student", ConcurrencyStamp = "2", NormalizedName = "Student" },
+                new IdentityRole() { Id = "35564c0c-f6fc-4ce5-ad98-f3c362e90ed1", Name = "VipStudent", ConcurrencyStamp = "3", NormalizedName = "VipStudent" },
+                new IdentityRole() { Id = "9faf18a9-5a41-4b13-9db3-63246839aea9", Name = "Professor", ConcurrencyStamp = "4", NormalizedName = "Professor" }
                 );
             builder.Entity<TestPart>().HasData
                 (

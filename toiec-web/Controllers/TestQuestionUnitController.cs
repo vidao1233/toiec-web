@@ -67,7 +67,7 @@ namespace toiec_web.Controllers
 
         [HttpPost]
         [Route("AddTestQuestionUnit")]
-        public async Task<IActionResult> AddTestQuestionUnit([FromForm]TestQuestionUnitMapModel model)
+        public async Task<IActionResult> AddTestQuestionUnit([FromBody]TestQuestionUnitMapModel model)
         {            
             var mapModel = new TestQuestionUnitAddModel();
 
@@ -103,7 +103,7 @@ namespace toiec_web.Controllers
 
         [HttpPut]
         [Route("UpdateTestQuestionUnit/{id:guid}")]
-        public async Task<IActionResult> UpdateTestQuestionUnit([FromForm] TestQuestionUnitMapModel model, Guid id)
+        public async Task<IActionResult> UpdateTestQuestionUnit([FromBody] TestQuestionUnitMapModel model, Guid id)
         {
             var mapModel = new TestQuestionUnitUpdateModel();
             //map data
