@@ -52,8 +52,8 @@ namespace toiec_web.Infrastructure
             services.AddTransient<IUploadFileService, UploadFileService>();
             services.AddTransient<ITestPartService, TestPartService>();
             services.AddTransient<IQuestionService, QuestionService>();
-            services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IVipPackageService, VipPackageService>();
+            services.AddTransient<IAdminService, AdminService>();
             return services;
         }
     }
