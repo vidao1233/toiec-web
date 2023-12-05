@@ -10,6 +10,7 @@ using toiec_web.ViewModels.TestPart;
 using toiec_web.ViewModels.TestQuestionUnit;
 using toiec_web.ViewModels.TestType;
 using toiec_web.ViewModels.User;
+using toiec_web.ViewModels.UserAnswer;
 using toiec_web.ViewModels.Vocabulary;
 using toiec_web.ViewModels.VocTopic;
 
@@ -113,6 +114,11 @@ namespace toiec_web.Helper
             CreateMap<QuestionModel, QuestionAddModel>().ReverseMap();
             CreateMap<QuestionModel, QuestionUpdateModel>().ReverseMap();
             #endregion
+            #region UserAnswer
+            CreateMap<UserAnswer, UserAnswerModel>().ReverseMap();
+            CreateMap<UserAnswerModel, UserAnswerAddModel>().ReverseMap();
+            #endregion
+
         }
     }
 }

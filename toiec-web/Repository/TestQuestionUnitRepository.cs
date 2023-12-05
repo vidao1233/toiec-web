@@ -94,11 +94,23 @@ namespace toiec_web.Repository
             {
                 if (unit.idQuestionUnit == unitId)
                 {
-                    TestQuestionUnitModel data = _mapper.Map<TestQuestionUnitModel>(unit);
+                    var data = _mapper.Map<TestQuestionUnitModel>(unit);
                     return data;
                 }
             }
             return null;
+        }
+
+        public async Task<Guid> GetTestQuestionUnitByQuestion(Guid unitId)
+        {
+            var unit = await Entities.FirstOrDefaultAsync(u => u.idQuestionUnit == unitId);
+            if (unit != null)
+            {
+                var data = _mapper.Map<TestQuestionUnitModel>(unit);
+                return data.idQuestionUnit;
+            }
+
+            return Guid.Empty;
         }
 
         public Task<bool> UpdateTestQuestionUnit(TestQuestionUnitModel model, Guid unitId)

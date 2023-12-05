@@ -64,7 +64,7 @@ namespace toiec_web.Controllers
 
         [HttpPut]
         [Route("UpdateLesson/{id:guid}")]
-        public async Task<IActionResult> UpdateLesson([FromForm] LessonUpdateModel model, Guid id)
+        public async Task<IActionResult> UpdateLesson([FromBody] LessonUpdateModel model, Guid id)
         {
             var response = await _lessonService.UpdateLesson(model, id);
             if (response == true)

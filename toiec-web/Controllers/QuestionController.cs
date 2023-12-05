@@ -74,6 +74,18 @@ namespace toiec_web.Controllers
             return Ok(questionList);
         }
 
+        [HttpGet]
+        [Route("GetDoTest/{testId}")]
+        public async Task<IActionResult> GetAllQuestionByProfessor(Guid testId)
+        {
+            var doTest = await _questionService.GetDoTest(testId);
+            if (doTest == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            return Ok(doTest);
+        }
+
         [HttpPost]
         [Route("AddQuestion/{userId}")]
         public async Task<IActionResult> AddQuestion(QuestionAddModel model, string userId)
@@ -89,10 +101,10 @@ namespace toiec_web.Controllers
 
         [HttpPut]
         [Route("UpdateCourse/{questionId:guid}&&{userId}")]
-        public async Task<IActionResult> UpdateCourse([FromForm] QuestionUpdateModel model, Guid questionId, string userId)
+        public async Task<IActionResult> UpdateCourse([FromBody] QuestionUpdateModel model, Guid questionId, string userId)
         {
             var response = await _questionService.UpdateQuestion(model, questionId, userId);
-            if (response == true)
+            if (response)
             {
                 return StatusCode(StatusCodes.Status200OK);
             }
