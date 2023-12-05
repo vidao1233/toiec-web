@@ -15,14 +15,17 @@ namespace toiec_web.Services
         private readonly IOptions<MomoOptionModel> _options;
         private readonly IPaymentRepository _paymentRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly IVipPackageRepository _vipPackageRepository;
 
         public PaymentService(IPaymentRepository paymentRepository, IStudentRepository studentRepository,
+            IVipPackageRepository vipPackageRepository,
             IMapper mapper, IOptions<MomoOptionModel> options)
         {
             _paymentRepository = paymentRepository;
             _mapper = mapper;
             _options = options;
             _studentRepository = studentRepository;
+            _vipPackageRepository = vipPackageRepository;
         }
         public async Task<bool> AddPayment(PaymentModel model)
         {
@@ -48,12 +51,13 @@ namespace toiec_web.Services
         {
             string orderId = DateTime.UtcNow.Ticks.ToString();
             var student = await _studentRepository.GetStudentByUserId(model.UserId.ToString());
+            var vipPackage = await _vipPackageRepository.GetVipPackageById(model.IdPackage);
             var rawData =
                 $"partnerCode={_options.Value.PartnerCode}" +
                 $"&accessKey={_options.Value.AccessKey}" +
-                $"&requestId={orderId}&amount={model.Amount}" +
+                $"&requestId={orderId}&amount={vipPackage.price.ToString()}" +
                 $"&orderId={orderId}" +
-                $"&orderInfo={model.PaymentInfo}" +
+                $"&orderInfo={model.IdPackage}" +
                 $"&returnUrl={_options.Value.ReturnUrl}" +
                 $"&notifyUrl={_options.Value.NotifyUrl}" +
                 $"&extraData={student.idStudent}";
@@ -74,8 +78,8 @@ namespace toiec_web.Services
                 notifyUrl = _options.Value.NotifyUrl,
                 returnUrl = _options.Value.ReturnUrl,
                 orderId = orderId,
-                amount = model.Amount.ToString(),
-                orderInfo = model.PaymentInfo,
+                amount = vipPackage.price.ToString(),
+                orderInfo = model.IdPackage,
                 requestId = orderId,
                 extraData = student.idStudent,
                 signature = signature
@@ -92,34 +96,37 @@ namespace toiec_web.Services
         public async Task<MomoExecuteResponseModel> MoMoPaymentExecuteAsync(IQueryCollection collection, Guid paymentMethodId)
         {
             var amount = collection.First(s => s.Key == "amount").Value;
-            var orderInfo = collection.First(s => s.Key == "orderInfo").Value;
-            var orderId = collection.First(s => s.Key == "orderId").Value;
-            var extraData = collection.First(s => s.Key == "extraData").Value;
-            var message = collection.First(s => s.Key == "message").Value;
-            var errorCode = collection.First(s => s.Key == "errorCode").Value;
-            Guid studentId = Guid.Parse(extraData);
-            Console.WriteLine("check: ------------"+paymentMethodId);
+                var orderInfo = collection.First(s => s.Key == "orderInfo").Value;
+                var orderId = collection.First(s => s.Key == "orderId").Value;
+                var extraData = collection.First(s => s.Key == "extraData").Value.ToString();
+                var message = collection.First(s => s.Key == "message").Value;
+                var errorCode = collection.First(s => s.Key == "errorCode").Value;
+                Guid studentId = Guid.Parse(extraData);
+                Guid idPackage = Guid.Parse(orderInfo);
+            Console.WriteLine(studentId);
+            Console.WriteLine(idPackage);
             PaymentModel payment = new PaymentModel()
-            {
-                idPayment = Guid.NewGuid(),
-                idMethod = paymentMethodId,
-                idStudent = studentId,
-                message = message,
-                paymentDate = DateTime.Now,
-                paymentAmount = Double.Parse(amount),
-            };
-            if (errorCode == "42")
-            {
-                return new MomoExecuteResponseModel()
                 {
-                    StudentId = studentId,
-                    Amount = amount,
-                    Message = "Thanh toán không thành công, giao dịch bị hủy!",
-                    PaymentInfo = orderInfo,
+                    idPayment = Guid.NewGuid(),
+                    idMethod = paymentMethodId,
+                    idStudent = studentId,
+                    idPackage = idPackage,
+                    message = message,
+                    paymentDate = DateTime.Now,
+                    paymentAmount = Double.Parse(amount),
                 };
-            }
-            if (errorCode == "0")
-                if (await _paymentRepository.AddPayment(payment) == true)
+                if (errorCode == "42")
+                {
+                    return new MomoExecuteResponseModel()
+                    {
+                        StudentId = studentId,
+                        Amount = amount,
+                        Message = "Thanh toán không thành công, giao dịch bị hủy!",
+                        PaymentInfo = orderInfo,
+                    };
+                }
+                if (errorCode == "0")
+                    if (await _paymentRepository.AddPayment(payment) == true)
                     {
                         return new MomoExecuteResponseModel()
                         {
@@ -129,7 +136,7 @@ namespace toiec_web.Services
                             PaymentInfo = orderInfo,
                         };
                     }
-            return null;
+                return null;    
         }
     }
 }
