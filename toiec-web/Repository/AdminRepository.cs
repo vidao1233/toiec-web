@@ -15,7 +15,21 @@ namespace toiec_web.Repository
             _uow = uow;
             _mapper = mapper;
         }
-
+        public Task<bool> AddAdmin(AdminModel model)
+        {
+            try
+            {
+                var admin = _mapper.Map<Admin>(model);
+                admin.idAdmin = Guid.NewGuid();
+                Entities.Add(admin);
+                _uow.SaveChanges();
+                return Task.FromResult(true);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public async Task<AdminModel> GetAdminByUserId(string userId)
         {
             var Admin = await Entities.FirstOrDefaultAsync(stu => stu.idUser == userId);
