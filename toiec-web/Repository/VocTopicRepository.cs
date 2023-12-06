@@ -56,13 +56,14 @@ namespace toiec_web.Repository
         public async Task<IEnumerable<VocTopicModel>> GetAllVocTopics()
         {
             var listData = new List<VocTopicModel>();
-            var data = await Entities.ToListAsync();
-            foreach ( var item in data)
+            var data = await Entities.OrderBy(item => item.name).ToListAsync();
+            foreach (var item in data)
             {
                 var obj = _mapper.Map<VocTopicModel>(item);
                 listData.Add(obj);
             }
             return listData;
+
         }
 
         public async Task<VocTopicModel> GetVocTopicById(Guid topicId)
