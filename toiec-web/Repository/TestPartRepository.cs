@@ -22,7 +22,7 @@ namespace toiec_web.Repository
         {
             try
             {
-                var data = await Entities.ToListAsync();
+                var data = await Entities.OrderBy(tp => tp.partName).ToListAsync();
 
                 var listData = new List<TestPartModel>();
                 

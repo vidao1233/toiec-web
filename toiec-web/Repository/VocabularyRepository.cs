@@ -56,7 +56,7 @@ namespace toiec_web.Repository
         public async Task<IEnumerable<VocabularyModel>> GetAllVocabularies()
         {
             var listData = new List<VocabularyModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(v => v.engWord).ToListAsync();
             foreach (var item in data)
             {
                 var obj = _mapper.Map<VocabularyModel>(item);
@@ -68,7 +68,7 @@ namespace toiec_web.Repository
         public async Task<IEnumerable<VocabularyModel>> GetAllVocabularyByTopic(Guid topicId)
         {
             var listData = new List<VocabularyModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(v => v.engWord).ToListAsync();
             foreach(var item in data)
             {
                 if(item.idTopic == topicId)

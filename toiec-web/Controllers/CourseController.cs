@@ -5,6 +5,7 @@ using toiec_web.ViewModels.Course;
 
 namespace toiec_web.Controllers
 {
+    
     public class CourseController : BaseAPIController
     {
         private readonly ICourseService _courseService;
@@ -13,7 +14,7 @@ namespace toiec_web.Controllers
         {
             _courseService = courseService; 
         }
-        //[Authorize]
+        
         [HttpGet]
         [Route("GetAllCourses")]
         public async Task<IActionResult> GetAllCourses()
@@ -38,6 +39,7 @@ namespace toiec_web.Controllers
             return Ok(course);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPost]
         [Route("AddCourse")]
         public async Task<IActionResult> AddCourse(CourseAddModel model)
@@ -51,6 +53,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPut]
         [Route("UpdateCourse/{id:guid}")]
         public async Task<IActionResult> UpdateCourse([FromBody]CourseUpdateModel model, Guid id)
@@ -64,6 +67,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpDelete]
         [Route("DeleteCourse/{id:guid}")]
         public async Task<IActionResult> DeleteCourse(Guid id)

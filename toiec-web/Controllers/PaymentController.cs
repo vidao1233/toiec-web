@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using toiec_web.Models;
 using toiec_web.Services;
 using toiec_web.Services.IService;
@@ -6,6 +7,7 @@ using toiec_web.ViewModels.Payment;
 
 namespace toiec_web.Controllers
 {
+    [Authorize]
     public class PaymentController : BaseAPIController
     {
         private readonly IPaymentService _paymentService;

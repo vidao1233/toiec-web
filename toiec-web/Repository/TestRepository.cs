@@ -62,7 +62,7 @@ namespace toiec_web.Repository
             var professor = await _professorRepository.GetProfessorByUserId(userId);
 
             var listData = new List<TestModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(t => t.name).ToListAsync();
             foreach (var item in data)
             {
                 if (item.idProfessor == professor.idProfessor)
@@ -80,7 +80,7 @@ namespace toiec_web.Repository
             var type = await _testTypeRepository.GetTestTypeByTypeName(typeName);
 
             var listData = new List<TestModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(t => t.name).ToListAsync();
             foreach (var item in data)
             {
                 if(item.idType == type.idTestType)
@@ -95,7 +95,7 @@ namespace toiec_web.Repository
         public async Task<IEnumerable<TestModel>> GetAllTests()
         {
             var listData = new List<TestModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(t => t.name).ToListAsync();
             foreach (var item in data)
             {
                 var obj = _mapper.Map<TestModel>(item);
