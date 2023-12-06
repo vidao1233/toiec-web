@@ -54,10 +54,10 @@ namespace toiec_web.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllTestQuestionUnitByPart/{id:guid}")]
-        public async Task<IActionResult> GetAllTestQuestionUnitByPart(Guid id)
+        [Route("GetAllTestQuestionUnitByPart/{partId:guid}&&{testId:guid}")]
+        public async Task<IActionResult> GetAllTestQuestionUnitByPart(Guid partId, Guid testId)
         {
-            var unit = await _testQuestionUnitService.GetAllTestQuestionUnitByPart(id);
+            var unit = await _testQuestionUnitService.GetAllTestQuestionUnitByPart(partId, testId);
             if (unit == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound);
@@ -67,7 +67,7 @@ namespace toiec_web.Controllers
 
         [HttpPost]
         [Route("AddTestQuestionUnit")]
-        public async Task<IActionResult> AddTestQuestionUnit([FromBody]TestQuestionUnitMapModel model)
+        public async Task<IActionResult> AddTestQuestionUnit([FromForm]TestQuestionUnitMapModel model)
         {            
             var mapModel = new TestQuestionUnitAddModel();
 
@@ -103,7 +103,7 @@ namespace toiec_web.Controllers
 
         [HttpPut]
         [Route("UpdateTestQuestionUnit/{id:guid}")]
-        public async Task<IActionResult> UpdateTestQuestionUnit([FromBody] TestQuestionUnitMapModel model, Guid id)
+        public async Task<IActionResult> UpdateTestQuestionUnit([FromForm] TestQuestionUnitMapModel model, Guid id)
         {
             var mapModel = new TestQuestionUnitUpdateModel();
             //map data

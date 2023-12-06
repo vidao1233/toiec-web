@@ -129,10 +129,12 @@ namespace toiec_web.Models
                 entity.HasKey(s => s.idQuestion);
                 entity.HasOne(s => s.Quiz).WithMany(s => s.Questions)
                     .HasForeignKey(s => s.idQuiz)
+                    .IsRequired(false)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_QuestionsOfQuiz");
                 entity.HasOne(s => s.TestQuestionUnit).WithMany(s => s.Questions)
                     .HasForeignKey(s => s.idUnit)
+                    .IsRequired(false)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_QuestionsOfUnit");
                 entity.HasOne(s => s.Professor).WithMany(s => s.Questions)

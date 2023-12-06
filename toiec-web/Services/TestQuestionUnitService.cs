@@ -29,9 +29,9 @@ namespace toiec_web.Services
             return await _testQuestionUnitRepository.DeleteTestQuestionUnit(unitId);
         }
 
-        public async Task<IEnumerable<TestQuestionUnitViewModel>> GetAllTestQuestionUnitByPart(Guid partId)
+        public async Task<IEnumerable<TestQuestionUnitViewModel>> GetAllTestQuestionUnitByPart(Guid partId, Guid testId)
         {
-            var data = await _testQuestionUnitRepository.GetAllTestQuestionUnitByPart(partId);
+            var data = await _testQuestionUnitRepository.GetAllTestQuestionUnitByPart(partId, testId);
             List<TestQuestionUnitViewModel> listData = new List<TestQuestionUnitViewModel>();
             if (data != null)
             {

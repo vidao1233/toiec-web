@@ -30,7 +30,9 @@ namespace toiec_web.Infrastructure
             services.AddTransient(typeof(IVipPackageRepository), typeof(VipPackageRepository));
             services.AddTransient(typeof(IAdminRepository), typeof(AdminRepository));
             services.AddTransient(typeof(IUserAnswerRepository), typeof(UserAnswerRepository));
+            services.AddTransient(typeof(IRecordRepository), typeof(RecordRepository));
             return services;
+
         }
         
         public static IServiceCollection AddService(this IServiceCollection services)
@@ -38,6 +40,7 @@ namespace toiec_web.Infrastructure
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<IUserService, UserService>();
             services.AddScoped<UserService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddTransient<IStudentService, StudentService>();
             services.AddTransient<IProfessorService, ProfessorService>();

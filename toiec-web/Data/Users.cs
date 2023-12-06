@@ -7,7 +7,7 @@ namespace toiec_web.Models
         public string? Fullname { get; set; }
         public string? DateOfBirth { get; set; }
         public bool Gender { get; set; }
-        public bool Mobile { get; set; }
+        public string ImageURL { get; set; }
         public virtual Student Student { get; set; }
         public virtual Admin Admin { get; set; }
         public virtual Professor Professor { get; set; }

@@ -45,10 +45,10 @@ namespace toiec_web.Repository
             return await Task.FromResult(true);
         }
 
-        public async Task<IEnumerable<TestQuestionUnitModel>> GetAllTestQuestionUnitByPart(Guid partId)
+        public async Task<IEnumerable<TestQuestionUnitModel>> GetAllTestQuestionUnitByPart(Guid partId, Guid testId)
         {
             var listData = new List<TestQuestionUnitModel>();
-            var data = await Entities.ToListAsync();
+            var data = await GetAllTestQuestionUnitByTest(testId);
             foreach (var item in data)
             {
                 if (item.idTestPart == partId)

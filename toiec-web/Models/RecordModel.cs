@@ -1,6 +1,6 @@
 ﻿namespace toiec_web.Models
 {
-    public class TestRecord
+    public class RecordModel
     {
         public Guid idRecord { get; set; }
         public Guid idTest { get; set; }
@@ -13,8 +13,5 @@
         public int correctAns { get; set; }
         public int wrongAns { get; set; }
         public int totalScore { get; set; }
-        public virtual Test Test { get; set; }
-        public virtual ICollection<UserAnswer> UserAnswers { get; set; }
-        public virtual Student Student { get; set; }
     }
 }

@@ -122,10 +122,13 @@ namespace toiec_web.Helper
             CreateMap<VipPackageModel, VipPackageAddModel>().ReverseMap();
             CreateMap<VipPackageModel, VipPackageUpdateModel>().ReverseMap();
             #endregion
+
             #region UserAnswer
             CreateMap<UserAnswer, UserAnswerModel>().ReverseMap();
             CreateMap<UserAnswerModel, UserAnswerAddModel>().ReverseMap();
             #endregion
+
+
 
         }
     }

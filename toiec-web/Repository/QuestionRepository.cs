@@ -16,7 +16,8 @@ namespace toiec_web.Repository
         private readonly ITestQuestionUnitRepository _testQuestionUnitRepository;
 
         public QuestionRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper
-            , IProfessorRepository professorRepository, ITestQuestionUnitRepository testQuestionUnitRepository) : base(dbContext)
+            , IProfessorRepository professorRepository, ITestQuestionUnitRepository testQuestionUnitRepository) 
+            : base(dbContext)
         {
             _uow = uow;
             _mapper = mapper;

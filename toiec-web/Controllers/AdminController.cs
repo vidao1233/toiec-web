@@ -12,14 +12,14 @@ namespace toiec_web.Controllers
     public class AdminController : BaseAPIController
     {
         private readonly ToiecDbContext _dbContext;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Users> _userManager;
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailService _emailService;
         private readonly IProfessorService _professorService;
         private readonly IAdminService _adminService;
 
-        public AdminController(ToiecDbContext dbContext, UserManager<IdentityUser> userManager,
+        public AdminController(ToiecDbContext dbContext, UserManager<Users> userManager,
             IMapper mapper, RoleManager<IdentityRole> roleManager, IEmailService emailService,
             IProfessorService professorService, IAdminService adminService)
         {

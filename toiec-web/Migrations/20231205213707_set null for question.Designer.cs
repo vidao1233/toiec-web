@@ -12,8 +12,8 @@ using toiec_web.Models;
 namespace toiec_web.Migrations
 {
     [DbContext(typeof(ToiecDbContext))]
-    [Migration("20231205174637_update-question")]
-    partial class updatequestion
+    [Migration("20231205213707_set null for question")]
+    partial class setnullforquestion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,28 +53,28 @@ namespace toiec_web.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "17ce9d1c-14cf-4c8a-80dc-b71f5946aff8",
+                            Id = "8111cfd6-214a-4694-a13c-c6ec3d7f56b2",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "30e5c402-989b-434a-82a8-8f12a2826ad5",
+                            Id = "1257b8ad-564a-456f-81a1-d38f180ddd63",
                             ConcurrencyStamp = "2",
                             Name = "Student",
                             NormalizedName = "Student"
                         },
                         new
                         {
-                            Id = "682d2a5b-c304-4b21-b0ce-92397073b52e",
+                            Id = "35564c0c-f6fc-4ce5-ad98-f3c362e90ed1",
                             ConcurrencyStamp = "3",
                             Name = "VipStudent",
                             NormalizedName = "VipStudent"
                         },
                         new
                         {
-                            Id = "eaed06c9-d8a6-4c85-b8b5-7ac9babe7c3e",
+                            Id = "9faf18a9-5a41-4b13-9db3-63246839aea9",
                             ConcurrencyStamp = "4",
                             Name = "Professor",
                             NormalizedName = "Professor"
@@ -318,37 +318,37 @@ namespace toiec_web.Migrations
                     b.HasData(
                         new
                         {
-                            partId = new Guid("3be148f4-62d8-4b88-b6df-230f6598ee79"),
+                            partId = new Guid("f60cb081-7d58-4596-a453-6dc907341fb4"),
                             partName = "Part 1"
                         },
                         new
                         {
-                            partId = new Guid("023cf62c-f12a-45c1-9f2c-7c3ce6b21a70"),
+                            partId = new Guid("38fbc195-cdba-411a-b232-abd5e27adaad"),
                             partName = "Part 2"
                         },
                         new
                         {
-                            partId = new Guid("ed748fc1-a425-4fdd-9912-ba805a685260"),
+                            partId = new Guid("21481619-81e6-4b63-ac64-2459a51a65d9"),
                             partName = "Part 3"
                         },
                         new
                         {
-                            partId = new Guid("e8cd92b9-ef77-4b64-96b9-eb138fdd31ed"),
+                            partId = new Guid("a1e3cda7-22bd-4ec9-875c-6a004ddec4b3"),
                             partName = "Part 4"
                         },
                         new
                         {
-                            partId = new Guid("cd3b856d-a15d-4c11-a594-70f1559ebb82"),
+                            partId = new Guid("d79c8eb4-6882-429d-8489-35447604cd5c"),
                             partName = "Part 5"
                         },
                         new
                         {
-                            partId = new Guid("d081b26c-e674-4c8f-b21b-7f39ab4f8064"),
+                            partId = new Guid("c0c08fa9-8ad7-43a7-8bc2-878dc8b1da10"),
                             partName = "Part 6"
                         },
                         new
                         {
-                            partId = new Guid("93689b6d-d408-4289-bfdb-1e3559c99734"),
+                            partId = new Guid("dd3ee4d3-8211-4da8-ad09-2d13a1cc4319"),
                             partName = "Part 7"
                         });
                 });
@@ -601,10 +601,10 @@ namespace toiec_web.Migrations
                     b.Property<Guid>("idProfessor")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("idQuiz")
+                    b.Property<Guid?>("idQuiz")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("idUnit")
+                    b.Property<Guid?>("idUnit")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("idQuestion");
@@ -807,12 +807,12 @@ namespace toiec_web.Migrations
                     b.HasData(
                         new
                         {
-                            idTestType = new Guid("43df5b91-ad0c-4eac-ad75-983e86d48f17"),
+                            idTestType = new Guid("db936649-0502-4505-be4c-2ed2cae1a268"),
                             typeName = "Mini Test"
                         },
                         new
                         {
-                            idTestType = new Guid("edaa579e-e5cc-477b-8c1c-180a30d381b3"),
+                            idTestType = new Guid("47d0a6a5-0f39-4c1d-84bc-ed10fbc6e4b7"),
                             typeName = "Full Test"
                         });
                 });
@@ -860,8 +860,8 @@ namespace toiec_web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("duration")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("duration")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("idAdmin")
                         .HasColumnType("uniqueidentifier");
@@ -966,8 +966,9 @@ namespace toiec_web.Migrations
                     b.Property<bool>("Gender")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Mobile")
-                        .HasColumnType("bit");
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("Users");
                 });
@@ -1156,14 +1157,12 @@ namespace toiec_web.Migrations
                     b.HasOne("toiec_web.Models.Quiz", "Quiz")
                         .WithMany("Questions")
                         .HasForeignKey("idQuiz")
-                        .IsRequired()
                         .HasConstraintName("FK_QuestionsOfQuiz");
 
                     b.HasOne("toiec_web.Models.TestQuestionUnit", "TestQuestionUnit")
                         .WithMany("Questions")
                         .HasForeignKey("idUnit")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_QuestionsOfUnit");
 
                     b.Navigation("Professor");
