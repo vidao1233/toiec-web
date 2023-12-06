@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using toiec_web.Services.IService;
 using toiec_web.ViewModels.Vocabulary;
 
@@ -49,6 +50,7 @@ namespace toiec_web.Controllers
             return Ok(voc);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPost]
         [Route("AddVocabulary")]
         public async Task<IActionResult> AddVocabulary(VocabularyAddModel model, string userId)
@@ -62,11 +64,12 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPut]
-        [Route("UpdateVocabulary/{idTopic:guid}&&{idProfessor:guid}")]
-        public async Task<IActionResult> UpdateVocabulary(VocabularyUpdateModel model, Guid idTopic, string userId)
+        [Route("UpdateVocabulary/{idVoc:guid}&&{userId}")]
+        public async Task<IActionResult> UpdateVocabulary(VocabularyUpdateModel model, Guid idVoc, string userId)
         {
-            var response = await _vocabularyService.UpdateVocabulary(model, idTopic, userId);
+            var response = await _vocabularyService.UpdateVocabulary(model, idVoc, userId);
             if (response == true)
             {
                 return StatusCode(StatusCodes.Status200OK);
@@ -75,6 +78,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpDelete]
         [Route("DeleteVocabulary/{id:guid}")]
         public async Task<IActionResult> DeleteVocabulary(Guid id)

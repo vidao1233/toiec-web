@@ -45,10 +45,10 @@ namespace toiec_web.Repository
             return await Task.FromResult(true);
         }
 
-        public async Task<IEnumerable<TestQuestionUnitModel>> GetAllTestQuestionUnitByPart(Guid partId)
+        public async Task<IEnumerable<TestQuestionUnitModel>> GetAllTestQuestionUnitByPart(Guid partId, Guid testId)
         {
             var listData = new List<TestQuestionUnitModel>();
-            var data = await Entities.ToListAsync();
+            var data = await GetAllTestQuestionUnitByTest(testId);
             foreach (var item in data)
             {
                 if (item.idTestPart == partId)
@@ -94,11 +94,23 @@ namespace toiec_web.Repository
             {
                 if (unit.idQuestionUnit == unitId)
                 {
-                    TestQuestionUnitModel data = _mapper.Map<TestQuestionUnitModel>(unit);
+                    var data = _mapper.Map<TestQuestionUnitModel>(unit);
                     return data;
                 }
             }
             return null;
+        }
+
+        public async Task<Guid> GetTestQuestionUnitByQuestion(Guid unitId)
+        {
+            var unit = await Entities.FirstOrDefaultAsync(u => u.idQuestionUnit == unitId);
+            if (unit != null)
+            {
+                var data = _mapper.Map<TestQuestionUnitModel>(unit);
+                return data.idQuestionUnit;
+            }
+
+            return Guid.Empty;
         }
 
         public Task<bool> UpdateTestQuestionUnit(TestQuestionUnitModel model, Guid unitId)

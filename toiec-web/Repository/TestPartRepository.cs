@@ -22,7 +22,7 @@ namespace toiec_web.Repository
         {
             try
             {
-                var data = await Entities.ToListAsync();
+                var data = await Entities.OrderBy(tp => tp.partName).ToListAsync();
 
                 var listData = new List<TestPartModel>();
                 
@@ -38,6 +38,18 @@ namespace toiec_web.Repository
                 Console.WriteLine(ex.Message );
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<Guid> GetPartByUnit(Guid partId)
+        {
+            var part = await Entities.FirstOrDefaultAsync(u => u.partId == partId);
+            if (part != null)
+            {
+                var data = _mapper.Map<TestPartModel>(part);
+                return data.partId;
+            }
+
+            return Guid.Empty;
         }
     }
 }

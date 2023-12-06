@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using toiec_web.Services.IService;
 using toiec_web.ViewModels.VocTopic;
 
@@ -37,6 +38,7 @@ namespace toiec_web.Controllers
             return Ok(topic);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPost]
         [Route("AddVocTopic")]
         public async Task<IActionResult> AddVocTopic(VocTopicAddModel model, string userId)
@@ -50,6 +52,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPut]
         [Route("UpdateVocTopic/{idTopic:guid}&&{userId}")]
         public async Task<IActionResult> UpdateVocTopic(VocTopicUpdateModel model, Guid idTopic, string userId)
@@ -63,6 +66,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpDelete]
         [Route("DeleteVocTopic/{id:guid}")]
         public async Task<IActionResult> DeleteVocTopic(Guid id)

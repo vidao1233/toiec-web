@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using toiec_web.Services;
 using toiec_web.Services.IService;
 using toiec_web.ViewModels.TestType;
@@ -39,6 +40,7 @@ namespace toiec_web.Controllers
             return Ok(type);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPost]
         [Route("AddTestType")]
         public async Task<IActionResult> AddTestType(TestTypeAddModel model)
@@ -52,6 +54,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPut]
         [Route("UpdateTestType/{id:guid}")]
         public async Task<IActionResult> UpdateTestType(TestTypeUpdateModel model, Guid id)
@@ -65,6 +68,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpDelete]
         [Route("DeleteTestType/{id:guid}")]
         public async Task<IActionResult> DeleteTestType(Guid id)

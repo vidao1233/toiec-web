@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using toiec_web.Services.IService;
 using toiec_web.ViewModels.Lesson;
 
@@ -24,7 +25,7 @@ namespace toiec_web.Controllers
             }
             return Ok(lessonList);
         }
-
+        
         [HttpGet]
         [Route("GetLessonById/{id:guid}")]
         public async Task<IActionResult> GetLessonById(Guid id)
@@ -49,6 +50,7 @@ namespace toiec_web.Controllers
             return Ok(lesson);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPost]
         [Route("AddLesson")]
         public async Task<IActionResult> AddLesson(LessonAddModel model)
@@ -62,9 +64,10 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPut]
         [Route("UpdateLesson/{id:guid}")]
-        public async Task<IActionResult> UpdateLesson([FromForm] LessonUpdateModel model, Guid id)
+        public async Task<IActionResult> UpdateLesson([FromBody] LessonUpdateModel model, Guid id)
         {
             var response = await _lessonService.UpdateLesson(model, id);
             if (response == true)
@@ -75,6 +78,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpDelete]
         [Route("DeleteLesson/{id:guid}")]
         public async Task<IActionResult> DeleteLesson(Guid id)

@@ -41,7 +41,7 @@ namespace toiec_web
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             //add Identity
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+            builder.Services.AddIdentity<Users, IdentityRole>()
                 .AddEntityFrameworkStores<ToiecDbContext>()
                 .AddDefaultTokenProviders();
 

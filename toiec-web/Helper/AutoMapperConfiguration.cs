@@ -10,9 +10,11 @@ using toiec_web.ViewModels.TestPart;
 using toiec_web.ViewModels.TestQuestionUnit;
 using toiec_web.ViewModels.TestType;
 using toiec_web.ViewModels.User;
+using toiec_web.ViewModels.UserAnswer;
 using toiec_web.ViewModels.Vocabulary;
 using toiec_web.ViewModels.VocTopic;
 using toiec_web.ViewModels.VipPackage;
+using toiec_web.ViewModels.Record;
 using toiec_web.ViewModels.Payment;
 
 namespace toiec_web.Helper
@@ -127,6 +129,17 @@ namespace toiec_web.Helper
             CreateMap<VipPackageModel, VipPackageAddModel>().ReverseMap();
             CreateMap<VipPackageModel, VipPackageUpdateModel>().ReverseMap();
             #endregion
+
+            #region UserAnswer
+            CreateMap<UserAnswer, UserAnswerModel>().ReverseMap();
+            CreateMap<UserAnswerModel, UserAnswerAddModel>().ReverseMap();
+            #endregion
+
+            #region Record
+            CreateMap<TestRecord, RecordModel>().ReverseMap();
+            CreateMap<RecordModel, RecordViewModel>().ReverseMap();
+            #endregion
+
         }
     }
 }

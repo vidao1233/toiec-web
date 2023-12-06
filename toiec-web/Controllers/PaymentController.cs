@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using toiec_web.Models;
@@ -7,6 +8,7 @@ using toiec_web.ViewModels.Payment;
 
 namespace toiec_web.Controllers
 {
+    [Authorize]
     public class PaymentController : BaseAPIController
     {
         private readonly ToiecDbContext _dbContext;

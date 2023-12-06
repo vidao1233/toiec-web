@@ -38,6 +38,7 @@ namespace toiec_web.Models
         public virtual DbSet<Vocabulary> Vocabularies { get; set;}
         public virtual DbSet<VocTopic> VocabularyTopics { get; set; }
         public virtual DbSet<ResetPassword> ResetPasswords { get; set; }
+        public virtual DbSet<ScoreParam> ScoreParams { get; set; }
 
         #endregion
 
@@ -128,10 +129,12 @@ namespace toiec_web.Models
                 entity.HasKey(s => s.idQuestion);
                 entity.HasOne(s => s.Quiz).WithMany(s => s.Questions)
                     .HasForeignKey(s => s.idQuiz)
+                    .IsRequired(false)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_QuestionsOfQuiz");
                 entity.HasOne(s => s.TestQuestionUnit).WithMany(s => s.Questions)
                     .HasForeignKey(s => s.idUnit)
+                    .IsRequired(false)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_QuestionsOfUnit");
                 entity.HasOne(s => s.Professor).WithMany(s => s.Questions)
@@ -283,6 +286,10 @@ namespace toiec_web.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TopicOfProfessor");
             });
+            modelBuilder.Entity<ScoreParam>(entity =>
+            {
+                entity.HasKey(s => s.correctAnswers);
+            });
 
             #endregion
 
@@ -292,25 +299,25 @@ namespace toiec_web.Models
         {
             builder.Entity<IdentityRole>().HasData
                 (
-                new IdentityRole() { Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
-                new IdentityRole() { Name = "Student", ConcurrencyStamp = "2", NormalizedName = "Student" },
-                new IdentityRole() { Name = "VipStudent", ConcurrencyStamp = "3", NormalizedName = "VipStudent" },
-                new IdentityRole() { Name = "Professor", ConcurrencyStamp = "4", NormalizedName = "Professor" }
+                new IdentityRole() { Id = "8111cfd6-214a-4694-a13c-c6ec3d7f56b2", Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
+                new IdentityRole() { Id = "1257b8ad-564a-456f-81a1-d38f180ddd63", Name = "Student", ConcurrencyStamp = "2", NormalizedName = "Student" },
+                new IdentityRole() { Id = "35564c0c-f6fc-4ce5-ad98-f3c362e90ed1", Name = "VipStudent", ConcurrencyStamp = "3", NormalizedName = "VipStudent" },
+                new IdentityRole() { Id = "9faf18a9-5a41-4b13-9db3-63246839aea9", Name = "Professor", ConcurrencyStamp = "4", NormalizedName = "Professor" }
                 );
             builder.Entity<TestPart>().HasData
                 (
-                new TestPart() { partId = Guid.NewGuid(), partName = "Part 1" },
-                new TestPart() { partId = Guid.NewGuid(), partName = "Part 2" },
-                new TestPart() { partId = Guid.NewGuid(), partName = "Part 3" },
-                new TestPart() { partId = Guid.NewGuid(), partName = "Part 4" },
-                new TestPart() { partId = Guid.NewGuid(), partName = "Part 5" },
-                new TestPart() { partId = Guid.NewGuid(), partName = "Part 6" },
-                new TestPart() { partId = Guid.NewGuid(), partName = "Part 7" }
+                new TestPart() { partId = Guid.Parse("06e8a549-7718-4bb0-9c15-224525d10b0f"), partName = "Part 1" },
+                new TestPart() { partId = Guid.Parse("05964104-9e0f-48cf-b7ac-0868b8522269"), partName = "Part 2" },
+                new TestPart() { partId = Guid.Parse("4985a804-99e7-44bf-bec7-a2f0dff6a9da"), partName = "Part 3" },
+                new TestPart() { partId = Guid.Parse("8e459976-3213-47b0-b695-2f8846b61f8b"), partName = "Part 4" },
+                new TestPart() { partId = Guid.Parse("9766f92b-5c9e-4723-8191-bb43846501d6"), partName = "Part 5" },
+                new TestPart() { partId = Guid.Parse("9ca38118-de2d-4567-aa37-e2c9ad934759"), partName = "Part 6" },
+                new TestPart() { partId = Guid.Parse("e8b85f16-f021-4611-90d9-9613c85589e8"), partName = "Part 7" }
                 );
             builder.Entity<TestType>().HasData
                 (
-                    new TestType() { idTestType = Guid.NewGuid(), typeName = "Mini Test"},
-                    new TestType() { idTestType = Guid.NewGuid(), typeName = "Full Test" }
+                    new TestType() { idTestType = Guid.Parse("6a389eb7-551c-402f-a909-974a594892a2"), typeName = "Mini Test"},
+                    new TestType() { idTestType = Guid.Parse("177146a9-5270-4092-a8f3-b385f480b9d8"), typeName = "Full Test" }
                 );
         }
     }
