@@ -15,10 +15,12 @@ namespace toiec_web.Repository
         private readonly ITestQuestionUnitRepository _testQuestionUnitRepository;
         private readonly ITestPartRepository _testPartRepository;
         private readonly ToiecDbContext _dbContext;
+        private readonly IRecordRepository _recordRepository;
 
         public UserAnswerRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper
             , IStudentRepository studentRepository, IQuestionRepository questionRepository, 
-            ITestQuestionUnitRepository testQuestionUnitRepository, ITestPartRepository testPartRepository) 
+            ITestQuestionUnitRepository testQuestionUnitRepository, ITestPartRepository testPartRepository,
+            IRecordRepository recordRepository) 
             : base(dbContext)
         {
             _uow = uow;
@@ -28,6 +30,7 @@ namespace toiec_web.Repository
             _testQuestionUnitRepository = testQuestionUnitRepository;
             _testPartRepository = testPartRepository;
             _dbContext = dbContext;
+            _recordRepository = recordRepository;
         }
 
         public async Task<bool> AddUserAnswer(UserAnswerModel model, string userId)
@@ -53,6 +56,65 @@ namespace toiec_web.Repository
                 }
 
                 Entities.Add(answer);
+                _uow.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId)
+        {
+            try
+            {
+                //get idStudent
+                var student = await _studentRepository.GetStudentByUserId(userId);
+
+                var listAnswers = _mapper.Map<List<UserAnswer>>(models);
+
+                foreach (var answer in listAnswers)
+                {
+                    answer.idUAnswer = Guid.NewGuid();
+                    answer.idStudent = student.idStudent;
+
+                    //check userChoice
+                    var question = await _questionRepository.GetQuestionById(answer.idQuestion);
+                    if (question.answer == answer.userChoice)
+                    {
+                        answer.state = true;
+                    }
+                    else
+                    {
+                        answer.state = false;
+                    }
+
+                    Entities.Add(answer);
+                }
+
+                //calculate score
+                var score = await CalculateScore(userId, testId);
+
+                //map to recordModel
+                var record = new RecordModel
+                {
+                    idRecord = Guid.NewGuid(),
+                    idTest = testId,
+                    idStudent = student.idStudent,
+                    createDate = DateTime.Now,
+                    listenCorrect = score.listenCorrect,
+                    listenScore = score.listenScore,
+                    readingCorrect = score.readingCorrect,
+                    readScore = score.readScore,
+                    correctAns = score.correctAns,
+                    wrongAns = score.wrongAns,
+                    totalScore = score.totalScore
+                };
+
+                //add record
+                await _recordRepository.AddRecord(record);
+
                 _uow.SaveChanges();
                 return true;
             }

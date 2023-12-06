@@ -54,10 +54,10 @@ namespace toiec_web.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllTestQuestionUnitByPart/{id:guid}")]
-        public async Task<IActionResult> GetAllTestQuestionUnitByPart(Guid id)
+        [Route("GetAllTestQuestionUnitByPart/{partId:guid}&&{testId:guid}")]
+        public async Task<IActionResult> GetAllTestQuestionUnitByPart(Guid partId, Guid testId)
         {
-            var unit = await _testQuestionUnitService.GetAllTestQuestionUnitByPart(id);
+            var unit = await _testQuestionUnitService.GetAllTestQuestionUnitByPart(partId, testId);
             if (unit == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound);
