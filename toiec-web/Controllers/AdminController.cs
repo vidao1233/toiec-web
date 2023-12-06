@@ -138,11 +138,11 @@ namespace toiec_web.Controllers
                 //create Professor into database
                 if (role == "Professor")
                 {
-                    _professorService.AddProfessor(user.Id);
+                    await _professorService.AddProfessor(user.Id);
                 }
                 if(role == "Admin")
                 {
-                    _adminService.AddAdmin(user.Id);
+                    await _adminService.AddAdmin(user.Id);
                 }
                 await _dbContext.SaveChangesAsync();
 

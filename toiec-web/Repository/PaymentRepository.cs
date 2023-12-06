@@ -2,6 +2,7 @@
 using toiec_web.Infrastructure;
 using toiec_web.Repository.IRepository;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace toiec_web.Repository
 {
@@ -23,7 +24,6 @@ namespace toiec_web.Repository
         {
             try
             {
-                //var student = await _studentRepository.GetStudentByUserId(userId);
                 var payment = _mapper.Map<Payment>(model);
 
                 //payment.idPayment = Guid.NewGuid();
@@ -51,43 +51,36 @@ namespace toiec_web.Repository
 
         public async Task<IEnumerable<PaymentModel>> GetAllPaymentByStudentId(Guid studentId)
         {
-            IAsyncEnumerable<Payment> payments = Entities.AsAsyncEnumerable();
-            IEnumerable<PaymentModel> data = null;
-            await foreach (var payment in payments)
+            var listData = new List<PaymentModel>();
+            var payments = await Entities.ToListAsync();
+            foreach (var payment in payments)
             {
                 if (payment.idStudent == studentId)
                 {
-                    PaymentModel paymentModel = _mapper.Map<PaymentModel>(payment);
-                    data.Append(paymentModel);
+                    var paymentModel = _mapper.Map<PaymentModel>(payment);
+                    listData.Add(paymentModel);
                 }
             }
-            return data;
+            return listData.OrderByDescending(p => p.paymentDate);
         }
 
         public async Task<IEnumerable<PaymentModel>> GetAllPayments()
         {
-            IAsyncEnumerable<Payment> payments = Entities.AsAsyncEnumerable();
-            IEnumerable<PaymentModel> data = null;
-            await foreach (var payment in payments)
+            var listData = new List<PaymentModel>();
+            var data = await Entities.ToListAsync();
+            foreach (var item in data)
             {
-                PaymentModel paymentModel = _mapper.Map<PaymentModel>(payment);
-                data.Append(paymentModel);
+                var obj = _mapper.Map<PaymentModel>(item);
+                listData.Add(obj);
             }
-            return data;
+            return listData.OrderByDescending(p => p.paymentDate);
         }
 
         public async Task<PaymentModel> GetPaymentById(Guid paymentId)
         {
-            IAsyncEnumerable<Payment> paymentMethods = Entities.AsAsyncEnumerable();
-            await foreach (var paymentMethod in paymentMethods)
-            {
-                if (paymentMethod.idPayment == paymentId)
-                {
-                    PaymentModel data = _mapper.Map<PaymentModel>(paymentMethod);
-                    return data;
-                }
-            }
-            return null;
+            var payment = await Entities.FirstOrDefaultAsync(p => p.idPayment == paymentId);
+            PaymentModel data = _mapper.Map<PaymentModel>(payment);
+            return data;
         }
     }
 }

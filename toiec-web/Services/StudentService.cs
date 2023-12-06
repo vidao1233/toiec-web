@@ -25,5 +25,15 @@ namespace toiec_web.Services
             };
             return await _studentRepository.AddStudent(student);
         }
+
+        public Task<StudentModel> GetStudentById(Guid stuId)
+        {
+            return _studentRepository.GetStudentById(stuId);
+        }
+
+        public Task<StudentModel> GetStudentByUserId(string userId)
+        {
+            return _studentRepository.GetStudentByUserId(userId);
+        }
     }
 }
