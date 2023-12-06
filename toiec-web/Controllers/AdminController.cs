@@ -18,10 +18,11 @@ namespace toiec_web.Controllers
         private readonly IEmailService _emailService;
         private readonly IProfessorService _professorService;
         private readonly IAdminService _adminService;
+        private readonly IUserService _userService;
 
         public AdminController(ToiecDbContext dbContext, UserManager<Users> userManager,
             IMapper mapper, RoleManager<IdentityRole> roleManager, IEmailService emailService,
-            IProfessorService professorService, IAdminService adminService)
+            IProfessorService professorService, IAdminService adminService, IUserService userService)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -30,6 +31,7 @@ namespace toiec_web.Controllers
             _emailService = emailService;
             _professorService = professorService;
             _adminService = adminService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -156,6 +158,57 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new Response { Status = "Error", Message = "This Role Does Not Exist." });
             }
+        }
+
+        [HttpPut]
+        [Route("ResetPassword/{email}")]
+        public async Task<IActionResult> ResetPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest("Email should not be null or empty");
+            }
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            // Generate a new password for the user (you can implement your own password generation logic)
+            string newPassword = "NewPass@123";
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest("Failed to reset the password");
+            }
+
+            // Send the new password to the user's email (optional)
+            var message = new Message(new string[] { user.Email }, "Password Reset", $"Your new password: {newPassword}");
+            _emailService.SendEmail(message);
+            
+            return StatusCode(StatusCodes.Status200OK,
+                    new Response { Status = "Success", Message = $"Password reset successfully!" });
+        }
+
+        [HttpDelete]
+        [Route("DeleteUser/{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            if (id == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound,
+                    new Response { Status = "Error", Message = $"User does not exist" });
+            }
+            var _user = await _userManager.FindByIdAsync(id.ToString());
+
+            var result = await _userManager.DeleteAsync(_user);
+
+            return StatusCode(StatusCodes.Status200OK,
+                    new Response { Status = "Success", Message = $"User was deleted!" });
         }
 
         [HttpGet]

@@ -14,6 +14,7 @@ using toiec_web.ViewModels.UserAnswer;
 using toiec_web.ViewModels.Vocabulary;
 using toiec_web.ViewModels.VocTopic;
 using toiec_web.ViewModels.VipPackage;
+using toiec_web.ViewModels.Record;
 
 namespace toiec_web.Helper
 {
@@ -128,7 +129,10 @@ namespace toiec_web.Helper
             CreateMap<UserAnswerModel, UserAnswerAddModel>().ReverseMap();
             #endregion
 
-
+            #region Record
+            CreateMap<TestRecord, RecordModel>().ReverseMap();
+            CreateMap<RecordModel, RecordViewModel>().ReverseMap();
+            #endregion
 
         }
     }

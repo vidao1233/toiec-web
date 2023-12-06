@@ -17,19 +17,6 @@ namespace toiec_web.Controllers
         }
 
         [HttpPost]
-        [Route("AddUserAnswer/{userId}")]
-        public async Task<IActionResult> AddUserAnswer(UserAnswerAddModel model, string userId)
-        {
-            var response = await _userAnswerService.AddUserAnswer(model, userId);
-            if (response)
-            {
-                return StatusCode(StatusCodes.Status200OK);
-            }
-            else
-                return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-
-        [HttpPost]
         [Route("AddListUserAnswers/{userId}")]
         public async Task<IActionResult> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId)
         {
