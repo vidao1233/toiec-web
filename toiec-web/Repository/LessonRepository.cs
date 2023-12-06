@@ -62,7 +62,7 @@ namespace toiec_web.Repository
         public async Task<IEnumerable<LessonModel>> GetAllLessons()
         {
             var listData = new List<LessonModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(ls => ls.title).ToListAsync();
             foreach (var item in data)
             {
                 var obj = _mapper.Map<LessonModel>(item);

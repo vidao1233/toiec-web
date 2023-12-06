@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using toiec_web.Models;
 using toiec_web.Services;
 using toiec_web.Services.IService;
@@ -7,6 +8,7 @@ using toiec_web.ViewModels.Vocabulary;
 
 namespace toiec_web.Controllers
 {
+    [Authorize]
     public class UserAnswerController : BaseAPIController
     {
         private readonly IUserAnswerService _userAnswerService;

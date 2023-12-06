@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using toiec_web.Services;
 using toiec_web.Services.IService;
 using toiec_web.ViewModels.Lesson;
@@ -65,6 +66,7 @@ namespace toiec_web.Controllers
             return Ok(unit);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPost]
         [Route("AddTestQuestionUnit")]
         public async Task<IActionResult> AddTestQuestionUnit([FromForm]TestQuestionUnitMapModel model)
@@ -101,6 +103,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPut]
         [Route("UpdateTestQuestionUnit/{id:guid}")]
         public async Task<IActionResult> UpdateTestQuestionUnit([FromForm] TestQuestionUnitMapModel model, Guid id)
@@ -134,6 +137,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpDelete]
         [Route("DeleteTestQuestionUnit/{id:guid}")]
         public async Task<IActionResult> DeleteTestQuestionUnit(Guid id)

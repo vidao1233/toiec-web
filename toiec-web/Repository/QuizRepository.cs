@@ -47,7 +47,7 @@ namespace toiec_web.Repository
         public async Task<IEnumerable<QuizModel>> GetAllQuizByLesson(Guid lesonId)
         {
             var listData = new List<QuizModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(q => q.title).ToListAsync();
             foreach(var item in data)
             {
                 if(item.idLesson == lesonId)
@@ -62,7 +62,7 @@ namespace toiec_web.Repository
         public async Task<IEnumerable<QuizModel>> GetAllQuizzes()
         {
             var listData = new List<QuizModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(q => q.title).ToListAsync();
             foreach (var item in data)
             {
                 var obj = _mapper.Map<QuizModel>(item);

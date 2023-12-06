@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using toiec_web.Services;
 using toiec_web.Services.IService;
@@ -87,6 +88,7 @@ namespace toiec_web.Controllers
             return Ok(doTest);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPost]
         [Route("AddQuestion/{userId}")]
         public async Task<IActionResult> AddQuestion(QuestionAddModel model, string userId)
@@ -101,6 +103,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPut]
         [Route("UpdateCourse/{questionId:guid}&&{userId}")]
         public async Task<IActionResult> UpdateCourse([FromBody] QuestionUpdateModel model, Guid questionId, string userId)
@@ -114,6 +117,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpDelete]
         [Route("DeleteCourse/{id:guid}")]
         public async Task<IActionResult> DeleteCourse(Guid id)

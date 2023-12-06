@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using toiec_web.Services.IService;
 using toiec_web.ViewModels.Quiz;
 
@@ -49,6 +50,7 @@ namespace toiec_web.Controllers
             return Ok(quiz);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPost]
         [Route("AddQuiz")]
         public async Task<IActionResult> AddQuiz(QuizAddModel model)
@@ -62,6 +64,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpPut]
         [Route("UpdateQuiz/{id:guid}")]
         public async Task<IActionResult> UpdateQuiz(QuizUpdateModel model, Guid id)
@@ -75,6 +78,7 @@ namespace toiec_web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpDelete]
         [Route("DeleteQuiz/{id:guid}")]
         public async Task<IActionResult> DeleteQuiz(Guid id)

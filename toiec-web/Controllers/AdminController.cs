@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using toiec_web.ViewModels.User;
 
 namespace toiec_web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : BaseAPIController
     {
         private readonly ToiecDbContext _dbContext;
