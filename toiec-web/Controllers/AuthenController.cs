@@ -356,6 +356,36 @@ namespace toiec_web.Controllers
         }
 
         [Authorize]
+        [HttpPut]
+        [Route("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            var user = await _userManager.FindByNameAsync(model.Username);
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound,
+                    new Response { Status = "Error", Message = $"User does not exist" });
+            }
+            if (string.Compare(model.NewPassword, model.ConfirmPassword) != 0)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Error", Message = $"The new password and the password confirm do not match." });
+            }
+            var resetPassResult = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (!resetPassResult.Succeeded)
+            {
+                var errors = new List<string>();
+                foreach (var error in resetPassResult.Errors)
+                {
+                    errors.Add(error.Description);
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new Response { Status = "Error", Message = string.Join(", ", errors) });
+            }
+            return Ok(new Response { Status = "Success", Message = "Password successfully changed" });
+        }
+
+        [Authorize]
         [HttpGet("CurrentUser")]
         public async Task<IActionResult> GetIdCurrent()
         {
