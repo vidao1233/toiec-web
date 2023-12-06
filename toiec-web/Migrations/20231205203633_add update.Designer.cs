@@ -12,8 +12,8 @@ using toiec_web.Models;
 namespace toiec_web.Migrations
 {
     [DbContext(typeof(ToiecDbContext))]
-    [Migration("20231204195151_add ScoreParam")]
-    partial class addScoreParam
+    [Migration("20231205203633_add update")]
+    partial class addupdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,28 +53,28 @@ namespace toiec_web.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9441e81c-8c35-4506-bc2e-eba2387db2ce",
+                            Id = "8111cfd6-214a-4694-a13c-c6ec3d7f56b2",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "c4f76cad-da27-4391-980c-9b9261c92746",
+                            Id = "1257b8ad-564a-456f-81a1-d38f180ddd63",
                             ConcurrencyStamp = "2",
                             Name = "Student",
                             NormalizedName = "Student"
                         },
                         new
                         {
-                            Id = "02f93ef0-7d50-40d0-8609-ffaddc813429",
+                            Id = "35564c0c-f6fc-4ce5-ad98-f3c362e90ed1",
                             ConcurrencyStamp = "3",
                             Name = "VipStudent",
                             NormalizedName = "VipStudent"
                         },
                         new
                         {
-                            Id = "52a4d0a3-ecec-4b23-9146-aa0a2e42c6e8",
+                            Id = "9faf18a9-5a41-4b13-9db3-63246839aea9",
                             ConcurrencyStamp = "4",
                             Name = "Professor",
                             NormalizedName = "Professor"
@@ -318,37 +318,37 @@ namespace toiec_web.Migrations
                     b.HasData(
                         new
                         {
-                            partId = new Guid("5de519a9-86cc-4831-b868-5410d54c3fbd"),
+                            partId = new Guid("aece01aa-4fe8-47a9-ba69-5a20ab0a67d6"),
                             partName = "Part 1"
                         },
                         new
                         {
-                            partId = new Guid("ef856329-eeac-43f4-9860-b1faa2c2fe05"),
+                            partId = new Guid("a9986cb0-3e04-498c-b85f-d647dcad7760"),
                             partName = "Part 2"
                         },
                         new
                         {
-                            partId = new Guid("0e774dec-da5c-4425-8de9-b8aef4e5a8e5"),
+                            partId = new Guid("c40fdf03-f171-472f-aecf-43141d5e25ee"),
                             partName = "Part 3"
                         },
                         new
                         {
-                            partId = new Guid("c5f788cf-030a-400c-9e20-eeb3453ba9d0"),
+                            partId = new Guid("f1a0073a-a0d8-4053-9176-3cdf7f54c3da"),
                             partName = "Part 4"
                         },
                         new
                         {
-                            partId = new Guid("946b5b11-cc4c-4607-b0f5-a553ad473249"),
+                            partId = new Guid("63152fce-ef3d-4873-91ea-06e799fba05a"),
                             partName = "Part 5"
                         },
                         new
                         {
-                            partId = new Guid("28bfe763-f560-490f-987a-0a32e48da769"),
+                            partId = new Guid("bf3272a0-81d7-451c-a4ad-4803d2f8ff7f"),
                             partName = "Part 6"
                         },
                         new
                         {
-                            partId = new Guid("4b4277e1-809d-4039-8815-175e320eeda7"),
+                            partId = new Guid("f1d383cf-4023-41db-9bee-20832cf31fd5"),
                             partName = "Part 7"
                         });
                 });
@@ -574,6 +574,22 @@ namespace toiec_web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("choice_1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("choice_2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("choice_3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("choice_4")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -585,10 +601,10 @@ namespace toiec_web.Migrations
                     b.Property<Guid>("idProfessor")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("idQuiz")
+                    b.Property<Guid?>("idQuiz")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("idUnit")
+                    b.Property<Guid?>("idUnit")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("idQuestion");
@@ -791,12 +807,12 @@ namespace toiec_web.Migrations
                     b.HasData(
                         new
                         {
-                            idTestType = new Guid("4705c792-072a-4478-b38b-e8916a827f80"),
+                            idTestType = new Guid("86373e27-a594-4075-b2fa-340b5055adb2"),
                             typeName = "Mini Test"
                         },
                         new
                         {
-                            idTestType = new Guid("675ca318-7ae8-4a11-ab6d-630f4890056f"),
+                            idTestType = new Guid("fe3844c1-6886-43ea-bd20-b35bbf38e1c0"),
                             typeName = "Full Test"
                         });
                 });
@@ -844,8 +860,8 @@ namespace toiec_web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("duration")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("duration")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("idAdmin")
                         .HasColumnType("uniqueidentifier");
@@ -950,8 +966,9 @@ namespace toiec_web.Migrations
                     b.Property<bool>("Gender")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Mobile")
-                        .HasColumnType("bit");
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("Users");
                 });
@@ -1140,14 +1157,12 @@ namespace toiec_web.Migrations
                     b.HasOne("toiec_web.Models.Quiz", "Quiz")
                         .WithMany("Questions")
                         .HasForeignKey("idQuiz")
-                        .IsRequired()
                         .HasConstraintName("FK_QuestionsOfQuiz");
 
                     b.HasOne("toiec_web.Models.TestQuestionUnit", "TestQuestionUnit")
                         .WithMany("Questions")
                         .HasForeignKey("idUnit")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_QuestionsOfUnit");
 
                     b.Navigation("Professor");

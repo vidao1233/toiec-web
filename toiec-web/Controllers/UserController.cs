@@ -9,13 +9,13 @@ namespace toiec_web.Controllers
     public class UserController : BaseAPIController
     {
         private readonly UserService _userService;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Users> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<IdentityUser> _signManager;
+        private readonly SignInManager<Users> _signManager;
         private readonly ToiecDbContext _dbContext;
 
-        public UserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager,
-            SignInManager<IdentityUser> signInManager, ToiecDbContext dbContext, UserService userService)
+        public UserController(UserManager<Users> userManager, RoleManager<IdentityRole> roleManager,
+            SignInManager<Users> signInManager, ToiecDbContext dbContext, UserService userService)
         {
             _userManager = userManager;
             _roleManager = roleManager;

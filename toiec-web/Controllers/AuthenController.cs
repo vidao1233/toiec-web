@@ -9,6 +9,7 @@ using System.Text;
 using toiec_web.Data;
 using toiec_web.Helper;
 using toiec_web.Models;
+using toiec_web.Services;
 using toiec_web.Services.IService;
 using toiec_web.ViewModels.Authentication;
 using toiec_web.ViewModels.User;
@@ -17,17 +18,20 @@ namespace toiec_web.Controllers
 {
     public class AuthenController : BaseAPIController
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Users> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<IdentityUser> _signManager;
+        private readonly SignInManager<Users> _signManager;
         private readonly ToiecDbContext _dbContext;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
         private readonly IStudentService _studentService;
+        private readonly IAuthenticationService _authenticationService;
+        private readonly IUploadFileService _uploadFileService;
 
-        public AuthenController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, 
-            SignInManager<IdentityUser> signManager, ToiecDbContext dbContext, IEmailService emailService,
-             IConfiguration configuration, IStudentService studentService)
+        public AuthenController(UserManager<Users> userManager, RoleManager<IdentityRole> roleManager, 
+            SignInManager<Users> signManager, ToiecDbContext dbContext, IEmailService emailService,
+             IConfiguration configuration, IStudentService studentService, IAuthenticationService authenticationService,
+            IUploadFileService uploadFileService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -36,6 +40,8 @@ namespace toiec_web.Controllers
             _configuration = configuration;
             _emailService = emailService;
             _studentService =  studentService;
+            _authenticationService = authenticationService;
+            _uploadFileService = uploadFileService;
         }
 
         [HttpPost]
@@ -306,6 +312,47 @@ namespace toiec_web.Controllers
             //await _dbContext.SaveChangesAsync();
 
             return Ok(new { Status = "Success", Message = $"Password reset successfully! Your new password: {model.NewPassword}" });
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("Update-Profile")]
+        public async Task<IActionResult> UpdateProfile([FromForm] UpdateProfileModel model)
+        {
+            // Get the current user
+            var userName = HttpContext.User.Identity.Name;
+            var userId = await _authenticationService.GetCurrentUserId(userName);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                // Handle the case when the user is not found
+                return StatusCode(StatusCodes.Status404NotFound,
+                    new Response { Status = "Error", Message = "User does not exist" });
+            }
+
+            // Update user's profile properties with the provided values
+            user.PhoneNumber = model.PhoneNumber;
+            user.Fullname = model.FullName;
+            user.DateOfBirth = model.DateOfBirth.ToString();
+            user.TwoFactorEnabled = model.Enable2FA;
+
+            var image = await _uploadFileService.AddFileAsync(model.ImageURL);
+
+            user.ImageURL = image.Url.ToString();
+
+            IdentityResult result = await _userManager.UpdateAsync(user);
+            await _dbContext.SaveChangesAsync();
+
+            if (result.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status200OK,
+                    new Response { Status = "Success", Message = "Profile updated successfully!" });
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Error", Message = "Failed to update profile." });
+            }
         }
 
         [Authorize]

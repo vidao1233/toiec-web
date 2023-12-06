@@ -38,6 +38,7 @@ namespace toiec_web.Infrastructure
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<IUserService, UserService>();
             services.AddScoped<UserService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddTransient<IStudentService, StudentService>();
             services.AddTransient<IProfessorService, ProfessorService>();

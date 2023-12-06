@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace toiec_web.Migrations
 {
-    public partial class addScoreParam : Migration
+    public partial class addupdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,7 @@ namespace toiec_web.Migrations
                     Fullname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<bool>(type: "bit", nullable: true),
-                    Mobile = table.Column<bool>(type: "bit", nullable: true),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -308,7 +308,7 @@ namespace toiec_web.Migrations
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     price = table.Column<double>(type: "float", nullable: false),
-                    duration = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    duration = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -620,12 +620,16 @@ namespace toiec_web.Migrations
                 columns: table => new
                 {
                     idQuestion = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    idQuiz = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    idUnit = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    idQuiz = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    idUnit = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     idProfessor = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     answer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    explaination = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    explaination = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    choice_1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    choice_2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    choice_3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    choice_4 = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -707,10 +711,10 @@ namespace toiec_web.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "02f93ef0-7d50-40d0-8609-ffaddc813429", "3", "VipStudent", "VipStudent" },
-                    { "52a4d0a3-ecec-4b23-9146-aa0a2e42c6e8", "4", "Professor", "Professor" },
-                    { "9441e81c-8c35-4506-bc2e-eba2387db2ce", "1", "Admin", "Admin" },
-                    { "c4f76cad-da27-4391-980c-9b9261c92746", "2", "Student", "Student" }
+                    { "1257b8ad-564a-456f-81a1-d38f180ddd63", "2", "Student", "Student" },
+                    { "35564c0c-f6fc-4ce5-ad98-f3c362e90ed1", "3", "VipStudent", "VipStudent" },
+                    { "8111cfd6-214a-4694-a13c-c6ec3d7f56b2", "1", "Admin", "Admin" },
+                    { "9faf18a9-5a41-4b13-9db3-63246839aea9", "4", "Professor", "Professor" }
                 });
 
             migrationBuilder.InsertData(
@@ -718,13 +722,13 @@ namespace toiec_web.Migrations
                 columns: new[] { "partId", "partName" },
                 values: new object[,]
                 {
-                    { new Guid("0e774dec-da5c-4425-8de9-b8aef4e5a8e5"), "Part 3" },
-                    { new Guid("28bfe763-f560-490f-987a-0a32e48da769"), "Part 6" },
-                    { new Guid("4b4277e1-809d-4039-8815-175e320eeda7"), "Part 7" },
-                    { new Guid("5de519a9-86cc-4831-b868-5410d54c3fbd"), "Part 1" },
-                    { new Guid("946b5b11-cc4c-4607-b0f5-a553ad473249"), "Part 5" },
-                    { new Guid("c5f788cf-030a-400c-9e20-eeb3453ba9d0"), "Part 4" },
-                    { new Guid("ef856329-eeac-43f4-9860-b1faa2c2fe05"), "Part 2" }
+                    { new Guid("63152fce-ef3d-4873-91ea-06e799fba05a"), "Part 5" },
+                    { new Guid("a9986cb0-3e04-498c-b85f-d647dcad7760"), "Part 2" },
+                    { new Guid("aece01aa-4fe8-47a9-ba69-5a20ab0a67d6"), "Part 1" },
+                    { new Guid("bf3272a0-81d7-451c-a4ad-4803d2f8ff7f"), "Part 6" },
+                    { new Guid("c40fdf03-f171-472f-aecf-43141d5e25ee"), "Part 3" },
+                    { new Guid("f1a0073a-a0d8-4053-9176-3cdf7f54c3da"), "Part 4" },
+                    { new Guid("f1d383cf-4023-41db-9bee-20832cf31fd5"), "Part 7" }
                 });
 
             migrationBuilder.InsertData(
@@ -732,8 +736,8 @@ namespace toiec_web.Migrations
                 columns: new[] { "idTestType", "typeName" },
                 values: new object[,]
                 {
-                    { new Guid("4705c792-072a-4478-b38b-e8916a827f80"), "Mini Test" },
-                    { new Guid("675ca318-7ae8-4a11-ab6d-630f4890056f"), "Full Test" }
+                    { new Guid("86373e27-a594-4075-b2fa-340b5055adb2"), "Mini Test" },
+                    { new Guid("fe3844c1-6886-43ea-bd20-b35bbf38e1c0"), "Full Test" }
                 });
 
             migrationBuilder.CreateIndex(

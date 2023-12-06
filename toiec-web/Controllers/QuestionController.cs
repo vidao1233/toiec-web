@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using toiec_web.Services;
 using toiec_web.Services.IService;
 using toiec_web.ViewModels.Course;
@@ -90,8 +91,9 @@ namespace toiec_web.Controllers
         [Route("AddQuestion/{userId}")]
         public async Task<IActionResult> AddQuestion(QuestionAddModel model, string userId)
         {
-            var response = await _questionService.AddQuestion(model, userId);
-            if (response == true)
+            var response = await _questionService.AddQuestion(model, userId);            
+
+            if (response)
             {
                 return StatusCode(StatusCodes.Status200OK);
             }
