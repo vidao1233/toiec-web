@@ -25,5 +25,16 @@ namespace toiec_web.Controllers
             return Ok(listpackage);
         }
 
+        [HttpGet]
+        [Route("GetVipPackageById/{id:guid}")]
+        public async Task<IActionResult> GetVipPackageById(Guid id)
+        {
+            var package = await _vipPackageService.GetVipPackageById(id.ToString());
+            if (package == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            return Ok(package);
+        }
     }
 }
