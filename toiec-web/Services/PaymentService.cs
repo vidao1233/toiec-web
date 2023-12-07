@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.X9;
 using toiec_web.Helper;
 using toiec_web.Models;
 using toiec_web.Repository.IRepository;
@@ -13,15 +15,18 @@ namespace toiec_web.Services
     {
         private readonly IMapper _mapper;
         private readonly IOptions<MomoOptionModel> _options;
+        private readonly IConfiguration _configuration;
         private readonly IPaymentRepository _paymentRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IPaymentMethodRepository _paymentMethodRepository;
         private readonly IVipPackageRepository _vipPackageRepository;
         private readonly IVipStudentRepository _vipStudentRepository;
+        private static string? tmpStudentId;
 
         public PaymentService(IPaymentRepository paymentRepository, IStudentRepository studentRepository,
             IVipPackageRepository vipPackageRepository, IPaymentMethodRepository paymentMethodRepository,
-            IVipStudentRepository vipStudentRepository, IMapper mapper, IOptions<MomoOptionModel> options)
+            IVipStudentRepository vipStudentRepository, IMapper mapper, IOptions<MomoOptionModel> options
+            , IConfiguration configuration)
         {
             _paymentRepository = paymentRepository;
             _mapper = mapper;
@@ -30,6 +35,7 @@ namespace toiec_web.Services
             _paymentMethodRepository = paymentMethodRepository;
             _vipPackageRepository = vipPackageRepository;
             _vipStudentRepository = vipStudentRepository;
+            _configuration = configuration;
         }
         public async Task<bool> AddPayment(PaymentModel model)
         {
@@ -103,7 +109,7 @@ namespace toiec_web.Services
             return data;
         }
 
-        public async Task<MomoCreatePaymentResponseModel> CreatePaymentAsync(Guid idStudent, Guid idPackage, double price)
+        public async Task<MomoCreatePaymentResponseModel> CreateMoMoPaymentAsync(Guid idStudent, Guid idPackage, double price)
         {
             string orderId = DateTime.UtcNow.Ticks.ToString();
             var rawData =
@@ -194,6 +200,78 @@ namespace toiec_web.Services
                         };
                     }
                 return null;    
+        }
+        public Task<string> CreateVNPayPaymentUrl(Guid idStudent, Guid idPackage, double price, HttpContext context)
+        {
+            var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
+            var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
+            var tick = DateTime.Now.Ticks.ToString();
+            var pay = new VnPayLibrary();
+            var urlCallBack = _configuration["Vnpay:PaymentCallBack:ReturnUrl"];
+            tmpStudentId = idStudent.ToString();
+
+            pay.AddRequestData("vnp_Version", _configuration["Vnpay:Config:Version"]);
+            pay.AddRequestData("vnp_Command", _configuration["Vnpay:Config:Command"]);
+            pay.AddRequestData("vnp_TmnCode", _configuration["Vnpay:Config:TmnCode"]);
+            pay.AddRequestData("vnp_Amount", (price * 100).ToString());
+            pay.AddRequestData("vnp_CreateDate", timeNow.ToString("yyyyMMddHHmmss"));
+            pay.AddRequestData("vnp_CurrCode", _configuration["Vnpay:Config:CurrCode"]);
+            pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
+            pay.AddRequestData("vnp_Locale", _configuration["Vnpay:Config:Locale"]);
+            pay.AddRequestData("vnp_OrderInfo", $"{idPackage}");
+            pay.AddRequestData("vnp_OrderType", "Thẻ học/ Học trực tuyến");
+            pay.AddRequestData("vnp_ReturnUrl", urlCallBack);
+            pay.AddRequestData("vnp_TxnRef", tick);
+
+            var paymentUrl =
+                pay.CreateRequestUrl(_configuration["Vnpay:Config:BaseUrl"], _configuration["Vnpay:Config:HashSecret"]);
+
+            return Task.FromResult(paymentUrl);
+        }
+
+        public async Task<MomoExecuteResponseModel> VNPayPaymentExecute(IQueryCollection collections, Guid paymentMethodId)
+        {
+            var pay = new VnPayLibrary();
+            var response = pay.GetFullResponseData(collections, _configuration["Vnpay:Config:HashSecret"]);
+            Guid studentId = Guid.Parse(tmpStudentId);
+            Guid idPackage = Guid.Parse(response.OrderInfo);
+            Console.WriteLine(studentId);
+            Console.WriteLine(idPackage);
+            var user = await _studentRepository.GetStudentById(studentId);
+            PaymentModel payment = new PaymentModel()
+            {
+                idPayment = Guid.NewGuid(),
+                idMethod = paymentMethodId,
+                idStudent = studentId,
+                idPackage = idPackage,
+                message = "Success",
+                paymentDate = DateTime.Now,
+                paymentAmount = Double.Parse(response.Amount),
+            };
+            if (!response.Success)
+            {
+                return new MomoExecuteResponseModel()
+                {
+                    UserId = user.idUser.ToString(),
+                    StudentId = studentId.ToString(),
+                    Amount = response.Amount,
+                    Message = "Thanh toán không thành công, giao dịch bị hủy!",
+                    PaymentInfo = response.OrderInfo,
+                };
+            }
+            if (response.Success)
+                if (await _paymentRepository.AddPayment(payment) == true)
+                {
+                    return new MomoExecuteResponseModel()
+                    {
+                        UserId = user.idUser.ToString(),
+                        StudentId = studentId.ToString(),
+                        Amount = response.Amount,
+                        Message = "Thanh toán thành công!",
+                        PaymentInfo = response.OrderInfo,
+                    };
+                }
+            return null;
         }
     }
 }
