@@ -31,6 +31,12 @@ namespace toiec_web.Repository
             }
         }
 
+        public async Task<StudentModel> GetStudentById(Guid stuId)
+        {
+            var student = await Entities.FirstOrDefaultAsync(stu => stu.idStudent == stuId);
+            return _mapper.Map<StudentModel>(student);
+        }
+
         public async Task<StudentModel> GetStudentByUserId(string userId)
         {
             var student = await Entities.FirstOrDefaultAsync(stu => stu.idUser == userId);

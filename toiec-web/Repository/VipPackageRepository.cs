@@ -75,9 +75,22 @@ namespace toiec_web.Repository
             return null;
         }
 
-        public Task<bool> UpdateVipPackage(VipPackageModel model, Guid idPackage, string userId)
+        public async Task<bool> UpdateVipPackage(VipPackageModel model, Guid idPackage, string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var vipPackage = _mapper.Map<VipPackage>(model);
+                var admin = await _adminRepository.GetAdminByUserId(userId);
+                vipPackage.idPackage = idPackage;
+                vipPackage.idAdmin = admin.idAdmin;
+                Entities.Update(vipPackage);
+                _uow.SaveChanges();
+                return await Task.FromResult(true);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

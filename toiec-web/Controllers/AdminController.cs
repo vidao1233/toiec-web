@@ -7,6 +7,7 @@ using toiec_web.Models;
 using toiec_web.Services;
 using toiec_web.Services.IService;
 using toiec_web.ViewModels.User;
+using toiec_web.ViewModels.VipPackage;
 
 namespace toiec_web.Controllers
 {
@@ -21,10 +22,12 @@ namespace toiec_web.Controllers
         private readonly IProfessorService _professorService;
         private readonly IAdminService _adminService;
         private readonly IUserService _userService;
+        private readonly IVipPackageService _vipPackageService;
 
         public AdminController(ToiecDbContext dbContext, UserManager<Users> userManager,
             IMapper mapper, RoleManager<IdentityRole> roleManager, IEmailService emailService,
-            IProfessorService professorService, IAdminService adminService, IUserService userService)
+            IProfessorService professorService, IAdminService adminService, IUserService userService, 
+            IVipPackageService vipPackageService)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -34,6 +37,7 @@ namespace toiec_web.Controllers
             _professorService = professorService;
             _adminService = adminService;
             _userService = userService;
+            _vipPackageService = vipPackageService;
         }
 
         [HttpGet]
@@ -142,11 +146,11 @@ namespace toiec_web.Controllers
                 //create Professor into database
                 if (role == "Professor")
                 {
-                    _professorService.AddProfessor(user.Id);
+                    await _professorService.AddProfessor(user.Id);
                 }
                 if(role == "Admin")
                 {
-                    _adminService.AddAdmin(user.Id);
+                    await _adminService.AddAdmin(user.Id);
                 }
                 await _dbContext.SaveChangesAsync();
 
@@ -231,6 +235,67 @@ namespace toiec_web.Controllers
                    new Response { Status = "Error", Message = "This User Does Not Exist" });
         }
 
+        [HttpGet]
+        [Route("GetAllVipPackages")]
+        public async Task<IActionResult> GetAllVipPackages()
+        {
+            var listpackage = await _vipPackageService.GetAllVipPackages();
+            if (listpackage == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            return Ok(listpackage);
+        }
 
+        [HttpGet]
+        [Route("GetVipPackageById/{id:guid}")]
+        public async Task<IActionResult> GetVipPackageById(Guid id)
+        {
+            var package = await _vipPackageService.GetVipPackageById(id.ToString());
+            if (package == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            return Ok(package);
+        }
+
+        [HttpPost]
+        [Route("AddVipPackage")]
+        public async Task<IActionResult> AddVipPackage(VipPackageAddModel model, string userId)
+        {
+            var response = await _vipPackageService.AddVipPackage(model, userId);
+            if (response == true)
+            {
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [HttpPut]
+        [Route("UpdateVipPackage/{idpackage:guid}&&{userId}")]
+        public async Task<IActionResult> UpdateVipPackage(VipPackageUpdateModel model, Guid idpackage, string userId)
+        {
+            var response = await _vipPackageService.UpdateVipPackage(model, idpackage, userId);
+            if (response == true)
+            {
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [HttpDelete]
+        [Route("DeleteVipPackage/{id:guid}")]
+        public async Task<IActionResult> DeleteVipPackage(Guid id)
+        {
+            var response = await _vipPackageService.DeleteVipPackage(id);
+            if (response == true)
+            {
+                return Ok(response);
+            }
+            else
+                return StatusCode(StatusCodes.Status404NotFound);
+        }
     }
 }
