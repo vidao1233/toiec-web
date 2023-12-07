@@ -11,7 +11,7 @@ namespace toiec_web.Repository.IRepository
         Task<IEnumerable<QuestionModel>> GetAllQuestionByQuiz(Guid quizId);
         Task<IEnumerable<QuestionModel>> GetAllQuestionByUnit(Guid unitId);
         Task<IEnumerable<QuestionModel>> GetAllQuestionByProfessor(string userId);
-        public Task<IEnumerable<DoTestViewModel>> GetDoTest(Guid testId);
+        public Task<DoTestViewModel> GetDoTest(Guid testId);
         Task<bool> AddQuestion(QuestionModel model, string userId);
         Task<bool> UpdateQuestion(QuestionModel model, Guid questionId, string userId);
         Task<bool> DeleteQuestion(Guid questionId);
