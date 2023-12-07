@@ -45,9 +45,9 @@ namespace toiec_web.Services
             return null;
         }
 
-        public async Task<VipPackageViewModel> GetVipPackageById(Guid packageId)
+        public async Task<VipPackageViewModel> GetVipPackageById(string packageId)
         {
-            var data = await _vipPackageRepository.GetVipPackageById(packageId);
+            var data = await _vipPackageRepository.GetVipPackageById(Guid.Parse(packageId));
             if (data != null)
             {
                 var obj = _mapper.Map<VipPackageViewModel>(data);

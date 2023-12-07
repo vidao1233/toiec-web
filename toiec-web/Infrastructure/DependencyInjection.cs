@@ -32,6 +32,7 @@ namespace toiec_web.Infrastructure
             services.AddTransient(typeof(IUserAnswerRepository), typeof(UserAnswerRepository));
             services.AddTransient(typeof(IRecordRepository), typeof(RecordRepository));
             services.AddTransient(typeof(IRecordRepository), typeof(RecordRepository));
+            services.AddTransient(typeof(IVipStudentRepository), typeof(VipStudentRepository));
             return services;
 
         }
@@ -61,6 +62,7 @@ namespace toiec_web.Infrastructure
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IUserAnswerService, UserAnswerService>();
             services.AddTransient<IRecordService, RecordService>();
+            services.AddTransient<IVipStudentService, VipStudentService>();
             return services;
         }
     }

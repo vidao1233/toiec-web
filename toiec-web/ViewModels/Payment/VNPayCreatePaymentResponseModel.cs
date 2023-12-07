@@ -2,7 +2,7 @@ namespace toiec_web.ViewModels.Payment
 {
     public class VNPayCreatePaymentResponseModel
     {
-        public string OrderDescription { get; set; }
+        public string OrderInfo { get; set; }
         public string TransactionId { get; set; }
         public string OrderId { get; set; }
         public string PaymentMethod { get; set; }
@@ -10,5 +10,6 @@ namespace toiec_web.ViewModels.Payment
         public bool Success { get; set; }
         public string Token { get; set; }
         public string VnPayResponseCode { get; set; }
+        public string Amount { get; set; }
     }
 }

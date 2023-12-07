@@ -92,7 +92,7 @@ namespace toiec_web.Services
             return listData;
         }
 
-        public async Task<IEnumerable<DoTestViewModel>> GetDoTest(Guid testId)
+        public async Task<DoTestViewModel> GetDoTest(Guid testId)
         {
             return await _questionRepository.GetDoTest(testId);
         }

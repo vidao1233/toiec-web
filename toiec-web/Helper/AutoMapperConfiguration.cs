@@ -15,6 +15,7 @@ using toiec_web.ViewModels.Vocabulary;
 using toiec_web.ViewModels.VocTopic;
 using toiec_web.ViewModels.VipPackage;
 using toiec_web.ViewModels.Record;
+using toiec_web.ViewModels.Payment;
 
 namespace toiec_web.Helper
 {
@@ -44,7 +45,11 @@ namespace toiec_web.Helper
             #endregion
 
             #region Admin
-            CreateMap<Admin, AdminModel>().ReverseMap();    
+            CreateMap<Admin, AdminModel>().ReverseMap();
+            #endregion
+
+            #region VipStudent
+            CreateMap<VipStudent, VipStudentModel>().ReverseMap();
             #endregion
 
             #region Lesson
@@ -88,6 +93,7 @@ namespace toiec_web.Helper
 
             #region Payment
             CreateMap<Payment, PaymentModel>().ReverseMap();
+            CreateMap<PaymentModel, PaymentViewModel>().ReverseMap();
             #endregion
 
             #region Test

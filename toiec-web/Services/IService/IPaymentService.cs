@@ -5,11 +5,15 @@ namespace toiec_web.Services.IService
 {
     public interface IPaymentService
     {
-        Task<IEnumerable<PaymentModel>> GetAllPayment();
+        Task<IEnumerable<PaymentViewModel>> GetAllPayment();
+        Task<IEnumerable<PaymentViewModel>> GetAllPaymentByUserId(string userId);
+        Task<string> GetExpireTimeVipStudent(string userId);
         Task<PaymentModel> GetPaymentById(Guid paymentId);
         Task<bool> AddPayment(PaymentModel model);
         Task<bool> DeletePayment(Guid paymentId);
-        Task<MomoCreatePaymentResponseModel> CreatePaymentAsync(PaymentInfoModel model);
+        Task<MomoCreatePaymentResponseModel> CreateMoMoPaymentAsync(Guid idStudent, Guid idPackage, double price);
         Task<MomoExecuteResponseModel> MoMoPaymentExecuteAsync(IQueryCollection collection, Guid idMethod);
+        Task<string> CreateVNPayPaymentUrl(Guid idStudent, Guid idPackage, double price, HttpContext context);
+        Task<MomoExecuteResponseModel> VNPayPaymentExecute(IQueryCollection collections, Guid paymentMethodId);
     }
 }

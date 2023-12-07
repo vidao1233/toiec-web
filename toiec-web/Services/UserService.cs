@@ -44,12 +44,12 @@ namespace toiec_web.Services
             return null;
         }
 
-        public async Task<UserViewModel> GetUserById(string userId)
+        public async Task<UserModel> GetUserById(string userId)
         {
             var data = await _userRepository.GetUserById(userId);
             if (data != null)
             {
-                var obj = _mapper.Map<UserViewModel>(data);
+                var obj = _mapper.Map<UserModel>(data);
                 return obj;
             }
             return null;

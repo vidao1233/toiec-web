@@ -6,5 +6,6 @@ namespace toiec_web.Repository.IRepository
     {
         Task<bool> AddStudent(StudentModel model);
         Task<StudentModel> GetStudentByUserId(string userId);
+        Task<StudentModel> GetStudentById(Guid stuId);
     }
 }

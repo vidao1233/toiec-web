@@ -119,7 +119,7 @@ namespace toiec_web.Repository
             return listData;
         }
 
-        public async Task<IEnumerable<DoTestViewModel>> GetDoTest(Guid testId)
+        public async Task<DoTestViewModel> GetDoTest(Guid testId)
         {
             var test = await _dbContext.Tests
                 .Include(t => t.TestQuestionUnits)
@@ -132,53 +132,47 @@ namespace toiec_web.Repository
                 return null;
             }
 
-            var partIds = test.TestQuestionUnits.Select(tqu => tqu.idTestPart).Distinct();
-
             var parts = await _dbContext.TestParts
-                .Include(tp => tp.TestQuestionUnits)
-                .Where(tp => partIds.Contains(tp.partId))
                 .OrderBy(tp => tp.partName)
-                .ToListAsync();
+                .ToListAsync();          
 
-            var viewModels = new List<DoTestViewModel>();
-
+            var partModels = new List<DoTestPartModel>();
+            var unitModels = new List<DoTestUnitModel>();
+            var questionModels = new List<DoTestQuestionModel>();
+           
             foreach (var part in parts)
-            {
-                var viewModel = new DoTestViewModel
-                {
-                    parts = new List<DoTestPartModel>()
-                };
-                
-                foreach (var unit in part.TestQuestionUnits)
-                {
+            {                
+                var units = await _testQuestionUnitRepository.GetAllTestQuestionUnitByPart(testId, part.partId);
+                foreach (var unit in units)
+                {                    
+                    var questions = await GetAllQuestionByUnit(unit.idQuestionUnit);
+                    foreach (var question in questions)
+                    {
+                        var objQ = _mapper.Map<DoTestQuestionModel>(question);
+                        questionModels.Add(objQ);
+                    }
                     var unitModel = new DoTestUnitModel
                     {
                         idQuestionUnit = unit.idQuestionUnit,
-                        questions = new List<DoTestQuestionModel>()
+                        paragraph = unit.paragraph,
+                        audio = unit.audio,
+                        image = unit.image,
+                        script = unit.script,
+                        translation = unit.translation,
+                        questions = questionModels,
                     };
-
-                    foreach (var question in unit.Questions)
-                    {
-                        var questionModel = new DoTestQuestionModel
-                        {
-                            idQuestion = question.idQuestion,
-                            content = question.content,
-                            answer = question.answer,
-                            explaination = question.explaination
-                        };
-
-                        unitModel.questions.Add(questionModel);
-                    }
-
-                    viewModel.parts.Add(new DoTestPartModel 
-                    { 
-                        units = new List<DoTestUnitModel> { unitModel }, 
-                        partName = part.partName 
-                    });
+                    unitModels.Add(unitModel);
                 }
-
-                viewModels.Add(viewModel);
+                var partModel = new DoTestPartModel
+                {
+                    units = unitModels,
+                };
+                partModels.Add(partModel);
             }
+            var viewModels = new DoTestViewModel
+            {
+                parts = partModels,
+            };
             return viewModels;
         }
 
