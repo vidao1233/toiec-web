@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,11 +28,12 @@ namespace toiec_web.Controllers
         private readonly IStudentService _studentService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IUploadFileService _uploadFileService;
+        private readonly IMapper _mapper;
 
         public AuthenController(UserManager<Users> userManager, RoleManager<IdentityRole> roleManager, 
             SignInManager<Users> signManager, ToiecDbContext dbContext, IEmailService emailService,
              IConfiguration configuration, IStudentService studentService, IAuthenticationService authenticationService,
-            IUploadFileService uploadFileService)
+            IUploadFileService uploadFileService, IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -42,6 +44,7 @@ namespace toiec_web.Controllers
             _studentService =  studentService;
             _authenticationService = authenticationService;
             _uploadFileService = uploadFileService;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -312,6 +315,24 @@ namespace toiec_web.Controllers
             //await _dbContext.SaveChangesAsync();
 
             return Ok(new { Status = "Success", Message = $"Password reset successfully! Your new password: {model.NewPassword}" });
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("GetProfile")]
+        public async Task<IActionResult> GetProfile(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            var userView = _mapper.Map<UserViewModel>(user);
+            return Ok(userView);
         }
 
         [Authorize]

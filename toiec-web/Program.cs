@@ -126,7 +126,7 @@ namespace toiec_web
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             // Configure CORS
             app.UseCors(corsPolicyName);

@@ -10,6 +10,6 @@ namespace toiec_web.ViewModels.DoTest
         public string? image { get; set; }
         public string? script { get; set; }
         public string? translation { get; set; }
-        public List<DoTestQuestionModel> questions { get; set; }
+        public IEnumerable<DoTestQuestionModel> questions { get; set; }
     }
 }

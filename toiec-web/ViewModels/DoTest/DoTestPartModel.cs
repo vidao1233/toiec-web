@@ -2,7 +2,6 @@
 {
     public class DoTestPartModel
     {
-        public string partName { get; set; }
-        public List<DoTestUnitModel> units { get; set; }
+        public IEnumerable<DoTestUnitModel> units { get; set; }
     }
 }
