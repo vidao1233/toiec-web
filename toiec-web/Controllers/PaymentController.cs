@@ -8,7 +8,7 @@ using toiec_web.ViewModels.Payment;
 
 namespace toiec_web.Controllers
 {
-    [Authorize]
+    
     public class PaymentController : BaseAPIController
     {
         private readonly ToiecDbContext _dbContext;
@@ -33,6 +33,7 @@ namespace toiec_web.Controllers
             _vipPackageService = vipPackageService;
             _studentService = studentService;
         }
+        [Authorize]
         [HttpPost]
         [Route("CreateMoMoPayment")]
         public async Task<IActionResult> CreateMoMoPayment(PaymentInfoModel model)
@@ -97,15 +98,18 @@ namespace toiec_web.Controllers
                 if (vipStudent != null)
                 {
                     await _vipStudentService.UpdateVipStudent(vipStudent, vipPackage.duration);
-
+                    return Redirect("http://localhost:3000/vippackage-checkout/success");
                 }
                 else
+                {
                     await _vipStudentService.AddVipStudent(response.StudentId, vipPackage.duration);
-                return Redirect("http://localhost:3000/vippackage-checkout/success");
+                    return Redirect("http://localhost:3000/vippackage-checkout/success");
+                }
+                return Redirect("http://localhost:3000/vippackage-checkout/fail");
             }
             return Redirect("http://localhost:3000/vippackage-checkout/fail");
         }
-
+        [Authorize]
         [HttpPost]
         [Route("CreateVNPayPayment")]
         public async Task<IActionResult> CreateVNPayPayment(PaymentInfoModel model)
@@ -169,14 +173,19 @@ namespace toiec_web.Controllers
                 if (vipStudent != null)
                 {
                     await _vipStudentService.UpdateVipStudent(vipStudent, vipPackage.duration);
+                    return Redirect("http://localhost:3000/vippackage-checkout/success");
 
                 }
                 else
+                {
                     await _vipStudentService.AddVipStudent(response.StudentId, vipPackage.duration);
-                return Redirect("http://localhost:3000/vippackage-checkout/success");
+                    return Redirect("http://localhost:3000/vippackage-checkout/success");
+                }
+                return Redirect("http://localhost:3000/vippackage-checkout/fail");
             }
             return Redirect("http://localhost:3000/vippackage-checkout/fail");
         }
+        [Authorize]
         [HttpGet]
         [Route("GetAllPaymentsOrderByDate")]
         public async Task<IActionResult> GetAllPaymentsOrderByDate()
@@ -189,7 +198,7 @@ namespace toiec_web.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError,
                         new Response { Status = "Error", Message = "Internal Server Error" });
         }
-
+        [Authorize]
         [HttpGet]
         [Route("GetAllPaymentsByUserIdOrderByDate/{userId}")]
         public async Task<IActionResult> GetAllPaymentsByUserIdOrderByDate(string userId)
@@ -202,7 +211,7 @@ namespace toiec_web.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError,
                         new Response { Status = "Error", Message = "Internal Server Error" });
         }
-
+        [Authorize]
         [HttpGet]
         [Route("GetExpireTimeVipStudent/{userId}")]
         public async Task<IActionResult> GetExpireTimeVipStudent(string userId)

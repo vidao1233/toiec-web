@@ -95,6 +95,8 @@ namespace toiec_web.Services
             {
                 var student = await _studentRepository.GetStudentByUserId(userId);
                 var vipStudent = await _vipStudentRepository.GetVipStudentByStudentId(student.idStudent.ToString());
+                if (vipStudent == null)
+                    return null;
                 return vipStudent.vipExpire.ToShortDateString();
             }
             catch
