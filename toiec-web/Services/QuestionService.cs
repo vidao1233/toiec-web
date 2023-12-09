@@ -13,13 +13,18 @@ namespace toiec_web.Services
     {
         private readonly IMapper _mapper;
         private readonly IQuestionRepository _questionRepository;
-        
+        private readonly ITestPartRepository _testPartRepository;
+        private readonly ITestQuestionUnitRepository _testQuestionUnitRepository;
 
-        public QuestionService(IMapper mapper, IQuestionRepository questionRepository) 
+        public QuestionService(IMapper mapper, IQuestionRepository questionRepository, ITestPartRepository testPartRepository,
+            ITestQuestionUnitRepository testQuestionUnitRepository) 
         {
             _mapper = mapper;
             _questionRepository = questionRepository;
-            
+            _testPartRepository = testPartRepository;
+            _testQuestionUnitRepository = testQuestionUnitRepository;
+
+
         }
         public async Task<bool> AddQuestion(QuestionAddModel model, string userId)
         {
@@ -94,7 +99,46 @@ namespace toiec_web.Services
 
         public async Task<DoTestViewModel> GetDoTest(Guid testId)
         {
-            return await _questionRepository.GetDoTest(testId);
+            var doTest = new DoTestViewModel();
+            var partModels = new List<DoTestPartModel>();            
+
+            var partList = await _testPartRepository.GetAllTestParts();
+            
+            foreach (var part in partList)
+            {
+                var unitModels = new List<DoTestUnitModel>();
+                var questionModels = new List<DoTestQuestionModel>();
+
+                var unitList = await _testQuestionUnitRepository.GetAllTestQuestionUnitByPart(part.partId, testId);
+                foreach (var unit in unitList)
+                {
+                    var questionList = await _questionRepository.GetAllQuestionByUnit(unit.idQuestionUnit);
+                    foreach(var question in questionList)
+                    {
+                        var objQ = _mapper.Map<DoTestQuestionModel>(question);
+                        questionModels.Add(objQ);
+                        
+                    }
+                    var objU = new DoTestUnitModel
+                    {
+                        idQuestionUnit = unit.idQuestionUnit,
+                        paragraph = unit.paragraph,
+                        audio = unit.audio,
+                        image = unit.image,
+                        script = unit.script,
+                        translation = unit.translation,
+                        questions = questionModels,
+                    };
+                    unitModels.Add(objU);
+                }
+                var objP = new DoTestPartModel
+                {
+                    units = unitModels,
+                };
+                partModels.Add(objP);
+            }  
+            doTest.parts = partModels;
+            return doTest;
         }
 
         public async Task<QuestionViewModel> GetQuestionById(Guid questionId)

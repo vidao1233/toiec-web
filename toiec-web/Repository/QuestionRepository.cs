@@ -119,63 +119,6 @@ namespace toiec_web.Repository
             return listData;
         }
 
-        public async Task<DoTestViewModel> GetDoTest(Guid testId)
-        {
-            var test = await _dbContext.Tests
-                .Include(t => t.TestQuestionUnits)
-                    .ThenInclude(tqu => tqu.Questions)
-                .FirstOrDefaultAsync(t => t.idTest == testId);
-
-            if (test == null)
-            {
-                // Không tìm thấy bài kiểm tra
-                return null;
-            }
-
-            var parts = await _dbContext.TestParts
-                .OrderBy(tp => tp.partName)
-                .ToListAsync();          
-
-            var partModels = new List<DoTestPartModel>();
-            var unitModels = new List<DoTestUnitModel>();
-            var questionModels = new List<DoTestQuestionModel>();
-           
-            foreach (var part in parts)
-            {                
-                var units = await _testQuestionUnitRepository.GetAllTestQuestionUnitByPart(testId, part.partId);
-                foreach (var unit in units)
-                {                    
-                    var questions = await GetAllQuestionByUnit(unit.idQuestionUnit);
-                    foreach (var question in questions)
-                    {
-                        var objQ = _mapper.Map<DoTestQuestionModel>(question);
-                        questionModels.Add(objQ);
-                    }
-                    var unitModel = new DoTestUnitModel
-                    {
-                        idQuestionUnit = unit.idQuestionUnit,
-                        paragraph = unit.paragraph,
-                        audio = unit.audio,
-                        image = unit.image,
-                        script = unit.script,
-                        translation = unit.translation,
-                        questions = questionModels,
-                    };
-                    unitModels.Add(unitModel);
-                }
-                var partModel = new DoTestPartModel
-                {
-                    units = unitModels,
-                };
-                partModels.Add(partModel);
-            }
-            var viewModels = new DoTestViewModel
-            {
-                parts = partModels,
-            };
-            return viewModels;
-        }
-
         public async Task<QuestionModel> GetQuestionById(Guid questionId)
         {
             IAsyncEnumerable<Question> questions = Entities.AsAsyncEnumerable();
