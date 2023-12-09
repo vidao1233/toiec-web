@@ -16,6 +16,7 @@ using toiec_web.ViewModels.VocTopic;
 using toiec_web.ViewModels.VipPackage;
 using toiec_web.ViewModels.Record;
 using toiec_web.ViewModels.Payment;
+using toiec_web.ViewModels.DoTest;
 
 namespace toiec_web.Helper
 {
@@ -121,6 +122,7 @@ namespace toiec_web.Helper
             CreateMap<QuestionModel, QuestionViewModel>().ReverseMap();
             CreateMap<QuestionModel, QuestionAddModel>().ReverseMap();
             CreateMap<QuestionModel, QuestionUpdateModel>().ReverseMap();
+            CreateMap<QuestionModel, DoTestQuestionModel>().ReverseMap();
             #endregion
 
             #region VipPackage
