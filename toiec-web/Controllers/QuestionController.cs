@@ -105,8 +105,8 @@ namespace toiec_web.Controllers
 
         [Authorize(Roles = "Professor")]
         [HttpPut]
-        [Route("UpdateCourse/{questionId:guid}&&{userId}")]
-        public async Task<IActionResult> UpdateCourse([FromBody] QuestionUpdateModel model, Guid questionId, string userId)
+        [Route("UpdateQuestion/{questionId:guid}&&{userId}")]
+        public async Task<IActionResult> UpdateQuestion([FromBody] QuestionUpdateModel model, Guid questionId, string userId)
         {
             var response = await _questionService.UpdateQuestion(model, questionId, userId);
             if (response)
@@ -119,8 +119,8 @@ namespace toiec_web.Controllers
 
         [Authorize(Roles = "Professor")]
         [HttpDelete]
-        [Route("DeleteCourse/{id:guid}")]
-        public async Task<IActionResult> DeleteCourse(Guid id)
+        [Route("DeleteQuestion/{id:guid}")]
+        public async Task<IActionResult> DeleteQuestion(Guid id)
         {
             var response = await _questionService.DeleteQuestion(id);
             if (response == true)

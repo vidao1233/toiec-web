@@ -19,7 +19,7 @@ namespace toiec_web.Controllers
         }
 
         [HttpPost]
-        [Route("AddListUserAnswers/{userId}")]
+        [Route("AddListUserAnswers/{userId}&&{testId}")]
         public async Task<IActionResult> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId)
         {
             var response = await _userAnswerService.AddListUserAnswers(models, userId, testId);
