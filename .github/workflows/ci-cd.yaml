@@ -22,3 +22,13 @@ jobs:
 
             - name: Build app
               run: dotnet build -c Release  --no-restore
+
+            - name: Publish app
+              run: dotnet publish -c Release -o ./out
+
+            - name: Deploy to Azure Service
+              uses: azure/webapps-deploy@v2
+              with:
+                app-name: toiec-web
+                publish-profile: ${{ secrets.TOIEC_WEB_B149 }}
+                package: ./out
