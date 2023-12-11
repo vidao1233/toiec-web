@@ -1,9 +1,13 @@
-﻿namespace toiec_web.ViewModels.Authentication
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace toiec_web.ViewModels.Authentication
 {
     public class UpdateProfileModel
     {
         public string? FullName { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        public string? DateOfBirth { get; set; }
         public bool Gender { get; set; }
         public string PhoneNumber { get; set; }
         public bool Enable2FA { get; set; }

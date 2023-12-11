@@ -5,6 +5,7 @@ namespace toiec_web.ViewModels.DoTest
     public class DoTestUnitModel
     {
         public Guid idQuestionUnit { get; set; }
+        public Guid partId { get; set; }
         public string? paragraph { get; set; }
         public string? audio { get; set; }
         public string? image { get; set; }

@@ -122,6 +122,7 @@ namespace toiec_web.Services
                     var objU = new DoTestUnitModel
                     {
                         idQuestionUnit = unit.idQuestionUnit,
+                        partId = part.partId,
                         paragraph = unit.paragraph,
                         audio = unit.audio,
                         image = unit.image,

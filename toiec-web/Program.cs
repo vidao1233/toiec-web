@@ -38,7 +38,7 @@ namespace toiec_web
             //add DBContext
             builder.Services.AddDbContext<ToiecDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("AzureConnection"));
             });
             //add Identity
             builder.Services.AddIdentity<Users, IdentityRole>()
@@ -124,6 +124,10 @@ namespace toiec_web
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                //app.UseSwaggerUI(c =>
+                //{
+                //    c.SwaggerEndpoint("/swagger/index.html", "API V1");
+                //});
             }
 
             //app.UseHttpsRedirection();
@@ -138,5 +142,6 @@ namespace toiec_web
 
             app.Run();
         }
+
     }
 }
