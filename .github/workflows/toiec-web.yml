@@ -8,7 +8,7 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: toiec-web\publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
-  WORKING_DIRECTORY: toiec-web\Program.cs
+  WORKING_DIRECTORY: toiec-web
 jobs:
   build:
     runs-on: windows-latest
