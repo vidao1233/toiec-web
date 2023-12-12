@@ -106,14 +106,13 @@ namespace toiec_web.Services
             
             foreach (var part in partList)
             {
-                var unitModels = new List<DoTestUnitModel>();
-                var questionModels = new List<DoTestQuestionModel>();
-
+                var unitModels = new List<DoTestUnitModel>();            
                 var unitList = await _testQuestionUnitRepository.GetAllTestQuestionUnitByPart(part.partId, testId);
                 foreach (var unit in unitList)
                 {
                     var questionList = await _questionRepository.GetAllQuestionByUnit(unit.idQuestionUnit);
-                    foreach(var question in questionList)
+                    var questionModels = new List<DoTestQuestionModel>();
+                    foreach (var question in questionList)
                     {
                         var objQ = _mapper.Map<DoTestQuestionModel>(question);
                         questionModels.Add(objQ);
