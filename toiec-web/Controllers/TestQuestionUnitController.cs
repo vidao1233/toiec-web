@@ -95,7 +95,7 @@ namespace toiec_web.Controllers
             mapModel.translation = model.translation;
 
             var response = await _testQuestionUnitService.AddTestQuestionUnit(mapModel);
-            if (response == true)
+            if (response)
             {
                 return StatusCode(StatusCodes.Status200OK);
             }
@@ -109,8 +109,7 @@ namespace toiec_web.Controllers
         public async Task<IActionResult> UpdateTestQuestionUnit([FromForm] TestQuestionUnitUpdateMapModel model, Guid id)
         {
             var mapModel = new TestQuestionUnitUpdateModel();
-            //map data
-            
+            //map data            
             mapModel.idTest = model.idTest;
             mapModel.idTestPart = model.idTestPart;
             mapModel.paragraph = model.paragraph;
@@ -137,7 +136,7 @@ namespace toiec_web.Controllers
             mapModel.translation = model.translation;
 
             var response = await _testQuestionUnitService.UpdateTestQuestionUnit(mapModel, id);
-            if (response == true)
+            if (response)
             {
                 return StatusCode(StatusCodes.Status200OK);
             }

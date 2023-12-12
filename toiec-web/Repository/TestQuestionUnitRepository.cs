@@ -10,11 +10,15 @@ namespace toiec_web.Repository
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        public TestQuestionUnitRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper) 
+        private readonly IUploadFileRepository _uploadFileRepository;
+
+        public TestQuestionUnitRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper, 
+            IUploadFileRepository uploadFileRepository) 
             : base(dbContext)
         {
             _uow = uow;
             _mapper = mapper;
+            _uploadFileRepository = uploadFileRepository;
         }
 
         public  Task<bool> AddTestQuestionUnit(TestQuestionUnitModel model)
@@ -113,15 +117,33 @@ namespace toiec_web.Repository
             return Guid.Empty;
         }
 
-        public Task<bool> UpdateTestQuestionUnit(TestQuestionUnitModel model, Guid unitId)
+        public async Task<bool> UpdateTestQuestionUnit(TestQuestionUnitModel model, Guid unitId)
         {
             try
             {
-                var unit = _mapper.Map<TestQuestionUnit>(model);
-                unit.idQuestionUnit = unitId;
-                Entities.Update(unit);
+                var unit = await GetTestQuestionUnitById(unitId);
+
+                //check exist file
+                if (model.image != null)
+                {
+                    if (unit.image != null)
+                    {
+                        await _uploadFileRepository.DeleteFileAsync(unit.image);
+                    }
+                }
+                if (model.audio != null)
+                {
+                    if (unit.audio != null)
+                    {
+                        await _uploadFileRepository.DeleteFileAsync(unit.audio);
+                    }
+                }
+
+                var obj = _mapper.Map<TestQuestionUnit>(model);
+                obj.idQuestionUnit = unitId;
+                Entities.Update(obj);
                 _uow.SaveChanges();
-                return Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {

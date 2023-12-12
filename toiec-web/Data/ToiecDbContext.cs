@@ -45,7 +45,7 @@ namespace toiec_web.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            SeedDatas(modelBuilder);
+            //SeedDatas(modelBuilder);
 
             //config table
             #region relationship
