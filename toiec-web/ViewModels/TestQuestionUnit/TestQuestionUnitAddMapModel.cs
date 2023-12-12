@@ -1,6 +1,6 @@
 ﻿namespace toiec_web.ViewModels.TestQuestionUnit
 {
-    public class TestQuestionUnitMapModel
+    public class TestQuestionUnitAddMapModel
     {
         //public Guid idQuestionUnit { get; set; }
         public Guid idTest { get; set; }

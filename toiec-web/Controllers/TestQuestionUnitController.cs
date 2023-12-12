@@ -69,7 +69,7 @@ namespace toiec_web.Controllers
         [Authorize(Roles = "Professor")]
         [HttpPost]
         [Route("AddTestQuestionUnit")]
-        public async Task<IActionResult> AddTestQuestionUnit([FromForm]TestQuestionUnitMapModel model)
+        public async Task<IActionResult> AddTestQuestionUnit([FromForm]TestQuestionUnitAddMapModel model)
         {            
             var mapModel = new TestQuestionUnitAddModel();
 
@@ -106,24 +106,32 @@ namespace toiec_web.Controllers
         [Authorize(Roles = "Professor")]
         [HttpPut]
         [Route("UpdateTestQuestionUnit/{id:guid}")]
-        public async Task<IActionResult> UpdateTestQuestionUnit([FromForm] TestQuestionUnitMapModel model, Guid id)
+        public async Task<IActionResult> UpdateTestQuestionUnit([FromForm] TestQuestionUnitUpdateMapModel model, Guid id)
         {
             var mapModel = new TestQuestionUnitUpdateModel();
             //map data
-            //mapModel.idQuestionUnit = model.idQuestionUnit;
+            
             mapModel.idTest = model.idTest;
             mapModel.idTestPart = model.idTestPart;
             mapModel.paragraph = model.paragraph;
-            if (model.audio != null)
+            if (model.newAudio != null)
             {
-                var audio = await _uploadFileService.AddAudioAsync(model.audio);
+                var audio = await _uploadFileService.AddAudioAsync(model.newAudio);
                 mapModel.audio = audio.Url.ToString();
             }
-
-            if (model.image != null)
+            if (model.oldAudio != null)
             {
-                var image = await _uploadFileService.AddFileAsync(model.image);
+                mapModel.audio = model.oldAudio;
+            }
+
+            if (model.newImage != null)
+            {
+                var image = await _uploadFileService.AddFileAsync(model.newImage);
                 mapModel.image = image.Url.ToString();
+            }
+            if (model.oldImage != null)
+            {
+                mapModel.image = model.oldImage;
             }
             mapModel.script = model.script;
             mapModel.translation = model.translation;

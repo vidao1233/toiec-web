@@ -355,9 +355,20 @@ namespace toiec_web.Controllers
             user.DateOfBirth = model.DateOfBirth.ToString();
             user.TwoFactorEnabled = model.Enable2FA;
 
-            var image = await _uploadFileService.AddFileAsync(model.ImageURL);
+            if (model.NewImage != null)
+            {
+                var image = await _uploadFileService.AddFileAsync(model.NewImage);
+                if(user.ImageURL != null)
+                {
+                    await _uploadFileService.DeleteFileAsync(user.ImageURL);
+                }                
 
-            user.ImageURL = image.Url.ToString();
+                user.ImageURL = image.Url.ToString();
+            }
+            if(model.OldImage != null)
+            {
+                user.ImageURL = model.OldImage;
+            }
 
             IdentityResult result = await _userManager.UpdateAsync(user);
             await _dbContext.SaveChangesAsync();

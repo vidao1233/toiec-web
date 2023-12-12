@@ -38,7 +38,7 @@ namespace toiec_web
             //add DBContext
             builder.Services.AddDbContext<ToiecDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("AzureConnection"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             //add Identity
             builder.Services.AddIdentity<Users, IdentityRole>()
