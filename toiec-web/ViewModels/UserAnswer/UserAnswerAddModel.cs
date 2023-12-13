@@ -7,6 +7,6 @@
         public Guid idRecord { get; set; }
         public Guid idStudent { get; set; }
         public string userChoice { get; set; }
-        public bool state { get; set; }
+        public bool? state { get; set; }
     }
 }
