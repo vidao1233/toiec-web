@@ -12,14 +12,11 @@ namespace toiec_web.Repository
         private readonly IMapper _mapper;
         private readonly IStudentRepository _studentRepository;
         private readonly IQuestionRepository _questionRepository;
-        private readonly ITestQuestionUnitRepository _testQuestionUnitRepository;
-        private readonly ITestPartRepository _testPartRepository;
         private readonly ToiecDbContext _dbContext;
         private readonly IRecordRepository _recordRepository;
 
         public UserAnswerRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper
-            , IStudentRepository studentRepository, IQuestionRepository questionRepository, 
-            ITestQuestionUnitRepository testQuestionUnitRepository, ITestPartRepository testPartRepository,
+            , IStudentRepository studentRepository, IQuestionRepository questionRepository,
             IRecordRepository recordRepository) 
             : base(dbContext)
         {
@@ -27,8 +24,6 @@ namespace toiec_web.Repository
             _mapper = mapper;
             _studentRepository = studentRepository;
             _questionRepository = questionRepository;
-            _testQuestionUnitRepository = testQuestionUnitRepository;
-            _testPartRepository = testPartRepository;
             _dbContext = dbContext;
             _recordRepository = recordRepository;
         }
@@ -41,18 +36,24 @@ namespace toiec_web.Repository
                 var student = await _studentRepository.GetStudentByUserId(userId);
 
                 var answer = _mapper.Map<UserAnswer>(model);
-                answer.idUAnswer = Guid.NewGuid();
-                answer.idStudent = student.idStudent;
-
-                //check userChoice
-                var question = await _questionRepository.GetQuestionById(answer.idQuestion);
-                if (question.answer == answer.userChoice)
-                {
-                    answer.state = true;
-                }
                 Entities.Add(answer);
                 _uow.SaveChanges();
                 return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public Task<bool> SaveUserAnswer(UserAnswerModel model)
+        {
+            try
+            {
+                var answer = _mapper.Map<UserAnswer>(model);
+                Entities.Add(answer);
+                _uow.SaveChanges();
+                return Task.FromResult(true);
             }
             catch (Exception ex)
             {
@@ -67,12 +68,30 @@ namespace toiec_web.Repository
                 //get idStudent
                 var student = await _studentRepository.GetStudentByUserId(userId);
 
-                var listAnswers = _mapper.Map<List<UserAnswer>>(models);
+                var listAnswers = _mapper.Map<List<UserAnswerModel>>(models);
+                var initRecord = new RecordModel
+                {
+                    idRecord = Guid.NewGuid(),
+                    idTest = testId,
+                    idStudent = student.idStudent,
+                    createDate = DateTime.Now,
+                    listenCorrect = 0,
+                    listenScore = 0,
+                    readingCorrect = 0,
+                    readScore = 0,
+                    correctAns = 0,
+                    wrongAns = 0,
+                    totalScore = 0
+                };
 
+
+                //save answers
                 foreach (var answer in listAnswers)
                 {
                     answer.idUAnswer = Guid.NewGuid();
                     answer.idStudent = student.idStudent;
+                    answer.idRecord = initRecord.idRecord;
+
 
                     //check userChoice
                     var question = await _questionRepository.GetQuestionById(answer.idQuestion);
@@ -84,32 +103,27 @@ namespace toiec_web.Repository
                     {
                         answer.state = false;
                     }
-
-                    Entities.Add(answer);
-                }
+                }                
 
                 //calculate score
-                var score = await CalculateScore(userId, testId);
+                var score = await CalculateScore(listAnswers);
 
                 //map to recordModel
-                var record = new RecordModel
+                initRecord.listenCorrect = score.listenCorrect;
+                initRecord.listenScore = score.listenScore;
+                initRecord.readingCorrect = score.readingCorrect;
+                initRecord.readScore = score.readScore; 
+                initRecord.correctAns = score.correctAns;
+                initRecord.wrongAns = score.wrongAns;
+                initRecord.totalScore = score.totalScore;                
+
+                //save record
+               // await _recordRepository.UpdateRecord(initRecord, initRecord.idRecord);
+                await _recordRepository.AddRecord(initRecord);
+                listAnswers.ForEach(async answer =>
                 {
-                    idRecord = Guid.NewGuid(),
-                    idTest = testId,
-                    idStudent = student.idStudent,
-                    createDate = DateTime.Now,
-                    listenCorrect = score.listenCorrect,
-                    listenScore = score.listenScore,
-                    readingCorrect = score.readingCorrect,
-                    readScore = score.readScore,
-                    correctAns = score.correctAns,
-                    wrongAns = score.wrongAns,
-                    totalScore = score.totalScore
-                };
-
-                //add record
-                await _recordRepository.AddRecord(record);
-
+                    await SaveUserAnswer(answer);
+                });
                 _uow.SaveChanges();
                 return true;
             }
@@ -119,84 +133,53 @@ namespace toiec_web.Repository
             }
         }
 
-        public async Task<Tuple<int, int>> CountCorrectAnswer(string userId, Guid testId)
+        public async Task<ScoreUserAnserModel> CalculateScore(List<UserAnswerModel> models)
         {
-            //get test
-            var test = await _dbContext.Tests
-                .Where(t => t.idTest == testId)
-                .FirstOrDefaultAsync();
-
-            //get unit
-            var unitListOfTest = await _dbContext.TestQuestionUnits
-                .Where(tqu => tqu.idTest == test.idTest)
-                .ToListAsync();
-
-            //get all userAnswer of student
-            var allUserAnsList = await GetAllUserAnswerByStudent(userId);
-            Tuple<int, int> count = new(0,0);
-            foreach (var unit in unitListOfTest)
-            {
-                // get userAnswer of unit
-                var answerOfUnit = 
-                    allUserAnsList.Where(ans => ans.idQuestion == unit.idQuestionUnit).ToList();
-
-                foreach (var answer in answerOfUnit)
-                {
-                    // Lấy câu hỏi tương ứng với userAnswer
-                    var question = await _dbContext.Questions.FindAsync(answer.idQuestion);
-
-                    if (question != null && answer.userChoice == question.answer)
-                    {
-                        count = await CountCorrectAnswerByPart(answer.idUAnswer);
-                    }
-                }
-            }
-            return count;
-        }
-
-        public async Task<Tuple<int, int>> CountCorrectAnswerByPart(Guid userAnswerId)
-        {
-            // get partName from UserAnswer
-            var partName = await GetPartName(userAnswerId);
+            var data = new ScoreUserAnserModel();
+            var listParam =await _dbContext.ScoreParams.ToListAsync();
 
             // count
             int listenCorrect = 0;
             int readCorrect = 0;
+            int wrongAnswer = 0;
 
-            // check partName
-            if (partName == "Part 1" || partName == "Part 2" || partName == "Part 3" || partName == "Part 4")
+            foreach (var answer in models)
             {
-                listenCorrect++;
+                // get partName from UserAnswer
+                var partName = await GetPartName(answer);
+                // check partName
+                if (partName == "Part 1" || partName == "Part 2" || partName == "Part 3" || partName == "Part 4")
+                {
+                    if (answer.state)
+                        listenCorrect++;
+                    else
+                        wrongAnswer++;
+                }
+                else if (partName == "Part 5" || partName == "Part 6" || partName == "Part 7")
+                {
+                    if (answer.state)
+                        readCorrect++;
+                    else
+                        wrongAnswer++;
+                }
             }
-            else if (partName == "Part 5" || partName == "Part 6" || partName == "Part 7")
-            {
-                readCorrect++;
-            }
-            return Tuple.Create(listenCorrect, readCorrect);
-        }
 
-        public async Task<ScoreUserAnserModel> CalculateScore(string userId, Guid testId)
-        {
-            var data = new ScoreUserAnserModel();
-            var count = await CountCorrectAnswer(userId, testId);
-            var listParam =await _dbContext.ScoreParams.ToListAsync();
-
-            foreach(var item in listParam)
+            foreach (var item in listParam)
             {
-                if(count.Item1 == item.correctAnswers)
+                if(listenCorrect == item.correctAnswers)
                 {
                     data.listenScore = item.listenningScore;
                 }
-                if(count.Item2 == item.correctAnswers)
+                if(readCorrect == item.correctAnswers)
                 {
                     data.readScore = item.readingScore;
                 }
             }
             //map data
-            data.listenCorrect = count.Item1;
-            data.readingCorrect = count.Item2;
-            data.correctAns = count.Item1 + count.Item2;
-            data.wrongAns = 200 - (count.Item1 + count.Item2);
+            data.listenCorrect = listenCorrect;
+            data.readingCorrect = readCorrect;
+            data.correctAns = listenCorrect + readCorrect;
+            data.wrongAns = wrongAnswer;
             data.totalScore = data.listenScore + data.readScore;
 
             return data;
@@ -220,17 +203,20 @@ namespace toiec_web.Repository
             return listData;
         }
 
-        public async Task<string> GetPartName(Guid userAnswerId)
+        public async Task<string> GetPartName(UserAnswerModel model)
         {
-            var question = await _questionRepository.GetQuestionByUserAnswer(userAnswerId);
-            var unit = await _testQuestionUnitRepository.GetTestQuestionUnitByQuestion(question);
-            var partId = await _testPartRepository.GetPartByUnit(unit);
-
-            var part = await _dbContext.TestParts
-                .Where(tp => tp.partId == partId)
-                .Select(tp => tp.partName)
+            var question = await _dbContext.Questions
+                .Where(q => q.idQuestion == model.idQuestion)
                 .FirstOrDefaultAsync();
 
+            var unit = await _dbContext.TestQuestionUnits
+                .Where(u => u.idQuestionUnit == question.idUnit)
+                .FirstOrDefaultAsync();
+
+            var part = await _dbContext.TestParts
+                .Where(tp => tp.partId == unit.idTestPart)
+                .Select(tp => tp.partName)
+                .FirstOrDefaultAsync();
             return part;
         }
     }

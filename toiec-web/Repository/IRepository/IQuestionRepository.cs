@@ -7,7 +7,6 @@ namespace toiec_web.Repository.IRepository
     {
         Task<IEnumerable<QuestionModel>> GetAllQuestions();
         Task<QuestionModel> GetQuestionById(Guid questionId);
-        public Task<Guid> GetQuestionByUserAnswer(Guid questionId);
         Task<IEnumerable<QuestionModel>> GetAllQuestionByQuiz(Guid quizId);
         Task<IEnumerable<QuestionModel>> GetAllQuestionByUnit(Guid unitId);
         Task<IEnumerable<QuestionModel>> GetAllQuestionByProfessor(string userId);

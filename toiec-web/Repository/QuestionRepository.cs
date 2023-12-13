@@ -133,16 +133,6 @@ namespace toiec_web.Repository
             return null;
         }
 
-        public async Task<Guid> GetQuestionByUserAnswer(Guid questionId)
-        {
-            var question = await Entities.FirstOrDefaultAsync(q => q.idQuestion == questionId);
-            if(question != null)
-            {
-                var data = _mapper.Map<QuestionModel>(question);
-                return data.idQuestion;
-            }
-            return Guid.Empty;
-        }
 
         public async Task<bool> UpdateQuestion(QuestionModel model, Guid questionId, string userId)
         {

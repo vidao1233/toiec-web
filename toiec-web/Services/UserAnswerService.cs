@@ -28,10 +28,5 @@ namespace toiec_web.Services
             var data = _mapper.Map<UserAnswerModel>(model);
             return await _userAnswerRepository.AddUserAnswer(data, userId);
         }
-
-        public async Task<ScoreUserAnserModel> CalculateScore(string userid, Guid testid)
-        {
-            return await _userAnswerRepository.CalculateScore(userid, testid);
-        }
     }
 }
