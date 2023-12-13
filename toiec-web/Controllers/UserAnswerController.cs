@@ -23,9 +23,9 @@ namespace toiec_web.Controllers
         public async Task<IActionResult> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId)
         {
             var response = await _userAnswerService.AddListUserAnswers(models, userId, testId);
-            if (response)
+            if (response != null)
             {
-                return StatusCode(StatusCodes.Status200OK);
+                return Ok(response);
             }
             else
                 return StatusCode(StatusCodes.Status500InternalServerError);

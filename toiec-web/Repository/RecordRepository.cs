@@ -72,5 +72,24 @@ namespace toiec_web.Repository
             }
             return listData;
         }
+
+        public async Task<IEnumerable<RecordModel>> GetRecordByUser(string userId)
+        {
+            //get student id
+            var student = await _studentRepository.GetStudentByUserId(userId);
+
+            var listData = new List<RecordModel>();
+            var data = await Entities.ToListAsync();
+
+            foreach (var record in data)
+            {
+                if (record.idStudent == student.idStudent)
+                {
+                    var obj = _mapper.Map<RecordModel>(record);
+                    listData.Add(obj);
+                }
+            }
+            return listData;
+        }
     }
 }

@@ -61,7 +61,7 @@ namespace toiec_web.Repository
             }
         }
 
-        public async Task<bool> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId)
+        public async Task<RecordModel> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace toiec_web.Repository
                     await SaveUserAnswer(answer);
                 });
                 _uow.SaveChanges();
-                return true;
+                return initRecord;
             }
             catch (Exception ex)
             {

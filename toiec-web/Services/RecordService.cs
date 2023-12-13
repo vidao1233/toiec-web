@@ -18,6 +18,19 @@ namespace toiec_web.Services
             _mapper = mapper;
         }
 
+        public async Task<IEnumerable<RecordViewModel>> GetRecordByUser(string userId)
+        {
+            var data = await _recordRepository.GetRecordByUser(userId);
+            var listData = new List<RecordViewModel>();
+
+            foreach (var record in data)
+            {
+                var obj = _mapper.Map<RecordViewModel>(record);
+                listData.Add(obj);
+            }
+            return listData;
+        }
+
         public async Task<IEnumerable<RecordViewModel>> GetRecordByUserTest(string userId, Guid testId)
         {
             var data = await _recordRepository.GetRecordByUserTest(userId, testId);
