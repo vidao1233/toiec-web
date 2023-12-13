@@ -14,7 +14,6 @@ namespace toiec_web
     {
         public static void Main(string[] args)
         {
-            var corsPolicyName = "_myAllowSpecificOrigins";
             var builder = WebApplication.CreateBuilder(args);
             {
                 builder.Services
@@ -26,13 +25,12 @@ namespace toiec_web
             // Add services to the container.
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy(
-                    name: corsPolicyName,
-                    policy =>
-                    {
-                        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                    }
-                );
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                });
             });
             builder.Services.AddControllers().AddControllersAsServices();
             //add DBContext
@@ -134,7 +132,7 @@ namespace toiec_web
             //app.UseHttpsRedirection();
 
             // Configure CORS
-            app.UseCors(corsPolicyName);
+            app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
 
