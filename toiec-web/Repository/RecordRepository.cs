@@ -37,6 +37,23 @@ namespace toiec_web.Repository
 
         }
 
+        public Task<bool> UpdateRecord(RecordModel model, Guid idRecord)
+        {
+            try
+            {
+                var record = _mapper.Map<TestRecord>(model);
+                record.idRecord = idRecord;
+                Entities.Update(record);
+                _unitOfWork.SaveChanges();
+                return Task.FromResult(true);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
         public async Task<IEnumerable<RecordModel>> GetRecordByUserTest(string userId, Guid testId)
         {
             //get student id

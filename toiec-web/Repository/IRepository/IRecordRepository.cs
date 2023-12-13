@@ -6,5 +6,6 @@ namespace toiec_web.Repository.IRepository
     {
         Task<IEnumerable<RecordModel>> GetRecordByUserTest(string userId, Guid testId);
         Task<bool> AddRecord(RecordModel model);
+        Task<bool> UpdateRecord(RecordModel model, Guid idRecord);
     }
 }
