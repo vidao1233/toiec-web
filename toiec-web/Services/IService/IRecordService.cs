@@ -6,5 +6,6 @@ namespace toiec_web.Services.IService
     public interface IRecordService
     {
         Task<IEnumerable<RecordViewModel>> GetRecordByUserTest(string userId, Guid testId);
+        Task<IEnumerable<RecordViewModel>> GetRecordByUser(string userId);
     }
 }

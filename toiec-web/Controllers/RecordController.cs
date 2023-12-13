@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using toiec_web.Services;
 using toiec_web.Services.IService;
 
 namespace toiec_web.Controllers
 {
+    [Authorize]
     public class RecordController : BaseAPIController
     {
         private readonly IRecordService _recordService;
@@ -17,12 +19,24 @@ namespace toiec_web.Controllers
         [Route("GetRecordByUserTest/{userId}&&{testId:guid}")]
         public async Task<IActionResult> GetRecordByUserTest(string userId, Guid testId)
         {
-            var unit = await _recordService.GetRecordByUserTest(userId, testId);
-            if (unit == null)
+            var record = await _recordService.GetRecordByUserTest(userId, testId);
+            if (record == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound);
             }
-            return Ok(unit);
+            return Ok(record);
+        }
+
+        [HttpGet]
+        [Route("GetRecordByUser/{userId}")]
+        public async Task<IActionResult> GetRecordByUser(string userId)
+        {
+            var record = await _recordService.GetRecordByUser(userId);
+            if (record == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            return Ok(record);
         }
     }
 }

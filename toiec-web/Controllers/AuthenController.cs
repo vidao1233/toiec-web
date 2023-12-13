@@ -181,12 +181,19 @@ namespace toiec_web.Controllers
                 }
                 //generate the token with claim
                 var jwtToken = GetToken(authClaims);
+
+                var student = new StudentModel();
+                //get student
+                if (userRoles.Contains("Student"))
+                {
+                    student = await _studentService.GetStudentByUserId(user.Id);
+                }
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(jwtToken),                    
                     expiration = jwtToken.ValidTo,
                     user.EmailConfirmed,
-
+                    student.freeTest,
                 });
                 //returning the token...
             }

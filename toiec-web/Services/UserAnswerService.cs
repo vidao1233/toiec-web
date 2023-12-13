@@ -18,7 +18,7 @@ namespace toiec_web.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId)
+        public async Task<RecordModel> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId)
         { 
             return await _userAnswerRepository.AddListUserAnswers(models, userId, testId);
         }
