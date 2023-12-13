@@ -50,11 +50,6 @@ namespace toiec_web.Repository
                 {
                     answer.state = true;
                 }
-                else
-                {
-                    answer.state = false;
-                }
-
                 Entities.Add(answer);
                 _uow.SaveChanges();
                 return true;
