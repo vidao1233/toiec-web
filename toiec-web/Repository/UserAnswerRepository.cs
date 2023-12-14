@@ -219,5 +219,20 @@ namespace toiec_web.Repository
                 .FirstOrDefaultAsync();
             return part;
         }
+
+        public async Task<IEnumerable<UserAnswerModel>> GetUserAnswerByRecord(Guid recordId)
+        {
+            var data = await Entities.Where(rc => rc.idRecord == recordId)
+                .OrderBy(rc => rc.idUAnswer)
+                .ToListAsync();
+
+            var listData = new List<UserAnswerModel>();
+            foreach (var item in data)
+            {
+                var obj = _mapper.Map<UserAnswerModel>(item);
+                listData.Add(obj);
+            }
+            return listData;
+        }
     }
 }

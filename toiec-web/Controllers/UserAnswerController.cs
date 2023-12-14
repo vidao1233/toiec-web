@@ -30,5 +30,17 @@ namespace toiec_web.Controllers
             else
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
+
+        [HttpGet]
+        [Route("GetUserAnswerByRecord/{recordId}")]
+        public async Task<IActionResult> GetUserAnswerByRecord(Guid recordId)
+        {
+            var answer = await _userAnswerService.GetUserAnswerByRecord(recordId);
+            if (answer == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            return Ok(answer);
+        }
     }
 }
