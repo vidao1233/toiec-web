@@ -13,5 +13,6 @@
         public int correctAns { get; set; }
         public int wrongAns { get; set; }
         public int totalScore { get; set; }
+        public string? testName { get; set; } = null;
     }
 }

@@ -135,6 +135,7 @@ namespace toiec_web.Helper
             #region UserAnswer
             CreateMap<UserAnswer, UserAnswerModel>().ReverseMap();
             CreateMap<UserAnswerModel, UserAnswerAddModel>().ReverseMap();
+            CreateMap<UserAnswerModel, UserAnswerViewModel>().ReverseMap();
             #endregion
 
             #region Record

@@ -13,7 +13,7 @@ namespace toiec_web.Repository
         private readonly IStudentRepository _studentRepository;
 
         public RecordRepository(ToiecDbContext dbContext, IMapper mapper, IUnitOfWork unitOfWork,
-            IStudentRepository studentRepository) 
+            IStudentRepository studentRepository, ITestRepository testRepository) 
             : base(dbContext)
         {
             _mapper = mapper;
@@ -90,6 +90,20 @@ namespace toiec_web.Repository
                 }
             }
             return listData;
+        }
+
+        public async Task<RecordModel> GetRecordByID(Guid recordId)
+        {
+            IAsyncEnumerable<TestRecord> records = Entities.AsAsyncEnumerable();
+            await foreach (var record in records)
+            {
+                if (record.idRecord == recordId)
+                {
+                    RecordModel data = _mapper.Map<RecordModel>(record);
+                    return data;
+                }
+            }
+            return null;
         }
     }
 }

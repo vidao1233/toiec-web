@@ -38,5 +38,17 @@ namespace toiec_web.Controllers
             }
             return Ok(record);
         }
+
+        [HttpGet]
+        [Route("GetRecordByID/{recordId:guid}")]
+        public async Task<IActionResult> GetRecordByID(Guid recordId)
+        {
+            var record = await _recordService.GetRecordByID(recordId);
+            if (record == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            return Ok(record);
+        }
     }
 }
