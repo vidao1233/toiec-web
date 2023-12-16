@@ -231,7 +231,7 @@ namespace toiec_web.Services
             return Task.FromResult(paymentUrl);
         }
 
-        public async Task<MomoExecuteResponseModel> VNPayPaymentExecute(IQueryCollection collections, Guid paymentMethodId)
+        public async Task<VnPayExecuteResponseModel> VNPayPaymentExecute(IQueryCollection collections, Guid paymentMethodId)
         {
             var pay = new VnPayLibrary();
             var response = pay.GetFullResponseData(collections, _configuration["Vnpay:Config:HashSecret"]);
@@ -248,15 +248,15 @@ namespace toiec_web.Services
                 idPackage = idPackage,
                 message = "Success",
                 paymentDate = DateTime.Now,
-                paymentAmount = Double.Parse(response.Amount),
+                paymentAmount = response.Amount / 100,
             };
             if (!response.Success)
             {
-                return new MomoExecuteResponseModel()
+                return new VnPayExecuteResponseModel()
                 {
                     UserId = user.idUser.ToString(),
                     StudentId = studentId.ToString(),
-                    Amount = response.Amount,
+                    Amount = response.Amount / 100,
                     Message = "Thanh toán không thành công, giao dịch bị hủy!",
                     PaymentInfo = response.OrderInfo,
                 };
@@ -264,11 +264,11 @@ namespace toiec_web.Services
             if (response.Success)
                 if (await _paymentRepository.AddPayment(payment) == true)
                 {
-                    return new MomoExecuteResponseModel()
+                    return new VnPayExecuteResponseModel()
                     {
                         UserId = user.idUser.ToString(),
                         StudentId = studentId.ToString(),
-                        Amount = response.Amount,
+                        Amount = response.Amount / 100,
                         Message = "Thanh toán thành công!",
                         PaymentInfo = response.OrderInfo,
                     };

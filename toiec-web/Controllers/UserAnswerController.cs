@@ -28,7 +28,7 @@ namespace toiec_web.Controllers
                 return Ok(response);
             }
             else
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError);            
         }
 
         [HttpGet]

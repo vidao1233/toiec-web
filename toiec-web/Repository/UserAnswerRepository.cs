@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using toiec_web.Infrastructure;
 using toiec_web.Models;
 using toiec_web.Repository.IRepository;
+using toiec_web.ViewModels.UserAnswer;
 
 namespace toiec_web.Repository
 {
@@ -61,7 +62,7 @@ namespace toiec_web.Repository
             }
         }
 
-        public async Task<RecordModel> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId)
+        public async Task<UserAnswerResponseModel> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId)
         {
             try
             {
@@ -103,7 +104,7 @@ namespace toiec_web.Repository
                     {
                         answer.state = false;
                     }
-                }                
+                }
 
                 //calculate score
                 var score = await CalculateScore(listAnswers);
@@ -112,10 +113,10 @@ namespace toiec_web.Repository
                 initRecord.listenCorrect = score.listenCorrect;
                 initRecord.listenScore = score.listenScore;
                 initRecord.readingCorrect = score.readingCorrect;
-                initRecord.readScore = score.readScore; 
+                initRecord.readScore = score.readScore;
                 initRecord.correctAns = score.correctAns;
                 initRecord.wrongAns = score.wrongAns;
-                initRecord.totalScore = score.totalScore;                
+                initRecord.totalScore = score.totalScore;
 
                 //add record
                 await _recordRepository.AddRecord(initRecord);
@@ -128,7 +129,14 @@ namespace toiec_web.Repository
                 student.freeTest = false;
                 await _studentRepository.UpdateStudent(student);
                 _uow.SaveChanges();
-                return initRecord;
+
+                var response = new UserAnswerResponseModel
+                {
+                    idRecord = initRecord.idRecord,
+                    freetest = student.freeTest
+                };
+                return response;
+
             }
             catch (Exception ex)
             {
