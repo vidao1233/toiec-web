@@ -14,6 +14,6 @@ namespace toiec_web.Services.IService
         Task<MomoCreatePaymentResponseModel> CreateMoMoPaymentAsync(Guid idStudent, Guid idPackage, double price);
         Task<MomoExecuteResponseModel> MoMoPaymentExecuteAsync(IQueryCollection collection, Guid idMethod);
         Task<string> CreateVNPayPaymentUrl(Guid idStudent, Guid idPackage, double price, HttpContext context);
-        Task<MomoExecuteResponseModel> VNPayPaymentExecute(IQueryCollection collections, Guid paymentMethodId);
+        Task<VnPayExecuteResponseModel> VNPayPaymentExecute(IQueryCollection collections, Guid paymentMethodId);
     }
 }
