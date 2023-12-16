@@ -98,16 +98,16 @@ namespace toiec_web.Controllers
                 if (vipStudent != null)
                 {
                     await _vipStudentService.UpdateVipStudent(vipStudent, vipPackage.duration);
-                    return Redirect("https://victoryu-toiec.vercel.app/vippackage-checkout/success");
+                    return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/success");
                 }
                 else
                 {
                     await _vipStudentService.AddVipStudent(response.StudentId, vipPackage.duration);
-                    return Redirect("https://victoryu-toiec.vercel.app/vippackage-checkout/success");
+                    return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/success");
                 }
-                return Redirect("https://victoryu-toiec.vercel.app/vippackage-checkout/fail");
+                return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/fail");
             }
-            return Redirect("https://victoryu-toiec.vercel.app/vippackage-checkout/fail");
+            return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/fail");
         }
         [Authorize]
         [HttpPost]
@@ -179,11 +179,11 @@ namespace toiec_web.Controllers
                 else
                 {
                     await _vipStudentService.AddVipStudent(response.StudentId, vipPackage.duration);
-                    return Redirect("https://victoryu-toiec.vercel.app/vippackage-checkout/success");
+                    return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/success");
                 }
-                return Redirect("https://victoryu-toiec.vercel.app/vippackage-checkout/fail");
+                return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/fail");
             }
-            return Redirect("https://victoryu-toiec.vercel.app/vippackage-checkout/fail");
+            return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/fail");
         }
         [Authorize]
         [HttpGet]
