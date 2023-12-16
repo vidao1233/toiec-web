@@ -50,7 +50,7 @@ namespace toiec_web.Helper;
             TransactionId = vnPayTranId.ToString(),
             Token = vnpSecureHash,
             VnPayResponseCode = vnpResponseCode,
-            Amount = amount,
+            Amount = Double.Parse(amount),
         };
     }
     public string GetIpAddress(HttpContext context)
