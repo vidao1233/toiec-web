@@ -117,13 +117,16 @@ namespace toiec_web.Repository
                 initRecord.wrongAns = score.wrongAns;
                 initRecord.totalScore = score.totalScore;                
 
-                //save record
-               // await _recordRepository.UpdateRecord(initRecord, initRecord.idRecord);
+                //add record
                 await _recordRepository.AddRecord(initRecord);
                 listAnswers.ForEach(async answer =>
                 {
                     await SaveUserAnswer(answer);
                 });
+
+                //update free test
+                student.freeTest = false;
+                await _studentRepository.UpdateStudent(student);
                 _uow.SaveChanges();
                 return initRecord;
             }

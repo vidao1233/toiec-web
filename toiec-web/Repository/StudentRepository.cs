@@ -42,5 +42,21 @@ namespace toiec_web.Repository
             var student = await Entities.FirstOrDefaultAsync(stu => stu.idUser == userId);
             return _mapper.Map<StudentModel>(student);
         }
+
+        public Task<bool> UpdateStudent(StudentModel model)
+        {
+            try
+            {
+                var student = _mapper.Map<Student>(model);
+                student.idStudent = model.idStudent;
+                Entities.Update(student);
+                _uow.SaveChanges();
+                return Task.FromResult(true);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
