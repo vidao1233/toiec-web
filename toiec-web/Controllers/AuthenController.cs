@@ -28,7 +28,7 @@ namespace toiec_web.Controllers
         private readonly IUploadFileService _uploadFileService;
         private readonly IMapper _mapper;
 
-        public AuthenController(UserManager<Users> userManager, RoleManager<IdentityRole> roleManager, 
+        public AuthenController(UserManager<Users> userManager, RoleManager<IdentityRole> roleManager,
             SignInManager<Users> signManager, ToiecDbContext dbContext, IEmailService emailService,
              IConfiguration configuration, IStudentService studentService, IAuthenticationService authenticationService,
             IUploadFileService uploadFileService, IMapper mapper)
@@ -39,14 +39,14 @@ namespace toiec_web.Controllers
             _dbContext = dbContext;
             _configuration = configuration;
             _emailService = emailService;
-            _studentService =  studentService;
+            _studentService = studentService;
             _authenticationService = authenticationService;
             _uploadFileService = uploadFileService;
             _mapper = mapper;
         }
 
         [HttpPost]
-        [Route("Register")]        
+        [Route("Register")]
         public async Task<IActionResult> Register([FromBody] SignUp signUp)
         {
             //default role = Student
@@ -103,7 +103,7 @@ namespace toiec_web.Controllers
                 await _userManager.AddToRoleAsync(user, role);
 
                 ////Add Token to Verify the email...
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);                
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
                 ////send email confirm
                 var confirmationLink = Url.Action(nameof(ConfirmEmail), "Authen", new { token, email = user.Email }, Request.Scheme);
@@ -190,7 +190,7 @@ namespace toiec_web.Controllers
                 }
                 return Ok(new
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(jwtToken),                    
+                    token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
                     expiration = jwtToken.ValidTo,
                     user.EmailConfirmed,
                     student.freeTest,
@@ -255,7 +255,7 @@ namespace toiec_web.Controllers
                 return BadRequest("User not found");
             }
 
-            int otp = GenerateOTP(); 
+            int otp = GenerateOTP();
 
             var resetPassword = new ResetPassword
             {
@@ -365,14 +365,14 @@ namespace toiec_web.Controllers
             if (model.NewImage != null)
             {
                 var image = await _uploadFileService.AddFileAsync(model.NewImage);
-                if(user.ImageURL != null)
+                if (user.ImageURL != null)
                 {
                     await _uploadFileService.DeleteFileAsync(user.ImageURL);
-                }                
+                }
 
                 user.ImageURL = image.Url.ToString();
             }
-            if(model.OldImage != null)
+            if (model.OldImage != null)
             {
                 user.ImageURL = model.OldImage;
             }

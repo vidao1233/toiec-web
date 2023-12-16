@@ -248,7 +248,7 @@ namespace toiec_web.Services
                 idPackage = idPackage,
                 message = "Success",
                 paymentDate = DateTime.Now,
-                paymentAmount = response.Amount,
+                paymentAmount = response.Amount / 100,
             };
             if (!response.Success)
             {

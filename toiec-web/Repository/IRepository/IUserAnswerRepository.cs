@@ -1,4 +1,5 @@
 ﻿using toiec_web.Models;
+using toiec_web.ViewModels.UserAnswer;
 
 namespace toiec_web.Repository.IRepository
 {
@@ -9,6 +10,6 @@ namespace toiec_web.Repository.IRepository
         Task<ScoreUserAnserModel> CalculateScore(List<UserAnswerModel> models);
         Task<string> GetPartName(UserAnswerModel model);
         Task<bool> AddUserAnswer(UserAnswerModel model, string userId);
-        Task<RecordModel> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId);
+        Task<UserAnswerResponseModel> AddListUserAnswers(IEnumerable<UserAnswerModel> models, string userId, Guid testId);
     }
 }
