@@ -215,7 +215,7 @@ namespace toiec_web.Services
             pay.AddRequestData("vnp_Version", _configuration["Vnpay:Config:Version"]);
             pay.AddRequestData("vnp_Command", _configuration["Vnpay:Config:Command"]);
             pay.AddRequestData("vnp_TmnCode", _configuration["Vnpay:Config:TmnCode"]);
-            pay.AddRequestData("vnp_Amount", (price * 100).ToString());
+            pay.AddRequestData("vnp_Amount", (price).ToString());
             pay.AddRequestData("vnp_CreateDate", timeNow.ToString("yyyyMMddHHmmss"));
             pay.AddRequestData("vnp_CurrCode", _configuration["Vnpay:Config:CurrCode"]);
             pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
