@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Common;
 using toiec_web.Infrastructure;
 using toiec_web.Models;
 using toiec_web.Repository.IRepository;
@@ -10,10 +11,13 @@ namespace toiec_web.Repository
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        public TestTypeRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper) : base(dbContext)
+        private readonly ToiecDbContext _dbContext;
+        public TestTypeRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper,
+            ToiecDbContext DbContext) : base(dbContext)
         {
             _uow = uow;
             _mapper = mapper;
+            _dbContext = DbContext;
         }
 
         public Task<bool> AddTestType(TestTypeModel model)
@@ -82,6 +86,19 @@ namespace toiec_web.Repository
                 }
             }
             return null;
+        }
+
+        public async Task<string> GetTypeNameByTest(Guid idTest)
+        {
+            var test = await _dbContext.Tests
+                .Where(t => t.idTest == idTest)
+                .FirstOrDefaultAsync();
+
+            var type = await _dbContext.TestTypes
+                .Where(tt => tt.idTestType == test.idType)
+                .FirstOrDefaultAsync();
+
+            return type.typeName;
         }
 
         public Task<bool> UpdateTestType(TestTypeModel model, Guid typeId)

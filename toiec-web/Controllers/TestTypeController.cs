@@ -27,5 +27,17 @@ namespace toiec_web.Controllers
             }
             return Ok(listType);
         }
+
+        [HttpGet]
+        [Route("GetTypeNameByTest/{idTest:guid}")]
+        public async Task<IActionResult> GetTypeNameByTest(Guid idTest)
+        {
+            var typeName = await _testTypeService.GetTypeNameByTest(idTest);
+            if (typeName == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            return Ok(typeName);
+        }
     }
 }
