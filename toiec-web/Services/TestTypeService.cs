@@ -67,6 +67,11 @@ namespace toiec_web.Services
             return null;
         }
 
+        public async Task<string> GetTypeNameByTest(Guid idTest)
+        {
+            return await _testTypeRepository.GetTypeNameByTest(idTest);
+        }
+
         public async Task<bool> UpdateTestType(TestTypeUpdateModel model, Guid typeId)
         {
             var data = _mapper.Map<TestTypeModel>(model);
