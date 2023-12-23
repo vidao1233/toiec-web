@@ -20,7 +20,6 @@ namespace toiec_web.Controllers
         private readonly IVipPackageService _vipPackageService;
         private readonly IStudentService _studentService;
         private readonly IMapper _mapper;
-        private string webURL = "https://victoryu-toeic.vercel.app";
 
 
         public PaymentController(IPaymentService paymentService, IPaymentMethodService paymentMethodService
@@ -102,16 +101,16 @@ namespace toiec_web.Controllers
                 if (vipStudent != null)
                 {
                     await _vipStudentService.UpdateVipStudent(vipStudent, vipPackage.duration);
-                    return Redirect("webURL/vippackage-checkout/success");
+                    return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/success");
                 }
                 else
                 {
                     await _vipStudentService.AddVipStudent(response.StudentId, vipPackage.duration);
-                    return Redirect("webURL/vippackage-checkout/success");
+                    return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/success");
                 }
-                return Redirect("webURL/vippackage-checkout/fail");
+                return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/fail");
             }
-            return Redirect("webURL/vippackage-checkout/fail");
+            return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/fail");
         }
         [Authorize]
         [HttpPost]
@@ -177,17 +176,17 @@ namespace toiec_web.Controllers
                 if (vipStudent != null)
                 {
                     await _vipStudentService.UpdateVipStudent(vipStudent, vipPackage.duration);
-                    return Redirect("webURL/vippackage-checkout/success");
+                    return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/success");
 
                 }
                 else
                 {
                     await _vipStudentService.AddVipStudent(response.StudentId, vipPackage.duration);
-                    return Redirect("webURL/vippackage-checkout/success");
+                    return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/success");
                 }
-                return Redirect("webURL/vippackage-checkout/fail");
+                return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/fail");
             }
-            return Redirect("webURL/vippackage-checkout/fail");
+            return Redirect("https://victoryu-toeic.vercel.app/vippackage-checkout/fail");
         }
         [Authorize]
         [HttpGet]
