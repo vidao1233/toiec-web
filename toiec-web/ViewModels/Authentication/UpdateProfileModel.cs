@@ -11,7 +11,7 @@ namespace toiec_web.ViewModels.Authentication
         public bool Gender { get; set; }
         public string PhoneNumber { get; set; }
         public bool Enable2FA { get; set; }
-        public IFormFile? NewImage { get; set; } = null;
-        public string? OldImage { get; set; } = string.Empty;
+        public IFormFile? NewImage { get; set; }
+        public string? OldImage { get; set; }
     }
 }
