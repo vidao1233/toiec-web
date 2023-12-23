@@ -31,6 +31,13 @@ namespace toiec_web.Repository
             }
         }
 
+        public async Task<bool> CheckFreeTest(string userId)
+        {
+            var student = await GetStudentByUserId(userId);
+
+            return student.freeTest;
+        }
+
         public async Task<StudentModel> GetStudentById(Guid stuId)
         {
             var student = await Entities.FirstOrDefaultAsync(stu => stu.idStudent == stuId);
