@@ -26,6 +26,11 @@ namespace toiec_web.Services
             return await _studentRepository.AddStudent(student);
         }
 
+        public async Task<bool> CheckFreeTest(string userId)
+        {
+            return await _studentRepository.CheckFreeTest(userId);
+        }
+
         public Task<StudentModel> GetStudentById(Guid stuId)
         {
             return _studentRepository.GetStudentById(stuId);
