@@ -360,6 +360,7 @@ namespace toiec_web.Controllers
             user.PhoneNumber = model.PhoneNumber;
             user.Fullname = model.FullName;
             user.DateOfBirth = model.DateOfBirth.ToString();
+            user.Gender = model.Gender;
             user.TwoFactorEnabled = model.Enable2FA;
 
             if (model.NewImage != null)
