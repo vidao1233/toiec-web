@@ -65,7 +65,7 @@ namespace toiec_web.Repository
             var professor = await _professorRepository.GetProfessorByUserId(userId);
 
             var listData = new List<QuestionModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(q => q.idQuestion).ToListAsync();
             foreach (var item in data)
             {
                 if (item.idProfessor == professor.idProfessor)
@@ -80,7 +80,7 @@ namespace toiec_web.Repository
         public async Task<IEnumerable<QuestionModel>> GetAllQuestionByQuiz(Guid quizId)
         {
             var listData = new List<QuestionModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(q => q.idQuestion).ToListAsync();
             foreach (var item in data)
             {
                 if (item.idQuiz == quizId) 
@@ -95,7 +95,7 @@ namespace toiec_web.Repository
         public async Task<IEnumerable<QuestionModel>> GetAllQuestionByUnit(Guid unitId)
         {
             var listData = new List<QuestionModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(q => q.idQuestion).ToListAsync();
             foreach (var item in data)
             {
                 if (item.idUnit == unitId)
@@ -110,7 +110,7 @@ namespace toiec_web.Repository
         public async Task<IEnumerable<QuestionModel>> GetAllQuestions()
         {
             var listData = new List<QuestionModel>();
-            var data = await Entities.ToListAsync();
+            var data = await Entities.OrderBy(q => q.idQuestion).ToListAsync();
             foreach (var item in data)
             {
                 var obj = _mapper.Map<QuestionModel>(item);

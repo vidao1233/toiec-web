@@ -213,6 +213,11 @@ namespace toiec_web.Controllers
 
             var result = await _userManager.DeleteAsync(_user);
 
+            if(!result.Succeeded)
+            {
+                return BadRequest("Failed to reset the password");
+            }
+
             return StatusCode(StatusCodes.Status200OK,
                     new Response { Status = "Success", Message = $"User was deleted!" });
         }

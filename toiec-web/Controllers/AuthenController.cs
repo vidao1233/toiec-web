@@ -116,7 +116,7 @@ namespace toiec_web.Controllers
 
                 //when success
                 return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = $"User created & email sent to {user.Email} Successfully." });
+                    new Response { Status = "Success", Message = $"We have sent EmailConfirm to {user.Email}. Verified your email to Login!" });
             }
             else
             {
@@ -150,6 +150,12 @@ namespace toiec_web.Controllers
         {
             //Checking the user
             var user = await _userManager.FindByNameAsync(loginModel.Username);
+            //Checking email confirm
+            if (!user.EmailConfirmed)
+            {
+                return StatusCode(StatusCodes.Status404NotFound,
+                     new Response { Status = "Error", Message = $"We have sent EmailConfirm to {user.Email}. Verified your email to Login!" });
+            }
             //Checking the password
             if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
             {
@@ -424,15 +430,42 @@ namespace toiec_web.Controllers
         }
 
         [Authorize]
-        [HttpGet("CurrentUser")]
-        public async Task<IActionResult> GetIdCurrent()
+        [HttpGet("RenewToken")]
+        public async Task<IActionResult> RenewToken()
         {
             var userName = HttpContext.User.Identity.Name;
             var user = await _userManager.FindByNameAsync(userName);
 
             if (user != null)
             {
-                return Ok(user);
+                //Claim list creation
+                var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+                //Add role to the list
+                var userRoles = await _userManager.GetRolesAsync(user);
+                foreach (var role in userRoles)
+                {
+                    authClaims.Add(new Claim(ClaimTypes.Role, role));
+                }
+                //generate the token with claim
+                var jwtToken = GetToken(authClaims);
+                var student = new StudentModel();
+                //get student
+                if (userRoles.Contains("Student"))
+                {
+                    student = await _studentService.GetStudentByUserId(user.Id);
+                }
+                return Ok(new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
+                    expiration = jwtToken.ValidTo,
+                    user.EmailConfirmed,
+                    student.freeTest,
+                });
             }
             return StatusCode(StatusCodes.Status404NotFound);
         }
