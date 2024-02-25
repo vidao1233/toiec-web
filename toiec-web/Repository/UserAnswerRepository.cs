@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using toiec_web.Infrastructure;
-using toiec_web.Models;
-using toiec_web.Repository.IRepository;
-using toiec_web.ViewModels.UserAnswer;
+using toeic_web.Infrastructure;
+using toeic_web.Models;
+using toeic_web.Repository.IRepository;
+using toeic_web.ViewModels.UserAnswer;
 
-namespace toiec_web.Repository
+namespace toeic_web.Repository
 {
     public class UserAnswerRepository : Repository<UserAnswer>, IUserAnswerRepository
     {
@@ -13,10 +13,10 @@ namespace toiec_web.Repository
         private readonly IMapper _mapper;
         private readonly IStudentRepository _studentRepository;
         private readonly IQuestionRepository _questionRepository;
-        private readonly ToiecDbContext _dbContext;
+        private readonly ToeicDbContext _dbContext;
         private readonly IRecordRepository _recordRepository;
 
-        public UserAnswerRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper
+        public UserAnswerRepository(ToeicDbContext dbContext, IUnitOfWork uow, IMapper mapper
             , IStudentRepository studentRepository, IQuestionRepository questionRepository,
             IRecordRepository recordRepository) 
             : base(dbContext)

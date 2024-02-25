@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using toiec_web.Services;
-using toiec_web.Services.IService;
+using toeic_web.Services;
+using toeic_web.Services.IService;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     public class TestPartController : BaseAPIController
     {

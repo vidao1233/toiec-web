@@ -1,7 +1,7 @@
-﻿using toiec_web.Models;
-using toiec_web.ViewModels.Test;
+﻿using toeic_web.Models;
+using toeic_web.ViewModels.Test;
 
-namespace toiec_web.Services.IService
+namespace toeic_web.Services.IService
 {
     public interface ITestService
     {

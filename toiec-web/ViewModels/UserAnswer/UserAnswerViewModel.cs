@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.UserAnswer
+﻿namespace toeic_web.ViewModels.UserAnswer
 {
     public class UserAnswerViewModel
     {

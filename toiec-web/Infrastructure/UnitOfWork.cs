@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using toiec_web.Models;
+using toeic_web.Models;
 
-namespace toiec_web.Infrastructure
+namespace toeic_web.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private readonly ToiecDbContext _dbContext;
+        private readonly ToeicDbContext _dbContext;
         private IDbContextTransaction? _transaction = null;
 
-        public UnitOfWork(ToiecDbContext dbContext)
+        public UnitOfWork(ToeicDbContext dbContext)
         {
             _dbContext = dbContext;
         }

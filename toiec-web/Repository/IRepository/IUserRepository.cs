@@ -1,6 +1,6 @@
-﻿using toiec_web.Models;
+﻿using toeic_web.Models;
 
-namespace toiec_web.Repository.IRepository
+namespace toeic_web.Repository.IRepository
 {
     public interface IUserRepository
     {

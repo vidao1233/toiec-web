@@ -1,6 +1,6 @@
-﻿using toiec_web.ViewModels.VipPackage;
+﻿using toeic_web.ViewModels.VipPackage;
 
-namespace toiec_web.Services.IService
+namespace toeic_web.Services.IService
 {
     public interface IVipPackageService
     {

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using toiec_web.Controllers;
-using toiec_web.Infrastructure;
-using toiec_web.Models;
+using toeic_web.Controllers;
+using toeic_web.Infrastructure;
+using toeic_web.Models;
 
-namespace toiec_web
+namespace toeic_web
 {
     public class Program
     {
@@ -34,14 +34,14 @@ namespace toiec_web
             });
             builder.Services.AddControllers().AddControllersAsServices();
             //add DBContext
-            builder.Services.AddDbContext<ToiecDbContext>(options =>
+            builder.Services.AddDbContext<ToeicDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("CustomConnection"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
             //add Identity
             builder.Services.AddIdentity<Users, IdentityRole>()
-                .AddEntityFrameworkStores<ToiecDbContext>()
+                .AddEntityFrameworkStores<ToeicDbContext>()
                 .AddDefaultTokenProviders();
 
             //Add Authentication

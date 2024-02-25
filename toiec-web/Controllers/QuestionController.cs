@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using toiec_web.Services;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.Course;
-using toiec_web.ViewModels.Question;
+using toeic_web.Services;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.Course;
+using toeic_web.ViewModels.Question;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     public class QuestionController : BaseAPIController
     {

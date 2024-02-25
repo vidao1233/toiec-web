@@ -1,10 +1,10 @@
-﻿using toiec_web.Models;
-using toiec_web.Infrastructure;
-using toiec_web.Repository.IRepository;
+﻿using toeic_web.Models;
+using toeic_web.Infrastructure;
+using toeic_web.Repository.IRepository;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace toiec_web.Repository
+namespace toeic_web.Repository
 {
     public class PaymentRepository : Repository<Payment>, IPaymentRepository
     {
@@ -12,7 +12,7 @@ namespace toiec_web.Repository
         private readonly IMapper _mapper;
         private readonly IStudentRepository _studentRepository;
 
-        public PaymentRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper
+        public PaymentRepository(ToeicDbContext dbContext, IUnitOfWork uow, IMapper mapper
             , IStudentRepository studentRepository) : base(dbContext)
         {
             _uow = uow;

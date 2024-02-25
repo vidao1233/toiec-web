@@ -1,7 +1,7 @@
-﻿using toiec_web.Models;
-using toiec_web.ViewModels.UserAnswer;
+﻿using toeic_web.Models;
+using toeic_web.ViewModels.UserAnswer;
 
-namespace toiec_web.Repository.IRepository
+namespace toeic_web.Repository.IRepository
 {
     public interface IUserAnswerRepository
     {

@@ -1,6 +1,6 @@
-﻿using toiec_web.ViewModels.Lesson;
+﻿using toeic_web.ViewModels.Lesson;
 
-namespace toiec_web.Services.IService
+namespace toeic_web.Services.IService
 {
     public interface ILessonService
     {

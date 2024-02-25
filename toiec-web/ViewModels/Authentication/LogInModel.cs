@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace toiec_web.ViewModels.Authentication
+namespace toeic_web.ViewModels.Authentication
 {
     public class LogInModel
     {

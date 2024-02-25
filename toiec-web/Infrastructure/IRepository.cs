@@ -1,4 +1,4 @@
-﻿namespace toiec_web.Infrastructure
+﻿namespace toeic_web.Infrastructure
 {
     public interface IRepository<TEntity> where TEntity : class
     {

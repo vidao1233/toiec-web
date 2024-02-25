@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using toiec_web.Infrastructure;
-using toiec_web.Models;
-using toiec_web.Repository;
-using toiec_web.Repository.IRepository;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.Quiz;
-using toiec_web.ViewModels.TestQuestionUnit;
+using toeic_web.Infrastructure;
+using toeic_web.Models;
+using toeic_web.Repository;
+using toeic_web.Repository.IRepository;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.Quiz;
+using toeic_web.ViewModels.TestQuestionUnit;
 
-namespace toiec_web.Services
+namespace toeic_web.Services
 {
     public class TestQuestionUnitService : ITestQuestionUnitService
     {

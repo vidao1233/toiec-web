@@ -1,6 +1,6 @@
-﻿using toiec_web.Models;
+﻿using toeic_web.Models;
 
-namespace toiec_web.Data
+namespace toeic_web.Data
 {
     public class TestPart
     {

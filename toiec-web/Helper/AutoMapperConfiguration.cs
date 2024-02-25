@@ -1,24 +1,24 @@
 ﻿using AutoMapper;
-using toiec_web.Data;
-using toiec_web.Models;
-using toiec_web.ViewModels.Course;
-using toiec_web.ViewModels.Lesson;
-using toiec_web.ViewModels.Question;
-using toiec_web.ViewModels.Quiz;
-using toiec_web.ViewModels.Test;
-using toiec_web.ViewModels.TestPart;
-using toiec_web.ViewModels.TestQuestionUnit;
-using toiec_web.ViewModels.TestType;
-using toiec_web.ViewModels.User;
-using toiec_web.ViewModels.UserAnswer;
-using toiec_web.ViewModels.Vocabulary;
-using toiec_web.ViewModels.VocTopic;
-using toiec_web.ViewModels.VipPackage;
-using toiec_web.ViewModels.Record;
-using toiec_web.ViewModels.Payment;
-using toiec_web.ViewModels.DoTest;
+using toeic_web.Data;
+using toeic_web.Models;
+using toeic_web.ViewModels.Course;
+using toeic_web.ViewModels.Lesson;
+using toeic_web.ViewModels.Question;
+using toeic_web.ViewModels.Quiz;
+using toeic_web.ViewModels.Test;
+using toeic_web.ViewModels.TestPart;
+using toeic_web.ViewModels.TestQuestionUnit;
+using toeic_web.ViewModels.TestType;
+using toeic_web.ViewModels.User;
+using toeic_web.ViewModels.UserAnswer;
+using toeic_web.ViewModels.Vocabulary;
+using toeic_web.ViewModels.VocTopic;
+using toeic_web.ViewModels.VipPackage;
+using toeic_web.ViewModels.Record;
+using toeic_web.ViewModels.Payment;
+using toeic_web.ViewModels.DoTest;
 
-namespace toiec_web.Helper
+namespace toeic_web.Helper
 {
     public class AutoMapperConfiguration : Profile
     {

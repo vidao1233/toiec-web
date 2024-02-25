@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using toiec_web.Infrastructure;
-using toiec_web.Models;
-using toiec_web.Repository.IRepository;
+using toeic_web.Infrastructure;
+using toeic_web.Models;
+using toeic_web.Repository.IRepository;
 
-namespace toiec_web.Repository
+namespace toeic_web.Repository
 {
     public class QuizRepository : Repository<Quiz>, IQuizRepository
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        public QuizRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper) : base(dbContext)
+        public QuizRepository(ToeicDbContext dbContext, IUnitOfWork uow, IMapper mapper) : base(dbContext)
         {
             _uow = uow;
             _mapper = mapper;

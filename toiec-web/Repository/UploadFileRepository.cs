@@ -1,10 +1,10 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.Extensions.Options;
-using toiec_web.Models;
-using toiec_web.Repository.IRepository;
+using toeic_web.Models;
+using toeic_web.Repository.IRepository;
 
-namespace toiec_web.Repository
+namespace toeic_web.Repository
 {
     public class UploadFileRepository : IUploadFileRepository
     {

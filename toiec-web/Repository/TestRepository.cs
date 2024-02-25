@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using toiec_web.Infrastructure;
-using toiec_web.Models;
-using toiec_web.Repository.IRepository;
+using toeic_web.Infrastructure;
+using toeic_web.Models;
+using toeic_web.Repository.IRepository;
 
-namespace toiec_web.Repository
+namespace toeic_web.Repository
 {
     public class TestRepository : Repository<Test>, ITestRepository
     {
@@ -14,7 +14,7 @@ namespace toiec_web.Repository
         private readonly IProfessorRepository _professorRepository;
         private readonly ITestTypeRepository _testTypeRepository;
 
-        public TestRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper,
+        public TestRepository(ToeicDbContext dbContext, IUnitOfWork uow, IMapper mapper,
             IProfessorRepository professorRepository, ITestTypeRepository testTypeRepository) 
             : base(dbContext)
         {

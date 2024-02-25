@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.VipPackage;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.VipPackage;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     public class VipPackageController : BaseAPIController
     {

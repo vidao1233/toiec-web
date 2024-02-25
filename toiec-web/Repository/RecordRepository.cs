@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using toiec_web.Infrastructure;
-using toiec_web.Models;
-using toiec_web.Repository.IRepository;
+using toeic_web.Infrastructure;
+using toeic_web.Models;
+using toeic_web.Repository.IRepository;
 
-namespace toiec_web.Repository
+namespace toeic_web.Repository
 {
     public class RecordRepository : Repository<TestRecord>, IRecordRepository
     {
@@ -12,7 +12,7 @@ namespace toiec_web.Repository
         private readonly IUnitOfWork _unitOfWork;
         private readonly IStudentRepository _studentRepository;
 
-        public RecordRepository(ToiecDbContext dbContext, IMapper mapper, IUnitOfWork unitOfWork,
+        public RecordRepository(ToeicDbContext dbContext, IMapper mapper, IUnitOfWork unitOfWork,
             IStudentRepository studentRepository, ITestRepository testRepository) 
             : base(dbContext)
         {

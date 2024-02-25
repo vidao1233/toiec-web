@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using toiec_web.Models;
-using toiec_web.Services;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.UserAnswer;
-using toiec_web.ViewModels.Vocabulary;
+using toeic_web.Models;
+using toeic_web.Services;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.UserAnswer;
+using toeic_web.ViewModels.Vocabulary;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     [Authorize]
     public class UserAnswerController : BaseAPIController

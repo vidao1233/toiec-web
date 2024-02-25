@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using toiec_web.Infrastructure;
-using toiec_web.Models;
-using toiec_web.Repository.IRepository;
-using toiec_web.ViewModels.DoTest;
+using toeic_web.Infrastructure;
+using toeic_web.Models;
+using toeic_web.Repository.IRepository;
+using toeic_web.ViewModels.DoTest;
 
-namespace toiec_web.Repository
+namespace toeic_web.Repository
 {
     public class QuestionRepository : Repository<Question>, IQuestionRepository
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        private readonly ToiecDbContext _dbContext;
+        private readonly ToeicDbContext _dbContext;
         private readonly IProfessorRepository _professorRepository;
         private readonly ITestQuestionUnitRepository _testQuestionUnitRepository;
 
-        public QuestionRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper
+        public QuestionRepository(ToeicDbContext dbContext, IUnitOfWork uow, IMapper mapper
             , IProfessorRepository professorRepository, ITestQuestionUnitRepository testQuestionUnitRepository) 
             : base(dbContext)
         {

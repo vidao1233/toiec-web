@@ -1,7 +1,7 @@
-﻿using toiec_web.Models;
-using toiec_web.ViewModels.User;
+﻿using toeic_web.Models;
+using toeic_web.ViewModels.User;
 
-namespace toiec_web.Services.IService
+namespace toeic_web.Services.IService
 {
     public interface IUserService
     {

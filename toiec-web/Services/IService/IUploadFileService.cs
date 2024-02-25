@@ -1,6 +1,6 @@
 ﻿using CloudinaryDotNet.Actions;
 
-namespace toiec_web.Services.IService
+namespace toeic_web.Services.IService
 {
     public interface IUploadFileService
     {

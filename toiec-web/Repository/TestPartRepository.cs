@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using toiec_web.Data;
-using toiec_web.Infrastructure;
-using toiec_web.Models;
-using toiec_web.Repository.IRepository;
+using toeic_web.Data;
+using toeic_web.Infrastructure;
+using toeic_web.Models;
+using toeic_web.Repository.IRepository;
 
-namespace toiec_web.Repository
+namespace toeic_web.Repository
 {
     public class TestPartRepository : Repository<TestPart>, ITestPartRepository
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _uow;
 
-        public TestPartRepository(ToiecDbContext dbContext, IMapper mapper, IUnitOfWork uow) : base(dbContext)
+        public TestPartRepository(ToeicDbContext dbContext, IMapper mapper, IUnitOfWork uow) : base(dbContext)
         {
             _mapper = mapper;
             _uow = uow;

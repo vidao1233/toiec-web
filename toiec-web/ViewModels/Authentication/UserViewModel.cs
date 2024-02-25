@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace toiec_web.ViewModels.User
+namespace toeic_web.ViewModels.User
 {
     public class UserViewModel
     {

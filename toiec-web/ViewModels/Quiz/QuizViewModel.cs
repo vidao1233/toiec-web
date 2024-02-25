@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.Quiz
+﻿namespace toeic_web.ViewModels.Quiz
 {
     public class QuizViewModel
     {

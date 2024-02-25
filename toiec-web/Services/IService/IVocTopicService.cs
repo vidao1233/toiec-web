@@ -1,6 +1,6 @@
-﻿using toiec_web.ViewModels.VocTopic;
+﻿using toeic_web.ViewModels.VocTopic;
 
-namespace toiec_web.Services.IService
+namespace toeic_web.Services.IService
 {
     public interface IVocTopicService
     {

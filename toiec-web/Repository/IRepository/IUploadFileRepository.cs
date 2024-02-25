@@ -1,6 +1,6 @@
 ﻿using CloudinaryDotNet.Actions;
 
-namespace toiec_web.Repository.IRepository
+namespace toeic_web.Repository.IRepository
 {
     public interface IUploadFileRepository
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using toiec_web.Models;
-using toiec_web.Services.IService;
+using toeic_web.Models;
+using toeic_web.Services.IService;
 
-namespace toiec_web.Services
+namespace toeic_web.Services
 {
     public class AuthenticationService : IAuthenticationService
     {

@@ -1,7 +1,7 @@
 ﻿
-using toiec_web.ViewModels.TestQuestionUnit;
+using toeic_web.ViewModels.TestQuestionUnit;
 
-namespace toiec_web.Services.IService
+namespace toeic_web.Services.IService
 {
     public interface ITestQuestionUnitService
     {

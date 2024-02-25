@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.Payment
+﻿namespace toeic_web.ViewModels.Payment
 {
     public class VnPayExecuteResponseModel
     {

@@ -3,18 +3,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using toiec_web.Models;
-using toiec_web.Services;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.User;
-using toiec_web.ViewModels.VipPackage;
+using toeic_web.Models;
+using toeic_web.Services;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.User;
+using toeic_web.ViewModels.VipPackage;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : BaseAPIController
     {
-        private readonly ToiecDbContext _dbContext;
+        private readonly ToeicDbContext _dbContext;
         private readonly UserManager<Users> _userManager;
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -24,7 +24,7 @@ namespace toiec_web.Controllers
         private readonly IUserService _userService;
         private readonly IVipPackageService _vipPackageService;
 
-        public AdminController(ToiecDbContext dbContext, UserManager<Users> userManager,
+        public AdminController(ToeicDbContext dbContext, UserManager<Users> userManager,
             IMapper mapper, RoleManager<IdentityRole> roleManager, IEmailService emailService,
             IProfessorService professorService, IAdminService adminService, IUserService userService, 
             IVipPackageService vipPackageService)

@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.VipPackage
+﻿namespace toeic_web.ViewModels.VipPackage
 {
     public class VipPackageUpdateModel
     {

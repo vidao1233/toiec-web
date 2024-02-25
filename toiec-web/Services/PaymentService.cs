@@ -3,13 +3,13 @@ using CloudinaryDotNet;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.X9;
-using toiec_web.Helper;
-using toiec_web.Models;
-using toiec_web.Repository.IRepository;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.Payment;
+using toeic_web.Helper;
+using toeic_web.Models;
+using toeic_web.Repository.IRepository;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.Payment;
 
-namespace toiec_web.Services
+namespace toeic_web.Services
 {
     public class PaymentService : IPaymentService
     {

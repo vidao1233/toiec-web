@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using toiec_web.Models;
+using toeic_web.Models;
 
 #nullable disable
 
-namespace toiec_web.Migrations
+namespace toeic_web.Migrations
 {
-    [DbContext(typeof(ToiecDbContext))]
+    [DbContext(typeof(ToeicDbContext))]
     partial class ToiecDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -47,36 +47,6 @@ namespace toiec_web.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "8111cfd6-214a-4694-a13c-c6ec3d7f56b2",
-                            ConcurrencyStamp = "1",
-                            Name = "Admin",
-                            NormalizedName = "Admin"
-                        },
-                        new
-                        {
-                            Id = "1257b8ad-564a-456f-81a1-d38f180ddd63",
-                            ConcurrencyStamp = "2",
-                            Name = "Student",
-                            NormalizedName = "Student"
-                        },
-                        new
-                        {
-                            Id = "35564c0c-f6fc-4ce5-ad98-f3c362e90ed1",
-                            ConcurrencyStamp = "3",
-                            Name = "VipStudent",
-                            NormalizedName = "VipStudent"
-                        },
-                        new
-                        {
-                            Id = "9faf18a9-5a41-4b13-9db3-63246839aea9",
-                            ConcurrencyStamp = "4",
-                            Name = "Professor",
-                            NormalizedName = "Professor"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -256,7 +226,7 @@ namespace toiec_web.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("toiec_web.Data.ResetPassword", b =>
+            modelBuilder.Entity("toeic_web.Data.ResetPassword", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -280,7 +250,7 @@ namespace toiec_web.Migrations
                     b.ToTable("ResetPasswords");
                 });
 
-            modelBuilder.Entity("toiec_web.Data.ScoreParam", b =>
+            modelBuilder.Entity("toeic_web.Data.ScoreParam", b =>
                 {
                     b.Property<int>("correctAnswers")
                         .ValueGeneratedOnAdd()
@@ -299,7 +269,7 @@ namespace toiec_web.Migrations
                     b.ToTable("ScoreParams");
                 });
 
-            modelBuilder.Entity("toiec_web.Data.TestPart", b =>
+            modelBuilder.Entity("toeic_web.Data.TestPart", b =>
                 {
                     b.Property<Guid>("partId")
                         .ValueGeneratedOnAdd()
@@ -312,46 +282,9 @@ namespace toiec_web.Migrations
                     b.HasKey("partId");
 
                     b.ToTable("TestParts");
-
-                    b.HasData(
-                        new
-                        {
-                            partId = new Guid("d3c3dee6-b419-418a-adf1-9341d20d6478"),
-                            partName = "Part 1"
-                        },
-                        new
-                        {
-                            partId = new Guid("da942924-1998-403e-b8c1-233cdfc10ee4"),
-                            partName = "Part 2"
-                        },
-                        new
-                        {
-                            partId = new Guid("798dcdaa-d4f7-4472-bc8c-fb1999858614"),
-                            partName = "Part 3"
-                        },
-                        new
-                        {
-                            partId = new Guid("6bbfca05-e7e7-4241-af3e-20c2260b2e17"),
-                            partName = "Part 4"
-                        },
-                        new
-                        {
-                            partId = new Guid("e8d6587e-5ab0-4b96-a990-020c67bf5710"),
-                            partName = "Part 5"
-                        },
-                        new
-                        {
-                            partId = new Guid("f7107858-6e8b-4ec3-b94d-245045aafb3d"),
-                            partName = "Part 6"
-                        },
-                        new
-                        {
-                            partId = new Guid("fbc48290-ebf2-43f9-a8c5-c323ececd27d"),
-                            partName = "Part 7"
-                        });
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Admin", b =>
+            modelBuilder.Entity("toeic_web.Models.Admin", b =>
                 {
                     b.Property<Guid>("idAdmin")
                         .ValueGeneratedOnAdd()
@@ -369,7 +302,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.AnswerQuestion", b =>
+            modelBuilder.Entity("toeic_web.Models.AnswerQuestion", b =>
                 {
                     b.Property<Guid>("idAnswer")
                         .ValueGeneratedOnAdd()
@@ -392,7 +325,7 @@ namespace toiec_web.Migrations
                     b.ToTable("AnswerQuestions");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Comment", b =>
+            modelBuilder.Entity("toeic_web.Models.Comment", b =>
                 {
                     b.Property<Guid>("idComment")
                         .ValueGeneratedOnAdd()
@@ -421,7 +354,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Course", b =>
+            modelBuilder.Entity("toeic_web.Models.Course", b =>
                 {
                     b.Property<Guid>("idCourse")
                         .ValueGeneratedOnAdd()
@@ -445,7 +378,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Courses");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Lesson", b =>
+            modelBuilder.Entity("toeic_web.Models.Lesson", b =>
                 {
                     b.Property<Guid>("idLesson")
                         .ValueGeneratedOnAdd()
@@ -469,7 +402,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Lessons");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Payment", b =>
+            modelBuilder.Entity("toeic_web.Models.Payment", b =>
                 {
                     b.Property<Guid>("idPayment")
                         .ValueGeneratedOnAdd()
@@ -505,7 +438,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.PaymentMethod", b =>
+            modelBuilder.Entity("toeic_web.Models.PaymentMethod", b =>
                 {
                     b.Property<Guid>("idMethod")
                         .ValueGeneratedOnAdd()
@@ -520,7 +453,7 @@ namespace toiec_web.Migrations
                     b.ToTable("PaymentMethods");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Post", b =>
+            modelBuilder.Entity("toeic_web.Models.Post", b =>
                 {
                     b.Property<Guid>("idPost")
                         .ValueGeneratedOnAdd()
@@ -544,7 +477,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Professor", b =>
+            modelBuilder.Entity("toeic_web.Models.Professor", b =>
                 {
                     b.Property<Guid>("idProfessor")
                         .ValueGeneratedOnAdd()
@@ -562,7 +495,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Professors");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Question", b =>
+            modelBuilder.Entity("toeic_web.Models.Question", b =>
                 {
                     b.Property<Guid>("idQuestion")
                         .ValueGeneratedOnAdd()
@@ -616,7 +549,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Quiz", b =>
+            modelBuilder.Entity("toeic_web.Models.Quiz", b =>
                 {
                     b.Property<Guid>("idQuiz")
                         .ValueGeneratedOnAdd()
@@ -636,7 +569,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Quizs");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Report", b =>
+            modelBuilder.Entity("toeic_web.Models.Report", b =>
                 {
                     b.Property<Guid>("idReport")
                         .ValueGeneratedOnAdd()
@@ -673,7 +606,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Reports");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Student", b =>
+            modelBuilder.Entity("toeic_web.Models.Student", b =>
                 {
                     b.Property<Guid>("idStudent")
                         .ValueGeneratedOnAdd()
@@ -694,7 +627,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Test", b =>
+            modelBuilder.Entity("toeic_web.Models.Test", b =>
                 {
                     b.Property<Guid>("idTest")
                         .ValueGeneratedOnAdd()
@@ -725,7 +658,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Tests");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.TestQuestionUnit", b =>
+            modelBuilder.Entity("toeic_web.Models.TestQuestionUnit", b =>
                 {
                     b.Property<Guid>("idQuestionUnit")
                         .ValueGeneratedOnAdd()
@@ -761,7 +694,7 @@ namespace toiec_web.Migrations
                     b.ToTable("TestQuestionUnits");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.TestRecord", b =>
+            modelBuilder.Entity("toeic_web.Models.TestRecord", b =>
                 {
                     b.Property<Guid>("idRecord")
                         .ValueGeneratedOnAdd()
@@ -806,7 +739,7 @@ namespace toiec_web.Migrations
                     b.ToTable("TestRecords");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.TestType", b =>
+            modelBuilder.Entity("toeic_web.Models.TestType", b =>
                 {
                     b.Property<Guid>("idTestType")
                         .ValueGeneratedOnAdd()
@@ -819,21 +752,9 @@ namespace toiec_web.Migrations
                     b.HasKey("idTestType");
 
                     b.ToTable("TestTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            idTestType = new Guid("f8abe6e4-abc9-45f2-b550-73fd2c44c82b"),
-                            typeName = "Mini Test"
-                        },
-                        new
-                        {
-                            idTestType = new Guid("2e64e168-ef90-45fa-9df3-281c51f3ddb1"),
-                            typeName = "Full Test"
-                        });
                 });
 
-            modelBuilder.Entity("toiec_web.Models.UserAnswer", b =>
+            modelBuilder.Entity("toeic_web.Models.UserAnswer", b =>
                 {
                     b.Property<Guid>("idUAnswer")
                         .ValueGeneratedOnAdd()
@@ -866,7 +787,7 @@ namespace toiec_web.Migrations
                     b.ToTable("UserAnswers");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.VipPackage", b =>
+            modelBuilder.Entity("toeic_web.Models.VipPackage", b =>
                 {
                     b.Property<Guid>("idPackage")
                         .ValueGeneratedOnAdd()
@@ -896,7 +817,7 @@ namespace toiec_web.Migrations
                     b.ToTable("VipPackages");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.VipStudent", b =>
+            modelBuilder.Entity("toeic_web.Models.VipStudent", b =>
                 {
                     b.Property<Guid>("idVipStudent")
                         .ValueGeneratedOnAdd()
@@ -916,7 +837,7 @@ namespace toiec_web.Migrations
                     b.ToTable("VipStudents");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Vocabulary", b =>
+            modelBuilder.Entity("toeic_web.Models.Vocabulary", b =>
                 {
                     b.Property<Guid>("idVoc")
                         .ValueGeneratedOnAdd()
@@ -949,7 +870,7 @@ namespace toiec_web.Migrations
                     b.ToTable("Vocabularies");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.VocTopic", b =>
+            modelBuilder.Entity("toeic_web.Models.VocTopic", b =>
                 {
                     b.Property<Guid>("idVocTopic")
                         .ValueGeneratedOnAdd()
@@ -969,7 +890,7 @@ namespace toiec_web.Migrations
                     b.ToTable("VocabularyTopics");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Users", b =>
+            modelBuilder.Entity("toeic_web.Models.Users", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -1040,11 +961,11 @@ namespace toiec_web.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Admin", b =>
+            modelBuilder.Entity("toeic_web.Models.Admin", b =>
                 {
-                    b.HasOne("toiec_web.Models.Users", "Users")
+                    b.HasOne("toeic_web.Models.Users", "Users")
                         .WithOne("Admin")
-                        .HasForeignKey("toiec_web.Models.Admin", "idUser")
+                        .HasForeignKey("toeic_web.Models.Admin", "idUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_AdminOfUser");
@@ -1052,9 +973,9 @@ namespace toiec_web.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.AnswerQuestion", b =>
+            modelBuilder.Entity("toeic_web.Models.AnswerQuestion", b =>
                 {
-                    b.HasOne("toiec_web.Models.Question", "Question")
+                    b.HasOne("toeic_web.Models.Question", "Question")
                         .WithMany("AnswerQuestions")
                         .HasForeignKey("QuestionidQuestion")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1063,16 +984,16 @@ namespace toiec_web.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Comment", b =>
+            modelBuilder.Entity("toeic_web.Models.Comment", b =>
                 {
-                    b.HasOne("toiec_web.Models.Post", "Post")
+                    b.HasOne("toeic_web.Models.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("idPost")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_CommentsOfPost");
 
-                    b.HasOne("toiec_web.Models.Users", "Users")
+                    b.HasOne("toeic_web.Models.Users", "Users")
                         .WithMany("Comments")
                         .HasForeignKey("idUser")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1084,9 +1005,9 @@ namespace toiec_web.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Course", b =>
+            modelBuilder.Entity("toeic_web.Models.Course", b =>
                 {
-                    b.HasOne("toiec_web.Models.Professor", "Professor")
+                    b.HasOne("toeic_web.Models.Professor", "Professor")
                         .WithMany("Courses")
                         .HasForeignKey("idProfessor")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1096,9 +1017,9 @@ namespace toiec_web.Migrations
                     b.Navigation("Professor");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Lesson", b =>
+            modelBuilder.Entity("toeic_web.Models.Lesson", b =>
                 {
-                    b.HasOne("toiec_web.Models.Course", "Course")
+                    b.HasOne("toeic_web.Models.Course", "Course")
                         .WithMany("Lessons")
                         .HasForeignKey("idCourse")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1108,23 +1029,23 @@ namespace toiec_web.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Payment", b =>
+            modelBuilder.Entity("toeic_web.Models.Payment", b =>
                 {
-                    b.HasOne("toiec_web.Models.PaymentMethod", "PaymentMethod")
+                    b.HasOne("toeic_web.Models.PaymentMethod", "PaymentMethod")
                         .WithMany("Payments")
                         .HasForeignKey("idMethod")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("PaymentOfMethod");
 
-                    b.HasOne("toiec_web.Models.VipPackage", "VipPackage")
+                    b.HasOne("toeic_web.Models.VipPackage", "VipPackage")
                         .WithMany("Payments")
                         .HasForeignKey("idPackage")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("PaymentOfVipPackage");
 
-                    b.HasOne("toiec_web.Models.Student", "Student")
+                    b.HasOne("toeic_web.Models.Student", "Student")
                         .WithMany("Payments")
                         .HasForeignKey("idStudent")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1138,9 +1059,9 @@ namespace toiec_web.Migrations
                     b.Navigation("VipPackage");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Post", b =>
+            modelBuilder.Entity("toeic_web.Models.Post", b =>
                 {
-                    b.HasOne("toiec_web.Models.Users", "Users")
+                    b.HasOne("toeic_web.Models.Users", "Users")
                         .WithMany("Posts")
                         .HasForeignKey("idUser")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1150,11 +1071,11 @@ namespace toiec_web.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Professor", b =>
+            modelBuilder.Entity("toeic_web.Models.Professor", b =>
                 {
-                    b.HasOne("toiec_web.Models.Users", "Users")
+                    b.HasOne("toeic_web.Models.Users", "Users")
                         .WithOne("Professor")
-                        .HasForeignKey("toiec_web.Models.Professor", "idUser")
+                        .HasForeignKey("toeic_web.Models.Professor", "idUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_ProfessorOfUser");
@@ -1162,20 +1083,20 @@ namespace toiec_web.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Question", b =>
+            modelBuilder.Entity("toeic_web.Models.Question", b =>
                 {
-                    b.HasOne("toiec_web.Models.Professor", "Professor")
+                    b.HasOne("toeic_web.Models.Professor", "Professor")
                         .WithMany("Questions")
                         .HasForeignKey("idProfessor")
                         .IsRequired()
                         .HasConstraintName("FK_QuestionsOfProfessor");
 
-                    b.HasOne("toiec_web.Models.Quiz", "Quiz")
+                    b.HasOne("toeic_web.Models.Quiz", "Quiz")
                         .WithMany("Questions")
                         .HasForeignKey("idQuiz")
                         .HasConstraintName("FK_QuestionsOfQuiz");
 
-                    b.HasOne("toiec_web.Models.TestQuestionUnit", "TestQuestionUnit")
+                    b.HasOne("toeic_web.Models.TestQuestionUnit", "TestQuestionUnit")
                         .WithMany("Questions")
                         .HasForeignKey("idUnit")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1188,9 +1109,9 @@ namespace toiec_web.Migrations
                     b.Navigation("TestQuestionUnit");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Quiz", b =>
+            modelBuilder.Entity("toeic_web.Models.Quiz", b =>
                 {
-                    b.HasOne("toiec_web.Models.Lesson", "Lesson")
+                    b.HasOne("toeic_web.Models.Lesson", "Lesson")
                         .WithMany("Quizzes")
                         .HasForeignKey("idLesson")
                         .IsRequired()
@@ -1199,21 +1120,21 @@ namespace toiec_web.Migrations
                     b.Navigation("Lesson");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Report", b =>
+            modelBuilder.Entity("toeic_web.Models.Report", b =>
                 {
-                    b.HasOne("toiec_web.Models.Admin", "Admin")
+                    b.HasOne("toeic_web.Models.Admin", "Admin")
                         .WithMany("Reports")
                         .HasForeignKey("idAdmin")
                         .IsRequired()
                         .HasConstraintName("FK_AdminCheckReport");
 
-                    b.HasOne("toiec_web.Models.Post", "Post")
+                    b.HasOne("toeic_web.Models.Post", "Post")
                         .WithMany("Reports")
                         .HasForeignKey("idPost")
                         .IsRequired()
                         .HasConstraintName("FK_ReportsOfPost");
 
-                    b.HasOne("toiec_web.Models.Users", "Users")
+                    b.HasOne("toeic_web.Models.Users", "Users")
                         .WithMany("Reports")
                         .HasForeignKey("idUser")
                         .IsRequired()
@@ -1226,11 +1147,11 @@ namespace toiec_web.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Student", b =>
+            modelBuilder.Entity("toeic_web.Models.Student", b =>
                 {
-                    b.HasOne("toiec_web.Models.Users", "Users")
+                    b.HasOne("toeic_web.Models.Users", "Users")
                         .WithOne("Student")
-                        .HasForeignKey("toiec_web.Models.Student", "idUser")
+                        .HasForeignKey("toeic_web.Models.Student", "idUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_StudentOfUser");
@@ -1238,15 +1159,15 @@ namespace toiec_web.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Test", b =>
+            modelBuilder.Entity("toeic_web.Models.Test", b =>
                 {
-                    b.HasOne("toiec_web.Models.Professor", "Professor")
+                    b.HasOne("toeic_web.Models.Professor", "Professor")
                         .WithMany("Tests")
                         .HasForeignKey("idProfessor")
                         .IsRequired()
                         .HasConstraintName("TestOfProfessor");
 
-                    b.HasOne("toiec_web.Models.TestType", "TestType")
+                    b.HasOne("toeic_web.Models.TestType", "TestType")
                         .WithMany("Tests")
                         .HasForeignKey("idType")
                         .IsRequired()
@@ -1257,15 +1178,15 @@ namespace toiec_web.Migrations
                     b.Navigation("TestType");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.TestQuestionUnit", b =>
+            modelBuilder.Entity("toeic_web.Models.TestQuestionUnit", b =>
                 {
-                    b.HasOne("toiec_web.Models.Test", "Test")
+                    b.HasOne("toeic_web.Models.Test", "Test")
                         .WithMany("TestQuestionUnits")
                         .HasForeignKey("idTest")
                         .IsRequired()
                         .HasConstraintName("FK_UnitsOfTest");
 
-                    b.HasOne("toiec_web.Data.TestPart", "TestPart")
+                    b.HasOne("toeic_web.Data.TestPart", "TestPart")
                         .WithMany("TestQuestionUnits")
                         .HasForeignKey("idTestPart")
                         .IsRequired()
@@ -1276,16 +1197,16 @@ namespace toiec_web.Migrations
                     b.Navigation("TestPart");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.TestRecord", b =>
+            modelBuilder.Entity("toeic_web.Models.TestRecord", b =>
                 {
-                    b.HasOne("toiec_web.Models.Student", "Student")
+                    b.HasOne("toeic_web.Models.Student", "Student")
                         .WithMany("TestRecords")
                         .HasForeignKey("idStudent")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("RecordOfStudent");
 
-                    b.HasOne("toiec_web.Models.Test", "Test")
+                    b.HasOne("toeic_web.Models.Test", "Test")
                         .WithMany("TestRecords")
                         .HasForeignKey("idTest")
                         .IsRequired()
@@ -1296,23 +1217,23 @@ namespace toiec_web.Migrations
                     b.Navigation("Test");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.UserAnswer", b =>
+            modelBuilder.Entity("toeic_web.Models.UserAnswer", b =>
                 {
-                    b.HasOne("toiec_web.Models.Question", "Question")
+                    b.HasOne("toeic_web.Models.Question", "Question")
                         .WithMany("UserAnswers")
                         .HasForeignKey("idQuestion")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_AnswerOfQuestion");
 
-                    b.HasOne("toiec_web.Models.TestRecord", "TestRecord")
+                    b.HasOne("toeic_web.Models.TestRecord", "TestRecord")
                         .WithMany("UserAnswers")
                         .HasForeignKey("idRecord")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_RecordAnswer");
 
-                    b.HasOne("toiec_web.Models.Student", "Student")
+                    b.HasOne("toeic_web.Models.Student", "Student")
                         .WithMany("UserAnswers")
                         .HasForeignKey("idStudent")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1326,9 +1247,9 @@ namespace toiec_web.Migrations
                     b.Navigation("TestRecord");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.VipPackage", b =>
+            modelBuilder.Entity("toeic_web.Models.VipPackage", b =>
                 {
-                    b.HasOne("toiec_web.Models.Admin", "Admin")
+                    b.HasOne("toeic_web.Models.Admin", "Admin")
                         .WithMany("VipPackages")
                         .HasForeignKey("idAdmin")
                         .IsRequired()
@@ -1337,11 +1258,11 @@ namespace toiec_web.Migrations
                     b.Navigation("Admin");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.VipStudent", b =>
+            modelBuilder.Entity("toeic_web.Models.VipStudent", b =>
                 {
-                    b.HasOne("toiec_web.Models.Student", "Student")
+                    b.HasOne("toeic_web.Models.Student", "Student")
                         .WithOne("VipStudent")
-                        .HasForeignKey("toiec_web.Models.VipStudent", "idStudent")
+                        .HasForeignKey("toeic_web.Models.VipStudent", "idStudent")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_VipStudentOfStudent");
@@ -1349,15 +1270,15 @@ namespace toiec_web.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Vocabulary", b =>
+            modelBuilder.Entity("toeic_web.Models.Vocabulary", b =>
                 {
-                    b.HasOne("toiec_web.Models.Professor", "Professor")
+                    b.HasOne("toeic_web.Models.Professor", "Professor")
                         .WithMany("Vocabularies")
                         .HasForeignKey("idProfessor")
                         .IsRequired()
                         .HasConstraintName("FK_VocOfProfessor");
 
-                    b.HasOne("toiec_web.Models.VocTopic", "VocTopic")
+                    b.HasOne("toeic_web.Models.VocTopic", "VocTopic")
                         .WithMany("Vocabularies")
                         .HasForeignKey("idTopic")
                         .IsRequired()
@@ -1368,9 +1289,9 @@ namespace toiec_web.Migrations
                     b.Navigation("VocTopic");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.VocTopic", b =>
+            modelBuilder.Entity("toeic_web.Models.VocTopic", b =>
                 {
-                    b.HasOne("toiec_web.Models.Professor", "Professor")
+                    b.HasOne("toeic_web.Models.Professor", "Professor")
                         .WithMany("VocTopics")
                         .HasForeignKey("idProfessor")
                         .IsRequired()
@@ -1379,41 +1300,41 @@ namespace toiec_web.Migrations
                     b.Navigation("Professor");
                 });
 
-            modelBuilder.Entity("toiec_web.Data.TestPart", b =>
+            modelBuilder.Entity("toeic_web.Data.TestPart", b =>
                 {
                     b.Navigation("TestQuestionUnits");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Admin", b =>
+            modelBuilder.Entity("toeic_web.Models.Admin", b =>
                 {
                     b.Navigation("Reports");
 
                     b.Navigation("VipPackages");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Course", b =>
+            modelBuilder.Entity("toeic_web.Models.Course", b =>
                 {
                     b.Navigation("Lessons");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Lesson", b =>
+            modelBuilder.Entity("toeic_web.Models.Lesson", b =>
                 {
                     b.Navigation("Quizzes");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.PaymentMethod", b =>
+            modelBuilder.Entity("toeic_web.Models.PaymentMethod", b =>
                 {
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Post", b =>
+            modelBuilder.Entity("toeic_web.Models.Post", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Reports");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Professor", b =>
+            modelBuilder.Entity("toeic_web.Models.Professor", b =>
                 {
                     b.Navigation("Courses");
 
@@ -1426,19 +1347,19 @@ namespace toiec_web.Migrations
                     b.Navigation("Vocabularies");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Question", b =>
+            modelBuilder.Entity("toeic_web.Models.Question", b =>
                 {
                     b.Navigation("AnswerQuestions");
 
                     b.Navigation("UserAnswers");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Quiz", b =>
+            modelBuilder.Entity("toeic_web.Models.Quiz", b =>
                 {
                     b.Navigation("Questions");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Student", b =>
+            modelBuilder.Entity("toeic_web.Models.Student", b =>
                 {
                     b.Navigation("Payments");
 
@@ -1450,39 +1371,39 @@ namespace toiec_web.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Test", b =>
+            modelBuilder.Entity("toeic_web.Models.Test", b =>
                 {
                     b.Navigation("TestQuestionUnits");
 
                     b.Navigation("TestRecords");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.TestQuestionUnit", b =>
+            modelBuilder.Entity("toeic_web.Models.TestQuestionUnit", b =>
                 {
                     b.Navigation("Questions");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.TestRecord", b =>
+            modelBuilder.Entity("toeic_web.Models.TestRecord", b =>
                 {
                     b.Navigation("UserAnswers");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.TestType", b =>
+            modelBuilder.Entity("toeic_web.Models.TestType", b =>
                 {
                     b.Navigation("Tests");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.VipPackage", b =>
+            modelBuilder.Entity("toeic_web.Models.VipPackage", b =>
                 {
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.VocTopic", b =>
+            modelBuilder.Entity("toeic_web.Models.VocTopic", b =>
                 {
                     b.Navigation("Vocabularies");
                 });
 
-            modelBuilder.Entity("toiec_web.Models.Users", b =>
+            modelBuilder.Entity("toeic_web.Models.Users", b =>
                 {
                     b.Navigation("Admin")
                         .IsRequired();
