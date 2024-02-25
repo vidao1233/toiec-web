@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace toiec_web.Helper
+namespace toeic_web.Helper
 {
     public class HashHelper
     {

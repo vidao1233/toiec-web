@@ -1,6 +1,6 @@
-﻿using toiec_web.ViewModels.Quiz;
+﻿using toeic_web.ViewModels.Quiz;
 
-namespace toiec_web.Services.IService
+namespace toeic_web.Services.IService
 {
     public interface IQuizService
     {

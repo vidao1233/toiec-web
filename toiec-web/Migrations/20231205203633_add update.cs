@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace toiec_web.Migrations
+namespace toeic_web.Migrations
 {
     public partial class addupdate : Migration
     {

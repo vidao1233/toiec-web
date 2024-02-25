@@ -1,6 +1,6 @@
 ﻿using MimeKit;
 
-namespace toiec_web.Models
+namespace toeic_web.Models
 {
     public class Message
     {

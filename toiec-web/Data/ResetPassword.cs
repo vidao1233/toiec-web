@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace toiec_web.Data
+namespace toeic_web.Data
 {
     public class ResetPassword
     {

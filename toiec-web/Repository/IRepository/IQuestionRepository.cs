@@ -1,7 +1,7 @@
-﻿using toiec_web.Models;
-using toiec_web.ViewModels.DoTest;
+﻿using toeic_web.Models;
+using toeic_web.ViewModels.DoTest;
 
-namespace toiec_web.Repository.IRepository
+namespace toeic_web.Repository.IRepository
 {
     public interface IQuestionRepository
     {

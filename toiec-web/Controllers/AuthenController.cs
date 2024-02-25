@@ -7,20 +7,20 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using toiec_web.Data;
-using toiec_web.Models;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.Authentication;
-using toiec_web.ViewModels.User;
+using toeic_web.Data;
+using toeic_web.Models;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.Authentication;
+using toeic_web.ViewModels.User;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     public class AuthenController : BaseAPIController
     {
         private readonly UserManager<Users> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<Users> _signManager;
-        private readonly ToiecDbContext _dbContext;
+        private readonly ToeicDbContext _dbContext;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
         private readonly IStudentService _studentService;
@@ -29,7 +29,7 @@ namespace toiec_web.Controllers
         private readonly IMapper _mapper;
 
         public AuthenController(UserManager<Users> userManager, RoleManager<IdentityRole> roleManager,
-            SignInManager<Users> signManager, ToiecDbContext dbContext, IEmailService emailService,
+            SignInManager<Users> signManager, ToeicDbContext dbContext, IEmailService emailService,
              IConfiguration configuration, IStudentService studentService, IAuthenticationService authenticationService,
             IUploadFileService uploadFileService, IMapper mapper)
         {

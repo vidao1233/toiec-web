@@ -1,6 +1,6 @@
-﻿using toiec_web.Models;
+﻿using toeic_web.Models;
 
-namespace toiec_web.Services.IService
+namespace toeic_web.Services.IService
 {
     public interface IVipStudentService
     {

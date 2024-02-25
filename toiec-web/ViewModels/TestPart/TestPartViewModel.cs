@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.TestPart
+﻿namespace toeic_web.ViewModels.TestPart
 {
     public class TestPartViewModel
     {

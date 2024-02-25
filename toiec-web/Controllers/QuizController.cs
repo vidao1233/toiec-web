@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.Quiz;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.Quiz;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     public class QuizController : BaseAPIController
     {

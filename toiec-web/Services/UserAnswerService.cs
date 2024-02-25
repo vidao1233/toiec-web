@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using toiec_web.Models;
-using toiec_web.Repository;
-using toiec_web.Repository.IRepository;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.Record;
-using toiec_web.ViewModels.UserAnswer;
+using toeic_web.Models;
+using toeic_web.Repository;
+using toeic_web.Repository.IRepository;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.Record;
+using toeic_web.ViewModels.UserAnswer;
 
-namespace toiec_web.Services
+namespace toeic_web.Services
 {
     public class UserAnswerService : IUserAnswerService
     {

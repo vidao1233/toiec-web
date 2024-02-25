@@ -1,9 +1,9 @@
-﻿using toiec_web.Repository;
-using toiec_web.Repository.IRepository;
-using toiec_web.Services;
-using toiec_web.Services.IService;
+﻿using toeic_web.Repository;
+using toeic_web.Repository.IRepository;
+using toeic_web.Services;
+using toeic_web.Services.IService;
 
-namespace toiec_web.Infrastructure
+namespace toeic_web.Infrastructure
 {
     public static class DependencyInjection
     {

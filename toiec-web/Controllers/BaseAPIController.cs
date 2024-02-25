@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

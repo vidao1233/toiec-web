@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  toeic-web-be:
+    image: vidao1233/toeic-web:v1
+    ports:
+        - "8080:80"
+  toeic-web-fe:
+    image: tranngobichdu/toeic-learning-website:v1
+    environment: 
+        - REACT_APP_API_BASE_URL:http://toeic-web-be:80/api
+    depends_on: 
+        - toeic-web-be    
+    ports:
+        - "10039:3000" 

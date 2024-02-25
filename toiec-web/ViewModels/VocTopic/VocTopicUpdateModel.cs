@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.VocTopic
+﻿namespace toeic_web.ViewModels.VocTopic
 {
     public class VocTopicUpdateModel
     {

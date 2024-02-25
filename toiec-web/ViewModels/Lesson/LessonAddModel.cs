@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.Lesson
+﻿namespace toeic_web.ViewModels.Lesson
 {
     public class LessonAddModel
     {

@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.Vocabulary
+﻿namespace toeic_web.ViewModels.Vocabulary
 {
     public class VocabularyViewModel
     {

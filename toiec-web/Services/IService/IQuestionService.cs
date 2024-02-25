@@ -1,8 +1,8 @@
-﻿using toiec_web.Models;
-using toiec_web.ViewModels.DoTest;
-using toiec_web.ViewModels.Question;
+﻿using toeic_web.Models;
+using toeic_web.ViewModels.DoTest;
+using toeic_web.ViewModels.Question;
 
-namespace toiec_web.Services.IService
+namespace toeic_web.Services.IService
 {
     public interface IQuestionService
     {

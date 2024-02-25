@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.Record
+﻿namespace toeic_web.ViewModels.Record
 {
     public class RecordViewModel
     {

@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.Course
+﻿namespace toeic_web.ViewModels.Course
 {
     public class CourseViewModel
     {

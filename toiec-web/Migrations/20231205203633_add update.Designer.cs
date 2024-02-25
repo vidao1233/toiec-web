@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using toiec_web.Models;
+using toeic_web.Models;
 
 #nullable disable
 
-namespace toiec_web.Migrations
+namespace toeic_web.Migrations
 {
-    [DbContext(typeof(ToiecDbContext))]
+    [DbContext(typeof(ToeicDbContext))]
     [Migration("20231205203633_add update")]
     partial class addupdate
     {

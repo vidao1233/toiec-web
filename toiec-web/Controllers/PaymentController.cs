@@ -2,17 +2,17 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using toiec_web.Models;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.Payment;
+using toeic_web.Models;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.Payment;
 using static System.Net.WebRequestMethods;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     
     public class PaymentController : BaseAPIController
     {
-        private readonly ToiecDbContext _dbContext;
+        private readonly ToeicDbContext _dbContext;
         private readonly IPaymentService _paymentService;
         private readonly IPaymentMethodService _paymentMethodService;
         private readonly UserManager<Users> _userManager;
@@ -24,7 +24,7 @@ namespace toiec_web.Controllers
 
         public PaymentController(IPaymentService paymentService, IPaymentMethodService paymentMethodService
             , IMapper mapper, IVipPackageService vipPackageService, UserManager<Users> userManager
-            , IVipStudentService vipStudentService, ToiecDbContext dbContext, IStudentService studentService)
+            , IVipStudentService vipStudentService, ToeicDbContext dbContext, IStudentService studentService)
         {
             _paymentService = paymentService;
             _paymentMethodService = paymentMethodService;

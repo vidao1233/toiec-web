@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using toiec_web.Data;
+using toeic_web.Data;
 
-namespace toiec_web.Models
+namespace toeic_web.Models
 {
-    public class ToiecDbContext : IdentityDbContext<IdentityUser>
+    public class ToeicDbContext : IdentityDbContext<IdentityUser>
     {
-        public ToiecDbContext(DbContextOptions<ToiecDbContext> options) 
+        public ToeicDbContext(DbContextOptions<ToeicDbContext> options) 
             : base(options) 
         { 
 

@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.TestType
+﻿namespace toeic_web.ViewModels.TestType
 {
     public class TestTypeAddModel
     {

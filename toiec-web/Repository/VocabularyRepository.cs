@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using toiec_web.Infrastructure;
-using toiec_web.Models;
-using toiec_web.Repository.IRepository;
+using toeic_web.Infrastructure;
+using toeic_web.Models;
+using toeic_web.Repository.IRepository;
 
-namespace toiec_web.Repository
+namespace toeic_web.Repository
 {
     public class VocabularyRepository : Repository<Vocabulary>, IVocabularyRepository
     {
@@ -12,7 +12,7 @@ namespace toiec_web.Repository
         private readonly IMapper _mapper;
         private readonly IProfessorRepository _professorRepository;
 
-        public VocabularyRepository(ToiecDbContext dbContext, IUnitOfWork uow, IMapper mapper,
+        public VocabularyRepository(ToeicDbContext dbContext, IUnitOfWork uow, IMapper mapper,
             IProfessorRepository professorRepository) 
             : base(dbContext)
         {

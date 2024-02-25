@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.Lesson;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.Lesson;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     public class LessonController : BaseAPIController
     {

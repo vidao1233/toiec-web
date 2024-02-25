@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using toiec_web.Models;
+using toeic_web.Models;
 
-namespace toiec_web.Infrastructure
+namespace toeic_web.Infrastructure
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private readonly ToiecDbContext _dbContext;
+        private readonly ToeicDbContext _dbContext;
         public DbSet<TEntity> Entities { get; }
-        public Repository(ToiecDbContext dbContext)
+        public Repository(ToeicDbContext dbContext)
         {
             _dbContext = dbContext;
             Entities = _dbContext.Set<TEntity>();

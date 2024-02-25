@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using toiec_web.Models;
-using toiec_web.Repository;
-using toiec_web.Repository.IRepository;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.Course;
-using toiec_web.ViewModels.DoTest;
-using toiec_web.ViewModels.Question;
+using toeic_web.Models;
+using toeic_web.Repository;
+using toeic_web.Repository.IRepository;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.Course;
+using toeic_web.ViewModels.DoTest;
+using toeic_web.ViewModels.Question;
 
-namespace toiec_web.Services
+namespace toeic_web.Services
 {
     public class QuestionService : IQuestionService
     {

@@ -1,4 +1,4 @@
-﻿namespace toiec_web.Data
+﻿namespace toeic_web.Data
 {
     public class ScoreParam
     {

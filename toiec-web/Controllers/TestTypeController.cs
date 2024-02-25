@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using toiec_web.Services;
-using toiec_web.Services.IService;
-using toiec_web.ViewModels.TestType;
-using toiec_web.ViewModels.VocTopic;
+using toeic_web.Services;
+using toeic_web.Services.IService;
+using toeic_web.ViewModels.TestType;
+using toeic_web.ViewModels.VocTopic;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     public class TestTypeController : BaseAPIController
     {

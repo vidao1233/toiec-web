@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
-using toiec_web.ViewModels.Payment;
+using toeic_web.ViewModels.Payment;
 
-namespace toiec_web.Helper;
+namespace toeic_web.Helper;
 
     public class VnPayLibrary
 {

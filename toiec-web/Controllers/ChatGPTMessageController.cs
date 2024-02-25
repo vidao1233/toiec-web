@@ -2,7 +2,7 @@
 using OpenAI_API.Completions;
 using OpenAI_API;
 
-namespace toiec_web.Controllers
+namespace toeic_web.Controllers
 {
     public class ChatGPTMessageController : BaseAPIController
     {

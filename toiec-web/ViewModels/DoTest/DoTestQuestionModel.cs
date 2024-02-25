@@ -1,4 +1,4 @@
-﻿namespace toiec_web.ViewModels.DoTest
+﻿namespace toeic_web.ViewModels.DoTest
 {
     public class DoTestQuestionModel
     {
