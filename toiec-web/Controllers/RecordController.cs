@@ -5,7 +5,6 @@ using toeic_web.Services.IService;
 
 namespace toeic_web.Controllers
 {
-    [Authorize]
     public class RecordController : BaseAPIController
     {
         private readonly IRecordService _recordService;
@@ -14,7 +13,7 @@ namespace toeic_web.Controllers
         {
             _recordService = recordService;
         }
-
+        [Authorize]
         [HttpGet]
         [Route("GetRecordByUserTest/{userId}&&{testId:guid}")]
         public async Task<IActionResult> GetRecordByUserTest(string userId, Guid testId)
@@ -26,7 +25,7 @@ namespace toeic_web.Controllers
             }
             return Ok(record);
         }
-
+        [Authorize]
         [HttpGet]
         [Route("GetRecordByUser/{userId}")]
         public async Task<IActionResult> GetRecordByUser(string userId)
@@ -38,7 +37,6 @@ namespace toeic_web.Controllers
             }
             return Ok(record);
         }
-
         [HttpGet]
         [Route("GetRecordByID/{recordId:guid}")]
         public async Task<IActionResult> GetRecordByID(Guid recordId)
