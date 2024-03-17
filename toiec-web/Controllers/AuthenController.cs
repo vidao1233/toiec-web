@@ -346,6 +346,27 @@ namespace toeic_web.Controllers
             return Ok(userView);
         }
 
+        [HttpGet]
+        [Route("GetUserInfo")]
+        public async Task<IActionResult> GetUserInfo(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            var userView = _mapper.Map<UserViewModel>(user);
+            return Ok(new
+            {
+                userView.fullname,
+                userView.imageURL
+            });
+        }
+
         [Authorize]
         [HttpPut]
         [Route("Update-Profile")]
