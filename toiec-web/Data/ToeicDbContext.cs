@@ -77,7 +77,7 @@ namespace toeic_web.Models
                 entity.HasKey(s => s.idCourse);
                 entity.HasOne(s => s.Professor).WithMany(s => s.Courses)
                     .HasForeignKey(s => s.idProfessor)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CourseOfProfessor");
 
             });
@@ -86,7 +86,7 @@ namespace toeic_web.Models
                 entity.HasKey(s => s.idLesson);
                 entity.HasOne(s => s.Course).WithMany(s => s.Lessons)
                     .HasForeignKey(s => s.idCourse)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_LessonOfCourse");
             });
             modelBuilder.Entity<Payment>(entity =>
@@ -130,7 +130,7 @@ namespace toeic_web.Models
                 entity.HasOne(s => s.Quiz).WithMany(s => s.Questions)
                     .HasForeignKey(s => s.idQuiz)
                     .IsRequired(false)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_QuestionsOfQuiz");
                 entity.HasOne(s => s.TestQuestionUnit).WithMany(s => s.Questions)
                     .HasForeignKey(s => s.idUnit)
@@ -148,7 +148,7 @@ namespace toeic_web.Models
                 entity.HasKey(s => s.idQuiz);
                 entity.HasOne(s => s.Lesson).WithMany(s => s.Quizzes)
                     .HasForeignKey(s => s.idLesson)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_QuizzesOfLesson");
             });
             modelBuilder.Entity<Report>(entity =>
@@ -201,7 +201,7 @@ namespace toeic_web.Models
                     .HasConstraintName("FK_UnitOfTestPart");
                 entity.HasOne(s => s.Test).WithMany(s => s.TestQuestionUnits)
                     .HasForeignKey(s => s.idTest)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_UnitsOfTest");
             });
             modelBuilder.Entity<TestRecord>(entity =>
@@ -271,7 +271,7 @@ namespace toeic_web.Models
                 entity.HasKey(s => s.idVoc);
                 entity.HasOne(s => s.VocTopic).WithMany(s => s.Vocabularies)
                     .HasForeignKey(s => s.idTopic)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_VocOfTopic");
                 entity.HasOne(s => s.Professor).WithMany(s => s.Vocabularies)
                     .HasForeignKey(s => s.idProfessor)
