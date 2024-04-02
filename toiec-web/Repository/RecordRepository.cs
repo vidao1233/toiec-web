@@ -13,7 +13,7 @@ namespace toeic_web.Repository
         private readonly IStudentRepository _studentRepository;
 
         public RecordRepository(ToeicDbContext dbContext, IMapper mapper, IUnitOfWork unitOfWork,
-            IStudentRepository studentRepository, ITestRepository testRepository) 
+            IStudentRepository studentRepository, ITestRepository testRepository)
             : base(dbContext)
         {
             _mapper = mapper;
@@ -62,9 +62,9 @@ namespace toeic_web.Repository
             var listData = new List<RecordModel>();
             var data = await Entities.ToListAsync();
 
-            foreach(var record in data)
+            foreach (var record in data)
             {
-                if(record.idTest == testId && record.idStudent == student.idStudent)
+                if (record.idTest == testId && record.idStudent == student.idStudent)
                 {
                     var obj = _mapper.Map<RecordModel>(record);
                     listData.Add(obj);

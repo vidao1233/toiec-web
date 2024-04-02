@@ -8,10 +8,12 @@ namespace toeic_web.Controllers
     public class RecordController : BaseAPIController
     {
         private readonly IRecordService _recordService;
+        private readonly IStudentService _studentService;
 
-        public RecordController(IRecordService recordService) 
+        public RecordController(IRecordService recordService, IStudentService studentService) 
         {
             _recordService = recordService;
+            _studentService = studentService;
         }
         [Authorize]
         [HttpGet]
@@ -41,12 +43,19 @@ namespace toeic_web.Controllers
         [Route("GetRecordByID/{recordId:guid}")]
         public async Task<IActionResult> GetRecordByID(Guid recordId)
         {
-            var record = await _recordService.GetRecordByID(recordId);
+            //get record
+            var record = await _recordService.GetRecordByID(recordId);            
             if (record == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound);
             }
-            return Ok(record);
+            //get student
+            var student = await _studentService.GetStudentById(record.idStudent);
+            return Ok(new
+            {
+                record,
+                student.idUser
+            });
         }
     }
 }

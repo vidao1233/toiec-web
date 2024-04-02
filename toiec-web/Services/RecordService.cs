@@ -14,7 +14,7 @@ namespace toeic_web.Services
         private readonly IMapper _mapper;
         private readonly ITestRepository _testRepository;
 
-        public RecordService(IRecordRepository recordRepository, IMapper mapper, ITestRepository testRepository) 
+        public RecordService(IRecordRepository recordRepository, IMapper mapper, ITestRepository testRepository)
         {
             _recordRepository = recordRepository;
             _mapper = mapper;

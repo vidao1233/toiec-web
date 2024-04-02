@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,6 +13,7 @@ using toeic_web.Models;
 using toeic_web.Services.IService;
 using toeic_web.ViewModels.Authentication;
 using toeic_web.ViewModels.User;
+using static System.Net.WebRequestMethods;
 
 namespace toeic_web.Controllers
 {
@@ -102,11 +104,16 @@ namespace toeic_web.Controllers
                 //Add role to the user
                 await _userManager.AddToRoleAsync(user, role);
 
-                ////Add Token to Verify the email...
+                //Add Token to Verify the email...
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                ////send email confirm
-                var confirmationLink = Url.Action(nameof(ConfirmEmail), "Authen", new { token, email = user.Email }, Request.Scheme);
+                //send email confirm
+                //var domain = "toeic.workon.space";
+                var confirmationLink = Url.Action(nameof(ConfirmEmail), "Authen" , new { token, email = user.Email}, Request.Scheme);
+                if(confirmationLink != null && confirmationLink.Contains("http://backend"))
+                {
+                    confirmationLink = confirmationLink.Replace("http://backend", "https://toeic.workon.space");
+                }
                 var message = new Message(new string[] { user.Email! }, "Confirmation email link", confirmationLink!);
                 _emailService.SendEmail(message);
 
@@ -130,18 +137,18 @@ namespace toeic_web.Controllers
         [Route("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(email);            
+            var redirectUrlSuccess = "https://toeic.workon.space/login/success";
+            var redirectUrlFailed = "https://toeic.workon.space/login/failed";
             if (user != null)
             {
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
                 {
-                    return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = "Email Verified Successfully" });
+                    return Redirect(redirectUrlSuccess);
                 }
             }
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                   new Response { Status = "Error", Message = "This User Does Not Exist" });
+            return Redirect(redirectUrlFailed);
         }
 
         [HttpPost]
@@ -244,6 +251,112 @@ namespace toeic_web.Controllers
             }
             return StatusCode(StatusCodes.Status404NotFound,
                 new Response { Status = "Error", Message = $"Invalid Code" });
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GoogleLogin")]
+        public IActionResult GoogleLogin()
+        {
+            string redirectUrl = Url.Action(nameof(GoogleResponse), "Authen");
+            var properties = _signManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+            return new ChallengeResult("Google", properties);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GoogleResponse")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+            ExternalLoginInfo info = await _signManager.GetExternalLoginInfoAsync();
+            if (info == null)
+                return BadRequest("Error loading external login information (info == null)");
+
+            string email = info.Principal.FindFirst(ClaimTypes.Email).Value;
+            string username = GetUsernameFromEmail(email);  
+            string fullname = info.Principal.FindFirst(ClaimTypes.Name).Value;
+            JwtSecurityToken jwtToken;
+
+            //check user if exist
+            var userExist = await _userManager.FindByEmailAsync(email);
+            if (userExist != null)
+            {
+                //confirmEmail
+                userExist.EmailConfirmed = true;
+                //Claim list creation
+                var authClaims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, userExist.UserName),
+                        new Claim(ClaimTypes.NameIdentifier, userExist.Id),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    };
+                //Add role to the list
+                var userRoles = await _userManager.GetRolesAsync(userExist);
+                foreach (var role in userRoles)
+                {
+                    authClaims.Add(new Claim(ClaimTypes.Role, role));
+                }
+                //generate the token with claim
+                jwtToken = GetToken(authClaims);
+                await _userManager.AddLoginAsync(userExist, info);
+            }
+            else
+            {
+                //default role = Student
+                string role = "Student";
+                //Add the User in the database
+                var user = new Users()
+                {
+                    Fullname = fullname,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    Email = email,
+                    UserName = username
+                };
+                //create user
+                var newUser = await _userManager.CreateAsync(user, "NewPass@123");
+                if (newUser.Succeeded)
+                {
+                    //Add role to the user
+                    await _userManager.AddToRoleAsync(user, role);
+                    //confirmEmail
+                    user.EmailConfirmed = true;
+                    //Claim list creation
+                    var authClaims = new List<Claim>
+                            {
+                                new Claim(ClaimTypes.Name, user.UserName),
+                                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                                new Claim(ClaimTypes.Role, role),
+                                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                            };
+                    //generate the token with claim
+                    jwtToken = GetToken(authClaims);
+                    // Send password to the user's email
+                    var message = new Message(new string[] { email }, "Signup successfully", $"Your account: Username:{username}, Password: NewPass@123.");
+                    _emailService.SendEmail(message);
+                    //create Student into database
+                    _studentService.AddStudent(user.Id);
+                    //save userLogin
+                    await _userManager.AddLoginAsync(user, info);
+                    await _dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    return BadRequest("Error loading external login information (newUser cannot create)");
+                }
+            }
+
+            var result = await _signManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+
+            if (result.Succeeded)
+            {                
+                string homePage = "https://toeic.workon.space/generate-token?token=";
+                var returnUrl = homePage + jwtToken;
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return BadRequest("Error loading external login information (result signin failed)");
+            }            
         }
 
         [HttpPost]
@@ -352,19 +465,25 @@ namespace toeic_web.Controllers
         {
             if (string.IsNullOrEmpty(id))
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status404NotFound,
+                    new Response { Status = "Error", Message = "This User Does Not Exist" });
             }
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
+            else
             {
-                return StatusCode(StatusCodes.Status404NotFound);
+                var user = await _userManager.FindByIdAsync(id);
+                if (user == null)
+                {
+                    return StatusCode(StatusCodes.Status404NotFound,
+                    new Response { Status = "Error", Message = "This User Does Not Exist" });
+                }
+                var userView = _mapper.Map<UserViewModel>(user);                
+                return Ok(new
+                {
+                    userView.fullname,
+                    userView.imageURL
+                });
             }
-            var userView = _mapper.Map<UserViewModel>(user);
-            return Ok(new
-            {
-                userView.fullname,
-                userView.imageURL
-            });
+            
         }
 
         [Authorize]
@@ -537,6 +656,20 @@ namespace toeic_web.Controllers
                 signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
                 );
             return token;
+        }
+
+        private static string GetUsernameFromEmail(string email)
+        {
+            string[] parts = email.Split('@');
+
+            if (parts.Length == 2)
+            {
+                return parts[0];
+            }
+            else
+            {
+                throw new ArgumentException("Invalid email format");
+            }
         }
     }
 }
