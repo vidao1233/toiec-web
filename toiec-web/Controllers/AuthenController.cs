@@ -13,6 +13,7 @@ using toeic_web.Models;
 using toeic_web.Services.IService;
 using toeic_web.ViewModels.Authentication;
 using toeic_web.ViewModels.User;
+using static System.Net.WebRequestMethods;
 
 namespace toeic_web.Controllers
 {
@@ -270,82 +271,92 @@ namespace toeic_web.Controllers
             ExternalLoginInfo info = await _signManager.GetExternalLoginInfoAsync();
             if (info == null)
                 return BadRequest("Error loading external login information (info == null)");
-            var userLogin = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-            if (!userLogin.EmailConfirmed)
-            {
-                userLogin.EmailConfirmed = true;
-                // Don't save this to the DB
-            }
-            var result = await _signManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+
             string email = info.Principal.FindFirst(ClaimTypes.Email).Value;
-            string username = info.Principal.FindFirst(ClaimTypes.GivenName).Value;
+            string username = GetUsernameFromEmail(email);  
             string fullname = info.Principal.FindFirst(ClaimTypes.Name).Value;
             JwtSecurityToken jwtToken;
-            if (result.Succeeded)
+
+            //check user if exist
+            var userExist = await _userManager.FindByEmailAsync(email);
+            if (userExist != null)
             {
-                //check user if exist
-                var userExist = await _userManager.FindByEmailAsync(email);
-                if (userExist != null)
-                {
-                    //confirmEmail
-                    userExist.EmailConfirmed = true;
-                    //Claim list creation
-                    var authClaims = new List<Claim>
+                //confirmEmail
+                userExist.EmailConfirmed = true;
+                //Claim list creation
+                var authClaims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, userExist.UserName),
                         new Claim(ClaimTypes.NameIdentifier, userExist.Id),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
-                    //Add role to the list
-                    var userRoles = await _userManager.GetRolesAsync(userExist);
-                    foreach (var role in userRoles)
-                    {
-                        authClaims.Add(new Claim(ClaimTypes.Role, role));
-                    }
-                    //generate the token with claim
-                    jwtToken = GetToken(authClaims);
-                }
-                else
+                //Add role to the list
+                var userRoles = await _userManager.GetRolesAsync(userExist);
+                foreach (var role in userRoles)
                 {
-                    //default role = Student
-                    string role = "Student";
-                    //Add the User in the database
-                    var user = new Users()
-                    {
-                        Fullname = fullname,
-                        SecurityStamp = Guid.NewGuid().ToString(),
-                        Email = email,
-                        UserName = username
-                    };
-                    //create user
-                    var newUser = await _userManager.CreateAsync(user, "NewPass@123");
-                    if (newUser != null)
-                    {
-                        //Add role to the user
-                        await _userManager.AddToRoleAsync(user, role);
-                        //confirmEmail
-                        user.EmailConfirmed = true;
-                        //Claim list creation
-                        var authClaims = new List<Claim>
+                    authClaims.Add(new Claim(ClaimTypes.Role, role));
+                }
+                //generate the token with claim
+                jwtToken = GetToken(authClaims);
+                await _userManager.AddLoginAsync(userExist, info);
+            }
+            else
+            {
+                //default role = Student
+                string role = "Student";
+                //Add the User in the database
+                var user = new Users()
+                {
+                    Fullname = fullname,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    Email = email,
+                    UserName = username
+                };
+                //create user
+                var newUser = await _userManager.CreateAsync(user, "NewPass@123");
+                if (newUser.Succeeded)
+                {
+                    //Add role to the user
+                    await _userManager.AddToRoleAsync(user, role);
+                    //confirmEmail
+                    user.EmailConfirmed = true;
+                    //Claim list creation
+                    var authClaims = new List<Claim>
                             {
                                 new Claim(ClaimTypes.Name, user.UserName),
                                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                                 new Claim(ClaimTypes.Role, role),
                                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                             };
-                        //generate the token with claim
-                        jwtToken = GetToken(authClaims);
-                        //create Student into database
-                        _studentService.AddStudent(user.Id);
-                        await _dbContext.SaveChangesAsync();
-                    }
+                    //generate the token with claim
+                    jwtToken = GetToken(authClaims);
+                    // Send password to the user's email
+                    var message = new Message(new string[] { email }, "Signup successfully", $"Your account: Username:{username}, Password: NewPass@123.");
+                    _emailService.SendEmail(message);
+                    //create Student into database
+                    _studentService.AddStudent(user.Id);
+                    //save userLogin
+                    await _userManager.AddLoginAsync(user, info);
+                    await _dbContext.SaveChangesAsync();
+                }
+                else
+                {
                     return BadRequest("Error loading external login information (newUser cannot create)");
                 }
-                string homePage = "https://toeic.workon.space";
+            }
+
+            var result = await _signManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+
+            if (result.Succeeded)
+            {                
+                string homePage = "https://toeic.workon.space/generate-token?token=";
                 var returnUrl = homePage + jwtToken;
                 return Redirect(returnUrl);
             }
-            return BadRequest("Error loading external login information (result signin failed)");
+            else
+            {
+                return BadRequest("Error loading external login information (result signin failed)");
+            }            
         }
 
         [HttpPost]
@@ -645,6 +656,20 @@ namespace toeic_web.Controllers
                 signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
                 );
             return token;
+        }
+
+        private static string GetUsernameFromEmail(string email)
+        {
+            string[] parts = email.Split('@');
+
+            if (parts.Length == 2)
+            {
+                return parts[0];
+            }
+            else
+            {
+                throw new ArgumentException("Invalid email format");
+            }
         }
     }
 }

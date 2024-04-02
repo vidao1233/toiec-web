@@ -42,7 +42,7 @@ namespace toeic_web
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
             //add Identity
-            builder.Services.AddIdentity<Users, IdentityRole>()
+            builder.Services.AddIdentity<Users, IdentityRole>()                
                 .AddEntityFrameworkStores<ToeicDbContext>()
                 .AddDefaultTokenProviders();
 
